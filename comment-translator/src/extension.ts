@@ -2,6 +2,30 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 
+class Item extends vscode.TreeItem {
+  constructor(label: string, cmd?: vscode.Command) {
+	super(label);
+    if (cmd){
+		this.command = cmd;
+	}
+  }
+}
+
+class SidebarProvider implements vscode.TreeDataProvider<Item> {
+  getTreeItem(e: Item): vscode.TreeItem {
+    return e;
+  }
+
+  getChildren(): vscode.ProviderResult<Item[]> {
+    return [
+      new Item('Hello World', {
+        command: 'comment-translator.helloWorld',
+        title: 'Hello World'
+      })
+    ];
+  }
+}
+
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
@@ -20,6 +44,10 @@ export function activate(context: vscode.ExtensionContext) {
 	});
 
 	context.subscriptions.push(disposable);
+	
+	const provider = new SidebarProvider();
+
+	context.subscriptions.push(vscode.window.registerTreeDataProvider('commentTranslator.sidebar', provider));
 }
 
 // This method is called when your extension is deactivated
