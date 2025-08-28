@@ -1,10 +1,10 @@
 {
-  "name": "comment-translator",
+  "name": "ithi",
   "displayName": "Ithi",
-  "description": "",
+  "description": "comment translator",
   "version": "0.0.1",
   "engines": {
-    "vscode": "^1.101.0"
+    "vscode": "^1.98.0"
   },
   "categories": [
     "Other"
@@ -14,27 +14,10 @@
   "contributes": {
     "commands": [
       {
-        "command": "comment-translator.helloWorld",
+        "command": "ithi.helloWorld",
         "title": "Hello World"
       }
-    ],
-    "viewsContainers": {
-      "activitybar": [
-        {
-          "id": "commentTranslator",
-          "title": "Translator",
-          "icon": "media/translate.svg"
-        }
-      ]
-    },
-    "views": {
-      "commentTranslator": [
-        {
-          "id": "commentTranslator.sidebar",
-          "name": "Comment Translator"
-        }
-      ]
-    }
+    ]
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
@@ -45,7 +28,7 @@
     "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/vscode": "^1.103.0",
+    "@types/vscode": "1.98.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "22.x",
     "@typescript-eslint/eslint-plugin": "^8.39.0",
