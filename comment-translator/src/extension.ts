@@ -8,31 +8,32 @@ import { Symbols } from './controllers/docSymbolsController';
 export async function activate(context: vscode.ExtensionContext) {
   // Use the console to output diagnostic information (console.log) and errors (console.error)
   // This line of code will only be executed once when your extension is activated
-  console.log('Congratulations, your extension "Ithi" is now active!');
+  console.log('The "Ithi" extension is now active!');
 
   // The command has been defined in the package.json file
   // Now provide the implementation of the command with registerCommand
   // The commandId parameter must match the command field in package.json
+
+  /* To test middleware functionality, uncommment lines 19-29 
+  then remove the '* + /' at the end of #4 (line 33) */
   const symbols = new Symbols();
 
-  /* To test middleware functionality, uncommment lines 20-28 
-  then remove the '* + /' at the end of #4 (line 33) */
-  //   const disposable = vscode.commands.registerCommand(
-  //     'ithi.helloWorld',
-  //     async () => {
-  //       // The code you place here will be executed every time your command is executed
-  //       const symbolInfo = await symbols.getDocumentSymbols();
+  const disposable = vscode.commands.registerCommand(
+    'ithi.helloWorld',
+    async () => {
+      // The code you place here will be executed every time your command is executed
+      const symbolInfo = await symbols.getDocumentSymbols();
 
-  //       vscode.window.showInformationMessage(`Symbol info is: ${symbolInfo}`);
-  //     }
-  //   );
+      vscode.window.showInformationMessage(`Check the DEBUG CONSOLE for logs`);
+    }
+  );
   /* end middleware code */
 
   /* To view the webview panel:
-  	1. comment lines 19-27
-	2. add '* + /' at the end of #3 (line 31)
+  	1. comment lines 19-29
+	2. add '* + /' at the end of #4
 	3. save the file
-	4. run npm run compile in the terminal */
+	4. run npm run compile in the terminal
   const disposable = vscode.commands.registerCommand('ithi.helloWorld', () => {
     // The code you place here will be executed every time your command is executed
     vscode.window.showInformationMessage('Hello World from Ithi!');
