@@ -7,7 +7,8 @@ An IDE extension that translates comments into a target language while preservin
 1. cd into `comment-translator` directory
 2. run `npm install`
 3. Note: ensure `package.json > engines.vscode` is accurate. This specifies the minimum version of VS Code API that the extension depends on.
-4. run `npm run compile`
+4. add env variables `PRIVATE_KEY`, `CLIENT_EMAIL`, and `PROJECT_ID` to .env file for `gCloudController.ts` to work
+5. run `npm run compile`
 
 ## Debugging Instructions
 
