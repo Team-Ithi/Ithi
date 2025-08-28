@@ -84,17 +84,17 @@ function getWebviewContent(cssStyle: vscode.Uri, scripts: vscode.Uri): string {
 							  const vscode = acquireVsCodeApi();
 							  document.addEventListener('DOMContentLoaded', function(){
 								  const p1 = document.getElementById('p1');
-								  p1.style.color = 'green';
+								  p1.style.color = 'cornflowerblue';
 							  })
 						  </script>
 						</head>
 					  <body>
 						  <h1 id="title-h1">This is Ithi</h1>
-						  <p id="p1">Ithi Extension Ready</p>
+						  <p>No translations yet! Click <span id="p1">Translate</span> to get started.</p>
 						  <div class="form">
-            				<code>Original Comment:</code>
+            				<code>Original Comment: (FR)</code>
             				<input />
-            				<code>Translation:</code>
+            				<code>Translation: (EN)</code>
             				<textarea></textarea>
 						  <button onclick="vscode.postMessage({command: 'alert', text: 'Hello from the webview'});">
 						  	Translate
@@ -102,6 +102,7 @@ function getWebviewContent(cssStyle: vscode.Uri, scripts: vscode.Uri): string {
 						<button onclick="changeHeading()">
 						  	Change Heading
 						</button>
+						<p><a>Read the docs</a> to learn more about Ithi.</p>
 					  </body>
 				  </html>`;
 }
