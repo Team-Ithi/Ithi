@@ -3,6 +3,7 @@
 import * as vscode from 'vscode';
 import { Symbols } from './controllers/docSymbolsController';
 import { translateText } from './controllers/gCloudController';
+import { translation } from './controllers/gTranslateController';
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -20,7 +21,8 @@ export async function activate(context: vscode.ExtensionContext) {
     async () => {
       // The code you place here will be executed every time your command is executed
       const symbolInfo = await symbols.getDocumentSymbols();
-      const translateTest = await translateText('Random words <url001>, another random word <identifier001> <code001> two people sitting ', 'zh')
+      // const translateTest = await translateText('你好吗', 'en')
+      const freeTranslateTest = translation('你好吗', 'en')
       vscode.window.showInformationMessage(`Check the DEBUG CONSOLE for logs`);
 
       const panel = vscode.window.createWebviewPanel(
