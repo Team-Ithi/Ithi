@@ -2,6 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import { Symbols } from './controllers/docSymbolsController';
+import { astParseTraverse } from './controllers/astController';
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -18,6 +19,8 @@ export async function activate(context: vscode.ExtensionContext) {
     'ithi.helloWorld',
     async () => {
       // The code you place here will be executed every time your command is executed
+      const commentsObj = astParseTraverse();
+      console.log(commentsObj);
       const symbolInfo = await symbols.getDocumentSymbols();
       vscode.window.showInformationMessage(`Check the DEBUG CONSOLE for logs`);
 
