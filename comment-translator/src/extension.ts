@@ -3,6 +3,7 @@
 import * as vscode from 'vscode';
 import { Symbols } from './controllers/docSymbolsController';
 import { astParseTraverse } from './controllers/astController';
+import { translateText } from './controllers/gCloudController';
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -22,6 +23,7 @@ export async function activate(context: vscode.ExtensionContext) {
       const commentsObj = astParseTraverse();
       console.log(commentsObj);
       const symbolInfo = await symbols.getDocumentSymbols();
+      const translateTest = await translateText('Random words <url001>, another random word <identifier001> <code001> two people sitting ', 'zh')
       vscode.window.showInformationMessage(`Check the DEBUG CONSOLE for logs`);
 
       const panel = vscode.window.createWebviewPanel(
