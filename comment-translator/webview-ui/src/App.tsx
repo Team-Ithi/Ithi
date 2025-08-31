@@ -30,6 +30,7 @@ function App() {
         setTranslation(message.value.translation);
         setSymbols(message.value.symbols);
 
+        /*allowing the webview to send data to the extension's core logic */
         vscode.postMessage({
           command: 'dataReceived',
           text: 'data received by frontend',
