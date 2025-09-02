@@ -132,3 +132,8 @@ textarea::placeholder {
   padding: 10px;
   gap: 10px;
 }
+
+h1 {
+  font-weight: 600;
+  font-size: large;
+}
