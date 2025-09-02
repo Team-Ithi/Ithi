@@ -12,14 +12,39 @@ const translate = new Translate({
   },
 });
 
-export const translateText = async (text: string, target: string) => {
-  console.log('gCloud hitting');
-  try {
-    const [translation] = await translate.translate(text, target);
+export const translateText = async (text: any, target: string) => {
+    console.log('gCloud hitting')
+    try {
+        if (Array.isArray(text)) {
+            const result = await Promise.all(
+            text.map(async (str) => {
+                if (typeof str === "string") {
+                const [translation] = await translate.translate(str, target);
+                return translation;
+                } else if (typeof str === "object" && "text" in str) {
+                const [translation] = await translate.translate(str.text, target);
+                return translation;
+                }
+            })
+            );
 
-    console.log('Original: ', text, 'Translated: ', translation);
-    return { original: text, translated: translation };
-  } catch (err) {
-    throw new Error(`Translation Failed: ${err}`);
-  }
-};
+            console.log("Original:", text, "Translated:", result);
+            return { original: text, translated: result };
+        } else {
+            const [translation] = await translate.translate(text, target);
+            console.log("Original:", text, "Translated:", translation);
+            return { original: text, translated: translation };
+        }
+
+
+        
+        
+        // console.log('Original: ', text, 'Translated: ', translation)
+        // return { original: text, translated: translation }
+    } catch (err) {
+        throw new Error(
+            `Translation Failed: ${err}`
+        )
+    }
+}
+
