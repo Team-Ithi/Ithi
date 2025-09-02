@@ -22,7 +22,8 @@ export async function activate(context: vscode.ExtensionContext) {
       // const maskedComments = maskController.maskComments(symbolInfo, commentsObj) //masking protected symbols/key words in comments
       console.log('commentsObj', commentsObj);
       // const translateTest = await translateText(arrOfObj, 'en')
-      const targetLanguage = 'en'; // TODO: retreive target language from front-end (after MVP)
+      const sourceLanguage = 'en'; // TODO: retreive source language from front-end (after MVP)
+      const targetLanguage = 'fr'; // TODO: retreive target language from front-end (after MVP)
       //TODO: get source language from gTranslate
       // const translatedProtectedComments = await translation(
       //   arrOfStr,
@@ -54,7 +55,8 @@ export async function activate(context: vscode.ExtensionContext) {
       panel.webview.postMessage({
         type: 'translationData',
         value: {
-          source: targetLanguage,
+          source: sourceLanguage,
+          target: targetLanguage,
           commentData: [
             {
               startLine: '1',
