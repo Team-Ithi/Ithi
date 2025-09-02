@@ -1,9 +1,5 @@
-import React from 'react'
-
 const CommentItem = () => {
-  return (
-    <div>CommentItem</div>
-  )
-}
+  return <div>CommentItem</div>;
+};
 
-export default CommentItem
+export default CommentItem;
