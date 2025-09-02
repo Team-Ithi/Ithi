@@ -5,8 +5,10 @@ import { error } from 'node:console';
 
 export const astParseTraverse = () => {
   const editor = vscode.window.activeTextEditor;
+  //TODO: resolve typescript errors
   const fileType = editor.document.languageId;
   if (fileType !== 'typescript' && fileType !== 'javascript') {
+    //TODO: update to throw errors
     console.log(`unsupported file type: ${fileType}`);
   }
   const code = editor.document.getText();
