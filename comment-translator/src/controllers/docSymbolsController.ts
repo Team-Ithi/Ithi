@@ -21,12 +21,14 @@ export class Symbols {
     const activeEditor = vscode.window.activeTextEditor;
 
     if (!activeEditor) {
+      // vscode.window.showInformationMessage('No active editor found.');
       console.log('no active editor');
       return;
     }
 
     const fileType = activeEditor.document.languageId;
     if (fileType !== 'typescript' && fileType !== 'javascript') {
+      //TODO: handle with console.error or sendMessageToWebview() functionality;
       console.log(`unsupported file type: ${fileType}`);
     }
     console.log('fileType:', fileType);
