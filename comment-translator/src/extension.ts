@@ -1,11 +1,10 @@
 import * as vscode from 'vscode'; // The module 'vscode' contains the VS Code extensibility API
 import { Symbols } from './controllers/docSymbolsController';
-import { translateText } from './controllers/gCloudController';
+// import { translateText } from './controllers/gCloudController'; // not using paid version of gtranslate
 import { translation } from './controllers/gTranslateController';
 import { arrOfStr, arrOfObj } from './mockTranslateTest';
 import { astParseTraverse } from './controllers/astController';
 import * as fs from 'fs';
-
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -27,7 +26,7 @@ export async function activate(context: vscode.ExtensionContext) {
       const symbolInfo = await symbols.getDocumentSymbols();
 
       // const translateTest = await translateText(arrOfObj, 'en')
-      const freeTranslateTest = translation(arrOfStr, 'en') // doesnt keep the masked i think
+      const freeTranslateTest = await translation(arrOfStr, 'en');
 
       vscode.window.showInformationMessage(`Check the DEBUG CONSOLE for logs`);
 
