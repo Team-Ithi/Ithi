@@ -14,8 +14,8 @@
   "contributes": {
     "commands": [
       {
-        "command": "ithi.helloWorld",
-        "title": "Hello World"
+        "command": "ithi.translate",
+        "title": "Ithi Translate"
       }
     ]
   },
