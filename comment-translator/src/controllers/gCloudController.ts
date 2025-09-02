@@ -1,17 +1,16 @@
-import { Translate } from "@google-cloud/translate/build/src/v2";
-import path from "path";
+import { Translate } from '@google-cloud/translate/build/src/v2';
+import path from 'path';
 import dotenv from 'dotenv';
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 import 'dotenv/config';
 
 const translate = new Translate({
-    projectId: process.env.PROJECT_ID,
-    credentials:{
-        client_email: process.env.CLIENT_EMAIL,
-        private_key: (process.env.PRIVATE_KEY|| '').replace(/\\n/g, '\n'),
-    }
-})
-
+  projectId: process.env.PROJECT_ID,
+  credentials: {
+    client_email: process.env.CLIENT_EMAIL,
+    private_key: (process.env.PRIVATE_KEY || '').replace(/\\n/g, '\n'),
+  },
+});
 
 export const translateText = async (text: any, target: string) => {
     console.log('gCloud hitting')
