@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import './App.css';
+import Header from './components/Header';
 
 interface VscodeMessage {
   command: string;
@@ -55,6 +56,7 @@ function App() {
   return (
     <>
       <h1>{heading ? 'This is Ithi' : 'Yay Ithi!'}</h1>
+      <Header/>
       <p>
         No translations yet! Click <span>Translate</span> to get started.
       </p>
