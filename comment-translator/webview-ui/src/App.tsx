@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import './App.css';
 import Header from './components/Header';
+import CommentList from './components/CommentList';
 
 interface VscodeMessage {
   command: string;
@@ -17,19 +18,15 @@ declare const vscode: vscode;
 
 function App() {
   const [heading, setHeading] = useState<boolean>(false);
-  const [original, setOriginal] = useState<string>('');
-  const [translation, setTranslation] = useState<string>('');
-  const [lines, setLines] = useState<string>('');
-  const [symbols, setSymbols] = useState<string>('');
+  const [source, setSource] = useState<string>('');
+  // const [comments, setComments] = useState<string>('');
 
   window.addEventListener('message', (event) => {
     const message = event.data; // The JSON data sent from the extension
     switch (message.type) {
       case 'translationData': {
-        setLines(message.value.lines);
-        setOriginal(message.value.original);
-        setTranslation(message.value.translation);
-        setSymbols(message.value.symbols);
+        setSource(message.value.source);
+        // setComments(message.value.commentData);
 
         /*allowing the webview to send data to the extension's core logic */
         vscode.postMessage({
@@ -56,7 +53,8 @@ function App() {
   return (
     <>
       <h1>{heading ? 'This is Ithi' : 'Yay Ithi!'}</h1>
-      <Header/>
+      <Header />
+      {/* <CommentList commentData={comments} /> */}
       <p>
         No translations yet! Click <span>Translate</span> to get started.
       </p>
@@ -70,10 +68,7 @@ function App() {
           <a className='text-red-500'>Read the docs</a> to learn more about
           Ithi.
         </p>
-        <p>{lines}</p>
-        <p>{original}</p>
-        <p>{translation}</p>
-        <p>{symbols}</p>
+        <p>{source}</p>
       </div>
     </>
   );
