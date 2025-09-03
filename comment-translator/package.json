@@ -14,8 +14,8 @@
   "contributes": {
     "commands": [
       {
-        "command": "ithi.helloWorld",
-        "title": "Hello World"
+        "command": "ithi.translate",
+        "title": "Ithi Translate"
       }
     ]
   },
@@ -43,7 +43,9 @@
   },
   "dependencies": {
     "@google-cloud/translate": "^9.2.0",
+    "@vitalets/google-translate-api": "^9.2.1",
     "dotenv": "^17.2.1",
-    "openai": "^5.16.0"
+    "openai": "^5.16.0",
+    "google-translate-api": "^2.3.0"
   }
 }
