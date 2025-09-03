@@ -16,7 +16,7 @@ export async function activate(context: vscode.ExtensionContext) {
   const webviewPanel = vscode.commands.registerCommand(
     'ithi.translate',
     async () => {
-      vscode.window.showInformationMessage(`Beginning translation...`);
+      vscode.window.showInformationMessage(`Ithi: Beginning translation...`);
       /* ---- BEGIN BACK-END LOGIC ---- */
       // The code you place here will be executed every time your command is executed
       const symbols = new Symbols();
@@ -36,12 +36,12 @@ export async function activate(context: vscode.ExtensionContext) {
       const sourceLanguage = 'en'; // TODO: retreive source language from front-end (after MVP)
       const targetLanguage = 'fr'; // TODO: retreive target language from front-end (after MVP)
       //TODO: get source language from gTranslate
-      /* const translatedProtectedComments = await translation(
+      const translatedProtectedComments = await translation(
         arrOfStr,
         targetLanguage
       ); //get translations
-      console.log('translatedProtectedComments', translatedProtectedComments);
-      const unmaskedTranslationsObj = maskController.unmaskComments(translatedProtectedComments); //re-adding protected words to final translation */
+      //console.log('translatedProtectedComments', translatedProtectedComments);
+      //const unmaskedTranslationsObj = maskController.unmaskComments(translatedProtectedComments); //re-adding protected words to final translation 
       /* ---- END BACK-END LOGIC ---- */
 
       vscode.window.showInformationMessage(`Check the DEBUG CONSOLE for logs`);
