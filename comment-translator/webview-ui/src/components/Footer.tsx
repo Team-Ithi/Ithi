@@ -48,7 +48,7 @@ const Footer: React.FC<FooterProps> = ({ source, target }) => {
           </select>
         </label>
       </div>
-      <button className='mt-1 mb-1'>Translate</button>
+      <button className='mt-1 mb-1 rounded'>Translate</button>
       <p>
         <a className='text-red-500'>Read the docs</a> to learn more about Ithi.
       </p>

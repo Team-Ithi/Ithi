@@ -37,12 +37,12 @@ const CommentList: React.FC<CommentListProps> = ({ commentData }) => {
   return (
     <div className='flex-grow flex flex-col overflow-scroll'>
       <div className='flex justify-between mb-1'>
-        <p>
+        <p className='self-center'>
           {commentData.length > 1
             ? `${commentData.length} Comments`
             : '1 Comment'}
         </p>
-        <a>Collapse All</a>
+        <button className='m-2 rounded-sm smallButton'>Collapse All</button>
       </div>
 
       {commentData.map((commentInfo, index) => (
