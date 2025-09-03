@@ -3,8 +3,8 @@ import * as fs from 'fs';
 import { Symbols } from './controllers/docSymbolsController';
 import { astParseTraverse } from './controllers/astController';
 // import { translateText } from './controllers/gCloudController'; // not using paid version of gtranslate
-// import { translation } from './controllers/gTranslateController';
-// import { arrOfStr, arrOfObj } from './mockTranslateTest';
+import { translation } from './controllers/gTranslateController';
+import { arrOfStr, arrOfObj, commentData } from './mockTranslateTest';
 
 // This method is called when the extension is activated - the very first time the command is executed
 export async function activate(context: vscode.ExtensionContext) {
@@ -26,11 +26,12 @@ export async function activate(context: vscode.ExtensionContext) {
       const sourceLanguage = 'en'; // TODO: retreive source language from front-end (after MVP)
       const targetLanguage = 'fr'; // TODO: retreive target language from front-end (after MVP)
       //TODO: get source language from gTranslate
-      // const translatedProtectedComments = await translation(
-      //   arrOfStr,
-      //   targetLanguage
-      // ); //get translations
-      // const unmaskedTranslationsObj = maskController.unmaskComments(translatedProtectedComments) //re-adding protected words to final translation
+      /* const translatedProtectedComments = await translation(
+        arrOfStr,
+        targetLanguage
+      ); //get translations
+      console.log('translatedProtectedComments', translatedProtectedComments);
+      const unmaskedTranslationsObj = maskController.unmaskComments(translatedProtectedComments); //re-adding protected words to final translation */
       /* ---- END BACK-END LOGIC ---- */
 
       vscode.window.showInformationMessage(`Check the DEBUG CONSOLE for logs`);
@@ -38,7 +39,7 @@ export async function activate(context: vscode.ExtensionContext) {
       const panel = vscode.window.createWebviewPanel(
         'ithiPanel', //This is the ID of the panel
         'Ithi Translate', //This is the title of the panel
-        { viewColumn: vscode.ViewColumn.Two }, //This defines which editor column the new webview panel will be shown in
+        { viewColumn: vscode.ViewColumn.Two }, //This defines which editor column the new webviewPanel will be shown in
         {
           enableScripts: true,
           retainContextWhenHidden: true, //TODO: getState and setState have much lower performance overhead than retainContextWhenHidden
@@ -54,36 +55,13 @@ export async function activate(context: vscode.ExtensionContext) {
       );
 
       // the postMessage method is used to send data from the extension's backend to a webview panel frontend
+      //TODO: translate all content in webview
       panel.webview.postMessage({
         type: 'translationData',
         value: {
           source: sourceLanguage,
           target: targetLanguage,
-          commentData: [
-            {
-              startLine: '1',
-              endLine: '3',
-              original:
-                'The code you place here will be executed every time your command is executed',
-              translation:
-                'El código que coloques aquí se ejecutará cada vez que se ejecute tu comando',
-            },
-            {
-              startLine: '18',
-              endLine: '21',
-              original:
-                'The code you place here will be executed every time your command is executed',
-              translation: '每次執行命令時，都會執行您在此處放置的程式碼',
-            },
-            {
-              startLine: '35',
-              endLine: '37',
-              original:
-                'The code you place here will be executed every time your command is executed',
-              translation:
-                'Le code que vous placez ici sera exécuté à chaque fois que votre commande sera exécutée',
-            },
-          ],
+          commentData: commentData,
         },
       });
 
@@ -115,7 +93,11 @@ function getHtmlForWebview(
 
   try {
     htmlContent = fs.readFileSync(indexPath.fsPath, 'utf8'); //interpret the file's binary data as a human-readable UTF-8 encoded string
-    const baseUri = panelWebview.asWebviewUri(webviewUriDist); //TODO: comment here
+    /* Webviews in VS Code are essentially isolated iframes that run inside the editor. 
+    For security reasons, webviews cannot directly access local resources on the user's file system 
+    using standard file:// URIs. The asWebviewUri method acts as a bridge, transforming the local 
+    path into a special URI format that the VS Code renderer understands and can securely resolve.  */
+    const baseUri = panelWebview.asWebviewUri(webviewUriDist);
 
     // If Vite emitted absolute paths like "/assets/...", make them relative: "assets/..."
     htmlContent = htmlContent.replace(/(src|href)="\//g, '$1="');
