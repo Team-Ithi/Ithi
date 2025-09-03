@@ -3,8 +3,8 @@ import * as fs from 'fs';
 import { Symbols } from './controllers/docSymbolsController';
 import { astParseTraverse } from './controllers/astController';
 // import { translateText } from './controllers/gCloudController'; // not using paid version of gtranslate
-import { translation } from './controllers/gTranslateController';
-import { arrOfStr, arrOfObj } from './mockTranslateTest';
+// import { translation } from './controllers/gTranslateController';
+// import { arrOfStr, arrOfObj } from './mockTranslateTest';
 
 // This method is called when the extension is activated - the very first time the command is executed
 export async function activate(context: vscode.ExtensionContext) {
@@ -15,6 +15,7 @@ export async function activate(context: vscode.ExtensionContext) {
   const webviewPanel = vscode.commands.registerCommand(
     'ithi.translate',
     async () => {
+      /* ---- BEGIN BACK-END LOGIC ---- */
       // The code you place here will be executed every time your command is executed
       const symbols = new Symbols();
       const symbolInfo = await symbols.getDocumentSymbols(); //retrieving file symbols
@@ -30,18 +31,19 @@ export async function activate(context: vscode.ExtensionContext) {
       //   targetLanguage
       // ); //get translations
       // const unmaskedTranslationsObj = maskController.unmaskComments(translatedProtectedComments) //re-adding protected words to final translation
+      /* ---- END BACK-END LOGIC ---- */
 
       vscode.window.showInformationMessage(`Check the DEBUG CONSOLE for logs`);
 
       const panel = vscode.window.createWebviewPanel(
-        'ithiPanel', // id of the panel
-        'Ithi Translate', // title of the panel
-        { viewColumn: vscode.ViewColumn.Two }, // editor column to show the new webview panel in
+        'ithiPanel', //This is the ID of the panel
+        'Ithi Translate', //This is the title of the panel
+        { viewColumn: vscode.ViewColumn.Two }, //This defines which editor column the new webview panel will be shown in
         {
           enableScripts: true,
           retainContextWhenHidden: true, //TODO: getState and setState have much lower performance overhead than retainContextWhenHidden
           localResourceRoots: [
-            vscode.Uri.joinPath(context.extensionUri, 'webview-ui'), // Allow access to the 'webview-ui' folder within the extension
+            vscode.Uri.joinPath(context.extensionUri, 'webview-ui'), //Allow access to the 'webview-ui' folder within the extension
           ],
         } //these are the webview options
       );
@@ -85,7 +87,7 @@ export async function activate(context: vscode.ExtensionContext) {
         },
       });
 
-      // Handle messages from the webview
+      // onDidReceiveMessage handles messages from the webview frontend
       panel.webview.onDidReceiveMessage((message) => {
         switch (message.command) {
           case 'dataReceived':
