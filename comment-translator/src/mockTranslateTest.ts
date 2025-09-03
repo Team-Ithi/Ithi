@@ -44,9 +44,9 @@ export const commentData = [
     startLine: '13',
     endLine: '14',
     original:
-      'registerCommand provides the implementation of the command defined in package.json \n   the commandId parameter must match the command field in package.json',
+      'registerCommand provides the implementation of the command defined in package.json the commandId parameter must match the command field in package.json',
     translation:
-      "registerCommand fournit l'implémentation de la commande définie dans package.json \n le paramètre commandId doit correspondre au champ de commande dans package.json",
+      "registerCommand fournit l'implémentation de la commande définie dans package.json le paramètre commandId doit correspondre au champ de commande dans package.json",
   },
   {
     startLine: '18',
@@ -173,7 +173,7 @@ export const commentData = [
     startLine: '58',
     endLine: '58',
     original: 'TODO: translate all content in webview',
-    translation: 'TODO : traduire tout le contenu de la vue Web',
+    translation: 'TODO: traduire tout le contenu de la vue Web',
   },
   {
     startLine: '68',
