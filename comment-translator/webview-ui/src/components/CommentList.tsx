@@ -1,57 +1,67 @@
-import { useState} from "react";
-import CommentItem from "./CommentItem";
-import type { Row } from "./CommentItem";
+// import { useState } from 'react';
+import CommentItem from './CommentItem';
+// import type { Row } from "./CommentItem";
 
-const CommentList = () => {
+// type CommentListProps = {
+//   commentData: object[];
+// };
 
-  //we start with empty container called rows and later fill them with 
-  // cards (original+translation) 
-  const [rows] = useState<Row[]>([]);
-  //we keep track of which card is open, rn nothing is open
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+interface commentInfo {
+  startLine: string;
+  endLine: string;
+  original: string;
+  translation: string;
+}
 
-  // useEffect(() => {
-  //   //page loads, if we get messages with data as commentData we fill rows with cards
-  //   const handler = (event: MessageEvent<unknown>) => {
-  //     const msg = event.data as { type?: string; value?: { commentData?: Row[] } };
-  //     if (msg?.type === "translationData" && Array.isArray(msg.value?.commentData)) {
-  //     setRows(msg.value.commentData);
-  //     }
-  //   };
-  //   window.addEventListener("message", handler);
-  //   //upon leaving container page stop listening 
-  //   return () => window.removeEventListener("message", handler);
-  // }, []);
+interface CommentListProps {
+  commentData: commentInfo[];
+}
 
-  const toggleIndex = (index: number) => {
-    //after clicking on a card, if open close it, if close open it
-    setSelectedIndex((prev) => (prev === index ? null : index));
-  };
+const CommentList: React.FC<CommentListProps> = ({ commentData }) => {
+  // const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
-  if (rows.length === 0) return null; //if empty don't show anything
+  // const toggleIndex = (index: number) => {
+  //   //after clicking on a card, if open close it, if close open it
+  //   setSelectedIndex((prev) => (prev === index ? null : index));
+  // };
 
-
-  return (
-    //draw all the cards in container
-    <div>
-    <div className='flex-grow flex flex-col justify-center'>
-      <p>
-        No translations yet! Click <a>'Translate'</a> to get started.
-      </p>
+  if (!commentData) {
+    return (
+      <div className='flex-grow flex flex-col justify-center'>
+        <p>
+          No translations yet! Click <a>'Translate'</a> to get started.
+        </p>
       </div>
-      {rows.map((row, index) => (
-        //for each card, draw one commentItem
-        <div key={`${row.startLine}-${row.endLine}-${index}`}
-            onClick={() => setSelectedIndex(prev => (prev === index ? null : index))}>
-          <CommentItem
-            row={row}
-            selected={index === selectedIndex}
-            onToggle={() => toggleIndex(index)}
-            //we give data to each child card, tell it should look open, give toggle option
-          />
-        </div>
-      ))}
+    );
+  }
+  return (
+    <div className='flex-grow flex flex-col overflow-scroll'>
+      <div className='flex justify-between mb-1'>
+        <p>
+          {commentData.length > 1
+            ? `${commentData.length} Comments`
+            : '1 Comment'}
+        </p>
+        <a>Collapse All</a>
+      </div>
 
+      {commentData.map((commentInfo, index) => (
+        //for each card, draw one commentItem
+        // <div
+        //   key={`${row.startLine}-${row.endLine}-${index}`}
+        //   onClick={() =>
+        //     setSelectedIndex((prev) => (prev === index ? null : index))
+        //   }
+        // >
+        <CommentItem
+          key={index}
+          commentInfo={commentInfo}
+          // selected={index === selectedIndex}
+          // onToggle={() => toggleIndex(index)}
+          //we give data to each child card, tell it should look open, give toggle option
+        />
+        // </div>
+      ))}
     </div>
   );
 };
