@@ -45,6 +45,7 @@
     "@google-cloud/translate": "^9.2.0",
     "@vitalets/google-translate-api": "^9.2.1",
     "dotenv": "^17.2.1",
-    "google-translate-api": "^2.3.0"
+    "google-translate-api": "^2.3.0",
+    "node-fetch": "^3.3.2"
   }
 }
