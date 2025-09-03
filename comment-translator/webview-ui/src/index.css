@@ -77,7 +77,12 @@ code {
 }
 
 code.translation {
-  color: var(--vscode-debugIcon-startForeground);
+  /* color: var(--vscode-debugIcon-startForeground); */
+  color: var(--vscode-scmGraph-foreground4);
+}
+
+hr {
+  color: var(--vscode-gitDecoration-ignoredResourceForeground);
 }
 
 button {
@@ -89,6 +94,11 @@ button {
   outline-offset: 2px !important;
   color: var(--vscode-button-foreground);
   background: var(--vscode-button-background);
+}
+
+button.smallButton {
+  width: auto;
+  padding: 0.5rem 0.75rem;
 }
 
 button:hover {
@@ -148,5 +158,10 @@ p.ignore {
 }
 
 .commentItem {
-  background-color: var(--vscode-editorWidget-background);
+  background-color: var(--vscode-settings-focusedRowBackground);
+}
+
+.title {
+  font-weight: 600;
+  color: var(--vscode-settings-headerForeground);
 }
