@@ -67,24 +67,23 @@ export const translation = async (text: any, language: string) => {
         text.map(async (item) => {
           const input = typeof item === "string" ? item : item.text;
           const res = await translate(input, { to: language, fetchOptions: proxy ? { agent: proxy } : undefined });
-          return { original: text, sourceLanguage: res.raw.src, translated: res.text };
+          console.log("sourceLanguage:", res.raw.src)
+          return res.text
         })
       );
-
-      console.log("Original:", text, "Translated:", result);
-      return result;
-    } else {
-      const input = typeof text === "string" ? text : text.text;
-      const res = await translate(input, { to: language, fetchOptions: proxy ? { agent: proxy } : undefined });
-
-      const result = {
-        original: input,
-        sourceLanguage: res.raw.src,
-        translated: res.text
-      }
-      console.log("Original:", text, "Translated:", res.text);
+      
+      console.log("Translated:", result);
       return result;
     }
+    // } else {
+    //   const input = typeof text === "string" ? text : text.text;
+    //   const res = await translate(input, { to: language, fetchOptions: proxy ? { agent: proxy } : undefined });
+
+    //   const result = res.text
+    //   console.log("sourceLanguage:", res.raw.src)
+    //   console.log("Translated:", res.text);
+    //   return result;
+    // }
   } catch (err) {
     console.error("Translation Failed:", err);
     throw err;

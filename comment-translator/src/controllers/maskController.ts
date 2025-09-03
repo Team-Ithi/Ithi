@@ -80,7 +80,7 @@ export async function aiMask(
   protectedIdentifiers: string[],
   model: string = "gpt-4o-mini"
 ): Promise<AIMask> {
-  const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+  const client = new OpenAI({ apiKey: process.env.OPENAI_KEY });
   const messages = buildMessages(rawText, protectedIdentifiers);
   console.log('running ai masking');
 
