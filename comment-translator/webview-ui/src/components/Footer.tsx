@@ -27,9 +27,10 @@ const Footer: React.FC<FooterProps> = ({ source, target }) => {
   };
 
   return (
-    <div>
+    <div className='mt-1'>
+      <hr />
       <div className='flex justify-between mb-1'>
-        <p>Source Language: {source.toUpperCase()} </p>
+        <p className='ignore'>Source Language: {source.toUpperCase()} </p>
         <label htmlFor='target_lang'>
           Target Language:
           <select

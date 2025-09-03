@@ -56,11 +56,8 @@ function App() {
     <div className='flex flex-col h-screen'>
       <Header />
       <CommentList />
-      {/* <div className='form'>
-        <code>Original Comment: (FR)</code>
-        <input />
-        <code>Translation: (EN)</code>
-        <textarea></textarea>
+      {/* <div>
+        <code>{heading}</code>
         <button onClick={handleToggle}>Translate</button>
       </div> */}
       <Footer source={source} target={target} />
