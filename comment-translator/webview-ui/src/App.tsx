@@ -13,6 +13,13 @@ interface vscode {
   postMessage(message: VscodeMessage): void;
 }
 
+interface commentInfo {
+  startLine: string;
+  endLine: string;
+  original: string;
+  translation: string;
+}
+
 /* you first acquire the VS Code API object by calling acquireVsCodeApi() this is
 done in index.html */
 declare const vscode: vscode;
@@ -20,7 +27,7 @@ declare const vscode: vscode;
 function App() {
   const [source, setSource] = useState<string>('');
   const [target, setTarget] = useState<string>('');
-  // const [comments, setComments] = useState<string>('');
+  const [commentData, setCommentData] = useState<commentInfo[]>([]);
 
   window.addEventListener('message', (event) => {
     const message = event.data; // The JSON data sent from the extension
@@ -28,9 +35,10 @@ function App() {
       case 'translationData': {
         setSource(message.value.source);
         setTarget(message.value.target);
-        // setComments(message.value.commentData);
+        setCommentData(message.value.commentData);
+        console.log(message.value.commentData);
 
-        /*allowing the webview to send data to the extension's core logic */
+        /* allowing the webview to send data to the extension's core logic */
         vscode.postMessage({
           command: 'dataReceived',
           text: 'data received by frontend',
@@ -44,22 +52,10 @@ function App() {
     //for some reason this only works when the event listener is outside 🤷‍♀️
   }, []);
 
-  // function handleToggle() {
-  //   if (!heading) {
-  //     setHeading(true);
-  //   } else {
-  //     setHeading(false);
-  //   }
-  // }
-
   return (
     <div className='flex flex-col h-screen'>
       <Header />
-      <CommentList />
-      {/* <div>
-        <code>{heading}</code>
-        <button onClick={handleToggle}>Translate</button>
-      </div> */}
+      <CommentList commentData={commentData} />
       <Footer source={source} target={target} />
     </div>
   );
