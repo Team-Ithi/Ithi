@@ -2,10 +2,10 @@ import * as vscode from 'vscode'; // The module 'vscode' contains the VS Code ex
 import * as fs from 'fs';
 import { Symbols } from './controllers/docSymbolsController';
 import { astParseTraverse } from './controllers/astController';
-// import { translateText } from './controllers/gCloudController'; // not using paid version of gtranslate
-import { translation } from './controllers/gTranslateController';
-import { createHardSet, extractCommentObj, aiMask } from './controllers/maskController'
-import { arrOfStr, arrOfObj, commentData } from './mockTranslateTest';
+import { translateText } from './controllers/gCloudController'; // not using paid version of gtranslate
+// import { translation } from './controllers/gTranslateController';
+import { createHardSet, extractCommentObj, aiMask, unmaskLines } from './controllers/maskController'
+// import { arrOfStr, arrOfObj, commentData } from './mockTranslateTest';
 
 // This method is called when the extension is activated - the very first time the command is executed
 export async function activate(context: vscode.ExtensionContext) {
@@ -16,14 +16,15 @@ export async function activate(context: vscode.ExtensionContext) {
   const webviewPanel = vscode.commands.registerCommand(
     'ithi.translate',
     async () => {
-      vscode.window.showInformationMessage(`Ithi: Beginning translation...`);
+      vscode.window.showInformationMessage(`Ithi: Translation Loading...`);
       /* ---- BEGIN BACK-END LOGIC ---- */
       // The code you place here will be executed every time your command is executed
       const symbols = new Symbols();
       const symbolInfo = await symbols.getDocumentSymbols(); //retrieving file symbols
       const commentsObj = astParseTraverse(); //retreiving file comments
+      const copyOfCommentsObj = [...commentsObj]
       const HARD = createHardSet(symbolInfo);
-      const extractCommentsObj = extractCommentObj(commentsObj, HARD);
+      const extractCommentsObj = extractCommentObj(copyOfCommentsObj, HARD);
       const { lines, map } = await aiMask(extractCommentsObj, HARD)
       // const maskedComments = maskController.maskComments(symbolInfo, commentsObj) //masking protected symbols/key words in comments
       console.log('commentsObj', commentsObj);
@@ -32,16 +33,27 @@ export async function activate(context: vscode.ExtensionContext) {
       console.log('map object', map)
       // const translateTest = await translateText(arr
       console.log('commentsObj', commentsObj);
-      // const translateTest = await translateText(arrOfObj, 'en')
       const sourceLanguage = 'en'; // TODO: retreive source language from front-end (after MVP)
       const targetLanguage = 'fr'; // TODO: retreive target language from front-end (after MVP)
+      const translatedProtectedComments = await translateText(lines, targetLanguage) // GCloud
       //TODO: get source language from gTranslate
-      const translatedProtectedComments = await translation(
-        arrOfStr,
-        targetLanguage
-      ); //get translations
+      // const translatedProtectedComments = await translation(
+      //   lines,
+      //   targetLanguage
+      // ); //get translations
       //console.log('translatedProtectedComments', translatedProtectedComments);
-      //const unmaskedTranslationsObj = maskController.unmaskComments(translatedProtectedComments); //re-adding protected words to final translation 
+      const unmaskedTranslations = unmaskLines(translatedProtectedComments, map); //re-adding protected words to final translation 
+      const commentData = []
+      for (let i = 0; i < unmaskedTranslations.length; i++) {
+        const lineInfo = { 
+          startLine: commentsObj[i].loc.start.line,
+          endLine: commentsObj[i].loc.end.line,
+          original: commentsObj[i].value,
+          translation: unmaskedTranslations[i]
+        }
+        commentData.push(lineInfo)
+      }
+      console.log("unmasking translation", unmaskedTranslations)
       /* ---- END BACK-END LOGIC ---- */
 
       vscode.window.showInformationMessage(`Check the DEBUG CONSOLE for logs`);

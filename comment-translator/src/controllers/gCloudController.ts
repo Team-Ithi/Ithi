@@ -29,12 +29,13 @@ export const translateText = async (text: any, target: string) => {
             );
 
             console.log("Original:", text, "Translated:", result);
-            return { original: text, translated: result };
-        } else {
-            const [translation] = await translate.translate(text, target);
-            console.log("Original:", text, "Translated:", translation);
-            return { original: text, translated: translation };
+            return result;
         }
+        // } else {
+        //     const [translation] = await translate.translate(text, target);
+        //     console.log("Original:", text, "Translated:", translation);
+        //     return { original: text, translated: translation };
+        // }
 
 
         
