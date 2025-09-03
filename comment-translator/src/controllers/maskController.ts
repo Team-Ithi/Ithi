@@ -37,6 +37,27 @@ export interface Comment {
   matchedKeywords: string[]; 
 }
 
+export type MaskKind =
+  | "code"
+  | "url"
+  | "path"
+  | "email"
+  | "uuid"
+  | "placeholder"
+  | "task"
+  | "identifier";
+
+export interface MaskEntry {
+  token: string;
+  original: string;
+  kind: MaskKind;
+}
+
+export interface AIMask {
+  masked: string;
+  map: MaskEntry[];
+}
+
 const PROMPT_PATH = path.join(__dirname, '..', '..', 'prompts', 'mask.prompt.txt');
 
 function buildMessages(raw: Comment[], hardSet: string[]) {
@@ -52,4 +73,35 @@ function buildMessages(raw: Comment[], hardSet: string[]) {
     { role: "system", content: MASK_PROMPT },
     { role: "user", content: JSON.stringify(user) },
   ] as OpenAI.ChatCompletionMessageParam[];
+}
+
+export async function aiMask(
+  rawText: Comment[],
+  protectedIdentifiers: string[],
+  model: string = "gpt-4o-mini"
+): Promise<AIMask> {
+  const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+  const messages = buildMessages(rawText, protectedIdentifiers);
+
+  const resp = await client.chat.completions.create({
+    model,
+    messages,
+    temperature: 0,
+    response_format: { type: "json_object" }, 
+  });
+
+  const content = resp.choices[0]?.message?.content ?? "{}";
+  const json = JSON.parse(content);
+
+  const lines: unknown = json.lines;
+  let masked: string | undefined =
+    typeof json.masked === "string" ? json.masked : undefined;
+
+  if (!masked && Array.isArray(lines) && lines.every(x => typeof x === "string")) {
+    masked = (lines as string[]).join("\n"); 
+  }
+
+  const map: MaskEntry[] = Array.isArray(json.map) ? json.map : [];
+
+  return { masked: masked ?? "", map };
 }
