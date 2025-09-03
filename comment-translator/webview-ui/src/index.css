@@ -73,6 +73,11 @@ a:active {
 code {
   font-size: var(--vscode-editor-font-size);
   font-family: var(--vscode-editor-font-family);
+  background-color: transparent;
+}
+
+code.translation {
+  color: var(--vscode-debugIcon-startForeground);
 }
 
 button {
@@ -140,4 +145,8 @@ h1 {
 
 p.ignore {
   color: var(--vscode-gitDecoration-ignoredResourceForeground);
+}
+
+.commentItem {
+  background-color: var(--vscode-editorWidget-background);
 }

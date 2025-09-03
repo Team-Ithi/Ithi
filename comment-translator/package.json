@@ -47,5 +47,6 @@
     "dotenv": "^17.2.1",
     "google-translate-api": "^2.3.0",
     "node-fetch": "^3.3.2"
+    "openai": "^5.16.0",
   }
 }
