@@ -21,7 +21,7 @@ export async function activate(context: vscode.ExtensionContext) {
       const symbols = new Symbols();
       const symbolInfo = await symbols.getDocumentSymbols(); //retrieving file symbols
       const commentsObj = astParseTraverse(); //retreiving file comments
-      // const maskedComments = maskController.maskComments(symbolInfo, commentsObj) //masking protected symbols/key words in comments
+      const maskedComments = maskController.maskComments(symbolInfo, commentsObj) //masking protected symbols/key words in comments
       console.log('commentsObj', commentsObj);
       // const translateTest = await translateText(arrOfObj, 'en')
       const sourceLanguage = 'en'; // TODO: retreive source language from front-end (after MVP)
