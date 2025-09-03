@@ -39,11 +39,11 @@ const CommentItem = ({ commentInfo }: Props) => {
             : `Lines ${commentInfo.startLine} - ${commentInfo.endLine}`}
         </p>
       </div>
-      <p>Original:</p>
+      <p className='title'>Original:</p>
       <pre className='text-wrap mb-1'>
         <code>{commentInfo.original}</code>
       </pre>
-      <p>Translation:</p>
+      <p className='title'>Translation:</p>
       <pre className='text-wrap'>
         <code className='translation'>{commentInfo.translation}</code>
       </pre>

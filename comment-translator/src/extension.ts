@@ -15,6 +15,7 @@ export async function activate(context: vscode.ExtensionContext) {
   const webviewPanel = vscode.commands.registerCommand(
     'ithi.translate',
     async () => {
+      vscode.window.showInformationMessage(`Beginning translation...`);
       /* ---- BEGIN BACK-END LOGIC ---- */
       // The code you place here will be executed every time your command is executed
       const symbols = new Symbols();
