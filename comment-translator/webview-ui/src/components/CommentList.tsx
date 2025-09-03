@@ -3,6 +3,7 @@ import CommentItem from "./CommentItem";
 import type { Row } from "./CommentItem";
 
 const CommentList = () => {
+
   //we start with empty container called rows and later fill them with 
   // cards (original+translation) 
   const [rows] = useState<Row[]>([]);
@@ -33,6 +34,11 @@ const CommentList = () => {
   return (
     //draw all the cards in container
     <div>
+    <div className='flex-grow flex flex-col justify-center'>
+      <p>
+        No translations yet! Click <a>'Translate'</a> to get started.
+      </p>
+      </div>
       {rows.map((row, index) => (
         //for each card, draw one commentItem
         <div key={`${row.startLine}-${row.endLine}-${index}`}
@@ -45,6 +51,7 @@ const CommentList = () => {
           />
         </div>
       ))}
+
     </div>
   );
 };
