@@ -137,3 +137,7 @@ h1 {
   font-weight: 600;
   font-size: large;
 }
+
+p.ignore {
+  color: var(--vscode-gitDecoration-ignoredResourceForeground);
+}
