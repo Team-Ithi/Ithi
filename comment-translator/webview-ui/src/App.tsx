@@ -27,12 +27,14 @@ declare const vscode: vscode;
 function App() {
   const [source, setSource] = useState<string>('');
   const [target, setTarget] = useState<string>('');
+  const [fileName, setFileName] = useState<string>('');
   const [commentData, setCommentData] = useState<commentInfo[]>([]);
 
   window.addEventListener('message', (event) => {
     const message = event.data; // The JSON data sent from the extension
     switch (message.type) {
       case 'translationData': {
+        setFileName(message.value.fileName);
         setSource(message.value.source);
         setTarget(message.value.target);
         setCommentData(message.value.commentData);
@@ -49,12 +51,12 @@ function App() {
   });
 
   useEffect(() => {
-    //for some reason this only works when the event listener is outside 🤷‍♀️
+    //unsure why this works when the event listener is outside the useEffect
   }, []);
 
   return (
     <div className='flex flex-col h-screen'>
-      <Header />
+      <Header fileName={fileName} />
       <CommentList commentData={commentData} />
       <Footer source={source} target={target} />
     </div>
