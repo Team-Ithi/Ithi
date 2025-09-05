@@ -2,8 +2,7 @@ import * as vscode from 'vscode'; // The module 'vscode' contains the VS Code ex
 import * as fs from 'fs';
 import { Symbols } from './controllers/docSymbolsController';
 import { astParseTraverse } from './controllers/astController';
-import { translateText } from './controllers/gCloudController'; // not using paid version of gtranslate
-// import { translation } from './controllers/gTranslateController';
+import { translateText } from './controllers/gCloudController';
 import {
   createHardSet,
   extractCommentObj,
@@ -21,41 +20,42 @@ export async function activate(context: vscode.ExtensionContext) {
   const webviewPanel = vscode.commands.registerCommand(
     'ithi.translate',
     async () => {
-      vscode.window.showInformationMessage(`Ithi: Translation Loading...`);
-      /* ---- BEGIN BACK-END LOGIC ---- */
       // The code you place here will be executed every time your command is executed
+      vscode.window.showInformationMessage(`Ithi: Translation Loading...`);
+
+      /* ---- BEGIN BACK-END LOGIC ---- */
+      //retrieving file name and symbols
       const symbols = new Symbols();
-      const symbolInfo = await symbols.getDocumentSymbols(); //retrieving file symbols
+      const symbolInfo = await symbols.getDocumentSymbols();
       const fileName = symbols.fileName;
       const fileType = symbols.fileType;
-      const commentsObj = astParseTraverse(); //retreiving file comments
+      //retreiving file comments
+      const commentsObj = astParseTraverse();
+      // console.log('commentsObj', commentsObj);
       const copyOfCommentsObj = [...commentsObj];
+      //creating mask keys
       const HARD = createHardSet(symbolInfo);
+      // console.log(HARD);
       const extractCommentsObj = extractCommentObj(copyOfCommentsObj, HARD);
+      //masking comments
       const { lines, map } = await aiMask(extractCommentsObj, HARD);
-      // const maskedComments = maskController.maskComments(symbolInfo, commentsObj) //masking protected symbols/key words in comments
-      console.log('commentsObj', commentsObj);
-      console.log(HARD);
       console.log('masked comment obj', lines);
       console.log('map object', map);
-      // const translateTest = await translateText(arr
-      console.log('commentsObj', commentsObj);
-      const sourceLanguage = 'en'; // TODO: retreive source language from front-end (after MVP)
-      const targetLanguage = 'fr'; // TODO: retreive target language from front-end (after MVP)
+      // retrieving source language and translations
+      const sourceLanguage = 'en'; // TODO: retreive source language from gCloud
+      const targetLanguage = 'fr'; // TODO: retreive target language from user settings
       const translatedProtectedComments = await translateText(
         lines,
         targetLanguage
-      ); // GCloud
-      //TODO: get source language from gTranslate
-      // const translatedProtectedComments = await translation(
-      //   lines,
-      //   targetLanguage
-      // ); //get translations
+      );
       //console.log('translatedProtectedComments', translatedProtectedComments);
+      //re-adding protected words to final translation
       const unmaskedTranslations = unmaskLines(
         translatedProtectedComments,
         map
-      ); //re-adding protected words to final translation
+      );
+      // console.log('unmasked translations', unmaskedTranslations);
+      //formatting commentData for front-end
       const commentData = [];
       for (let i = 0; i < unmaskedTranslations.length; i++) {
         const lineInfo = {
@@ -66,7 +66,6 @@ export async function activate(context: vscode.ExtensionContext) {
         };
         commentData.push(lineInfo);
       }
-      console.log('unmasking translation', unmaskedTranslations);
       /* ---- END BACK-END LOGIC ---- */
 
       vscode.window.showInformationMessage(`Check the DEBUG CONSOLE for logs`);
