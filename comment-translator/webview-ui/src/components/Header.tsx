@@ -1,8 +1,11 @@
-const Header = () => {
+type HeaderProps = {
+  fileName: string;
+};
+
+const Header: React.FC<HeaderProps> = ({ fileName }) => {
   return (
     <div>
-      {/* <h1>Ithi</h1> */}
-      <h1>Untitled-1.js</h1>
+      <h1>{fileName}</h1>
       <hr />
     </div>
   );
