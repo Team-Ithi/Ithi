@@ -17,7 +17,7 @@ export const arrOfObj = [
     text: '你好世界 <82914>, 你好世界 <43007>.',
   },
 ];
-export const commentData = [
+export const mockCommentData = [
   {
     startLine: '1',
     endLine: '1',

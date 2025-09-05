@@ -10,7 +10,7 @@ import {
   aiMask,
   unmaskLines,
 } from './controllers/maskController';
-// import { arrOfStr, arrOfObj, commentData } from './mockTranslateTest';
+// import { arrOfStr, arrOfObj, mockCommentData } from './mockTranslateTest';
 
 // This method is called when the extension is activated - the very first time the command is executed
 export async function activate(context: vscode.ExtensionContext) {
