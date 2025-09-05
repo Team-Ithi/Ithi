@@ -1,6 +1,14 @@
 import * as vscode from 'vscode';
 
 export class Symbols {
+  fileType: string | undefined;
+  fileName: string | undefined;
+
+  constructor() {
+    this.fileName = undefined;
+    this.fileType = undefined;
+  }
+
   getAllNames(data: vscode.DocumentSymbol[], namesSet = new Set()) {
     // Iterate over each object in the symbols array
     for (const item of data) {
@@ -26,12 +34,14 @@ export class Symbols {
       return;
     }
 
-    const fileType = activeEditor.document.languageId;
-    if (fileType !== 'typescript' && fileType !== 'javascript') {
+    this.fileType = activeEditor.document.languageId;
+    if (this.fileType !== 'typescript' && this.fileType !== 'javascript') {
       //TODO: handle with console.error or sendMessageToWebview() functionality;
-      console.log(`unsupported file type: ${fileType}`);
+      console.log(`unsupported file type: ${this.fileType}`);
     }
-    console.log('fileType:', fileType);
+    console.log('fileType:', this.fileType);
+
+    this.fileName = activeEditor.document.fileName.split('/').pop();
 
     const uri = activeEditor.document.uri;
 
