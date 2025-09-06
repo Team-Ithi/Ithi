@@ -1,7 +1,18 @@
 import * as vscode from 'vscode';
 
 export class Symbols {
-  getAllNames(data: vscode.DocumentSymbol[], namesSet = new Set()) {
+  fileType: string | undefined;
+  fileName: string | undefined;
+
+  constructor() {
+    this.fileName = undefined;
+    this.fileType = undefined;
+  }
+
+  getAllNames(
+    data: vscode.DocumentSymbol[],
+    namesSet = new Set<string>()
+  ): Set<string> {
     // Iterate over each object in the symbols array
     for (const item of data) {
       // Add the current object's name to the Set
@@ -18,46 +29,43 @@ export class Symbols {
   async getDocumentSymbols() {
     /* this object represents the currently focused text editor 
     in the VS Code window. */
-    const activeEditor = vscode.window.activeTextEditor;
+    const activeEditor: vscode.TextEditor | undefined =
+      vscode.window.activeTextEditor;
 
     if (!activeEditor) {
-      // vscode.window.showInformationMessage('No active editor found.');
-      console.log('no active editor');
+      // no active text editor found
       return;
     }
 
-    const fileType = activeEditor.document.languageId;
-    if (fileType !== 'typescript' && fileType !== 'javascript') {
-      //TODO: handle with console.error or sendMessageToWebview() functionality;
-      console.log(`unsupported file type: ${fileType}`);
+    this.fileType = activeEditor.document.languageId;
+    if (this.fileType !== 'typescript' && this.fileType !== 'javascript') {
+      console.error(`unsupported file type: ${this.fileType}`);
     }
-    console.log('fileType:', fileType);
 
-    const uri = activeEditor.document.uri;
+    this.fileName = activeEditor.document.fileName.split('/').pop();
 
-    /* This is the core function for executing a command in VS Code. 
-      It takes two main arguments: 
-      'vscode.executeDocumentSymbolProvider': The unique identifier of the command to be executed. 
-      This specific command runs the document symbol provider for a given file.
-      uri: The second argument is the file's Uniform Resource Identifier (Uri), 
-      which specifies the location of the document to be analyzed. */
-    const symbols = await vscode.commands.executeCommand<
-      vscode.DocumentSymbol[]
-    >('vscode.executeDocumentSymbolProvider', uri);
+    /* this is the file's Uniform Resource Identifier (Uri), 
+     which specifies the location of the document to be analyzed */
+    const uri: vscode.Uri = activeEditor.document.uri;
+
+    /* executeCommand is the core function for executing a command in VS Code. 
+    See Docs: https://code.visualstudio.com/api/extension-guides/command#programmatically-executing-a-command */
+    const symbols: vscode.DocumentSymbol[] =
+      await vscode.commands.executeCommand<vscode.DocumentSymbol[]>(
+        'vscode.executeDocumentSymbolProvider',
+        uri
+      );
 
     if (symbols) {
       /* the DocumentSymbol provides a hierarchical view of symbols 
       within a single file with detailed range information. */
-      console.log('Symbols in active document:', symbols);
+      const uniqueNamesSet: Set<string> = this.getAllNames(symbols);
+      const uniqueNamesArray: string[] = [...uniqueNamesSet];
 
-      const uniqueNamesSet = this.getAllNames(symbols);
-      const uniqueNamesArray = [...uniqueNamesSet];
-
-      console.log('active symbol names:', uniqueNamesArray);
+      console.log('Active File Symbols', uniqueNamesArray);
       return uniqueNamesArray;
     } else {
-      //TODO: update console logs to throw errors
-      console.log(
+      console.error(
         'No symbols found in the active document or language server not available.'
       );
     }
