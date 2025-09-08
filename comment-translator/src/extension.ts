@@ -35,7 +35,7 @@ export async function activate(context: vscode.ExtensionContext) {
       const copyOfCommentsObj = [...commentsObj];
       //creating mask keys
       const HARD = createHardSet(symbolInfo);
-      // console.log(HARD);
+      // console.log("Hard",HARD);
       const extractCommentsObj = extractCommentObj(copyOfCommentsObj, HARD);
       //masking comments
       const { lines, map } = await aiMask(extractCommentsObj, HARD);
@@ -56,16 +56,16 @@ export async function activate(context: vscode.ExtensionContext) {
       );
       // console.log('unmasked translations', unmaskedTranslations);
       //formatting commentData for front-end
-      const commentData = [];
-      for (let i = 0; i < unmaskedTranslations.length; i++) {
-        const lineInfo = {
-          startLine: commentsObj[i].loc.start.line,
-          endLine: commentsObj[i].loc.end.line,
-          original: commentsObj[i].value,
-          translation: unmaskedTranslations[i],
+      const n = Math.min(extractCommentsObj.length, unmaskedTranslations.length);
+      const commentData = new Array(n).fill(null).map((_, i) => {
+        const src = extractCommentsObj[i];
+        return {
+          startLine: src.loc?.start?.line ?? (src.contextNearByLines?.[0]?.lineIndex ?? null),
+          endLine: src.loc?.end?.line ?? (src.contextNearByLines?.[src.contextNearByLines.length - 1]?.lineIndex ?? null),
+          original: String(src.text ?? ''),
+          translation: String(unmaskedTranslations[i] ?? ''),   
         };
-        commentData.push(lineInfo);
-      }
+      });
       /* ---- END BACK-END LOGIC ---- */
 
       vscode.window.showInformationMessage(`Check the DEBUG CONSOLE for logs`);

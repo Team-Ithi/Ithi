@@ -12,7 +12,7 @@ export function createHardSet(varKeywords: unknown) {
   const HARD: string[] = [...base, ...extra]
     .filter((x): x is string => typeof x === 'string')
     .map(s => s.trim())
-    .filter(Boolean);
+    .filter(s => s !== '');
 
   return [...new Set(HARD)];
 }
@@ -21,7 +21,7 @@ export function createHardSet(varKeywords: unknown) {
 export function extractCommentObj(astCommentArray: any, hardSet: any){
   const result = [];
   for(let comment of astCommentArray){
-    const commentObj = {type: comment.type, text: comment.value, contextNearByLines: comment.nearByLines, matchedKeywords: hardSet.filter((k) => comment.value.includes(k))};
+    const commentObj = {type: comment.type, text: comment.value, loc: comment.loc, contextNearByLines: comment.nearByLines, matchedKeywords: hardSet.filter((k) => comment.value.includes(k))};
     result.push(commentObj);
   }
   console.log(result);
