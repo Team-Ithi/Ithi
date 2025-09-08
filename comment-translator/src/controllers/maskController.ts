@@ -4,17 +4,24 @@ import hardGlossary from '../../glossaries/javascript.hard.json';
 import { readFileSync } from 'fs';
 import * as path from 'path';
 
-export function createHardSet(varKeywords: any){
-  const HARD: string[] = [...hardGlossary.javascript, ...varKeywords];
-  const hardSet = [...new Set(HARD)];
-  return hardSet;
+export function createHardSet(varKeywords: unknown) {
+  const base = Array.isArray((hardGlossary as any).javascript) ? (hardGlossary as any).javascript : [];
+
+  const extra = Array.isArray(varKeywords) ? varKeywords : [];
+
+  const HARD: string[] = [...base, ...extra]
+    .filter((x): x is string => typeof x === 'string')
+    .map(s => s.trim())
+    .filter(s => s !== '');
+
+  return [...new Set(HARD)];
 }
 
 //we will use this later when connecting with the other controllers
 export function extractCommentObj(astCommentArray: any, hardSet: any){
   const result = [];
   for(let comment of astCommentArray){
-    const commentObj = {type: comment.type, text: comment.value, contextNearByLines: comment.nearByLines, matchedKeywords: hardSet.filter((k) => comment.value.includes(k))};
+    const commentObj = {type: comment.type, text: comment.value, loc: comment.loc, contextNearByLines: comment.nearByLines, matchedKeywords: hardSet.filter((k) => comment.value.includes(k))};
     result.push(commentObj);
   }
   console.log(result);
