@@ -7,17 +7,29 @@ export class Bing {
     this.sourceLang = undefined;
   }
 
-  async translateComments(content: string, from: null, to: string) {
-    console.log('in bing translate');
+  async translateComments(
+    content: string[],
+    from: null,
+    to: string
+  ): Promise<('string' | undefined)[]> {
     try {
-      let res = await translate(content, from, to);
-      this.sourceLang = res?.language?.from;
+      // Use .map() to create an array of promises.
+      // Each async callback returns a promise for a single translation.
+      const translationPromises = content.map(async (commentStr) => {
+        const translation = await translate(commentStr, from, to);
 
-      console.log('the source language is:', this.sourceLang);
-      console.log(content, ' is translated to: ', res?.translation);
-      console.log(res);
+        // only assign a value is the current value is null or undefined
+        this.sourceLang ??= translation?.language?.from;
 
-      return res?.translation;
+        if (translation?.translation === 'string') {
+          return translation.translation;
+        }
+      });
+
+      // wait for all promises to resolve
+      const result = await Promise.all(translationPromises);
+
+      return result;
     } catch (err) {
       throw new Error(`Translation Failed: ${err}`);
     }
