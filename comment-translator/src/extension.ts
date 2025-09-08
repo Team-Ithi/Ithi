@@ -2,15 +2,15 @@ import * as vscode from 'vscode'; // The module 'vscode' contains the VS Code ex
 import * as fs from 'fs';
 import { Symbols } from './controllers/docSymbolsController';
 import { astParseTraverse } from './controllers/astController';
-import { translateText } from './controllers/gCloudController';
+// import { translateText } from './controllers/gCloudController';
+import { Bing } from './controllers/bingController';
 import {
   createHardSet,
   extractCommentObj,
   aiMask,
   unmaskLines,
 } from './controllers/maskController';
-import { arrOfStr, arrOfObj, mockCommentData } from './mockTranslateTest';
-import { Bing } from './controllers/bingController';
+// import { arrOfStr, mockCommentData } from './mockTranslateTest';
 
 // This method is called when the extension is activated - the very first time the command is executed
 export async function activate(context: vscode.ExtensionContext) {
@@ -34,14 +34,6 @@ export async function activate(context: vscode.ExtensionContext) {
       const commentsObj = astParseTraverse();
       // console.log('commentsObj', commentsObj);
       const copyOfCommentsObj = [...commentsObj];
-
-      /* ------ BEGIN BING TEST -------- */
-      const bing = new Bing();
-      const translationTest = await bing.translateComments('Hello', null, 'fr');
-      console.log(translationTest);
-
-      /* ------ END BING TEST -------- 
-
       //creating mask keys
       const HARD = createHardSet(symbolInfo);
       // console.log(HARD);
@@ -50,14 +42,22 @@ export async function activate(context: vscode.ExtensionContext) {
       const { lines, map } = await aiMask(extractCommentsObj, HARD);
       console.log('masked comment obj', lines);
       console.log('map object', map);
-      // retrieving source language and translations
-      const sourceLanguage = 'en'; // TODO: retreive source language from gCloud
-      const targetLanguage = 'fr'; // TODO: retreive target language from user settings
+      // bing: retrieving source language and translations
+      const targetLanguage = 'es'; // TODO: retreive target language from user settings
+      const bing = new Bing();
+      const translatedProtectedComments = await bing.translateComments(
+        lines,
+        null,
+        targetLanguage
+      );
+      const sourceLanguage = bing.sourceLang;
+      /*
+      // gCloud: retrieving source language and translations
       const translatedProtectedComments = await translateText(
         lines,
         targetLanguage
       );
-      //console.log('translatedProtectedComments', translatedProtectedComments);
+      */
       //re-adding protected words to final translation
       const unmaskedTranslations = unmaskLines(
         translatedProtectedComments,
@@ -65,21 +65,31 @@ export async function activate(context: vscode.ExtensionContext) {
       );
       // console.log('unmasked translations', unmaskedTranslations);
       //formatting commentData for front-end
-      const commentData = [];
-      for (let i = 0; i < unmaskedTranslations.length; i++) {
-        const lineInfo = {
-          startLine: commentsObj[i].loc.start.line,
-          endLine: commentsObj[i].loc.end.line,
-          original: commentsObj[i].value,
-          translation: unmaskedTranslations[i],
+      const n = Math.min(
+        extractCommentsObj.length,
+        unmaskedTranslations.length
+      );
+      const commentData = new Array(n).fill(null).map((_, i) => {
+        const src = extractCommentsObj[i];
+        return {
+          startLine:
+            src.loc?.start?.line ??
+            src.contextNearByLines?.[0]?.lineIndex ??
+            null,
+          endLine:
+            src.loc?.end?.line ??
+            src.contextNearByLines?.[src.contextNearByLines.length - 1]
+              ?.lineIndex ??
+            null,
+          original: String(src.text ?? ''),
+          translation: String(unmaskedTranslations[i] ?? ''),
         };
-        commentData.push(lineInfo);
-      }
+      });
       /* ---- END BACK-END LOGIC ---- */
 
       vscode.window.showInformationMessage(`Check the DEBUG CONSOLE for logs`);
 
-      const panel = vscode.window.createWebviewPanel(
+      const panel: vscode.WebviewPanel = vscode.window.createWebviewPanel(
         'ithiPanel', //This is the ID of the panel
         `Ithi: ${fileName}`, //This is the title of the panel
         { viewColumn: vscode.ViewColumn.Two }, //This defines which editor column the new webviewPanel will be shown in
@@ -129,7 +139,7 @@ export async function activate(context: vscode.ExtensionContext) {
 function getHtmlForWebview(
   panelWebview: vscode.WebviewPanel['webview'],
   passContext: vscode.Uri
-) {
+): string {
   const webviewUriDist = vscode.Uri.joinPath(passContext, 'webview-ui', 'dist');
   const indexPath = vscode.Uri.joinPath(webviewUriDist, 'index.html');
 
