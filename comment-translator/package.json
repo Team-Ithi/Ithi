@@ -43,9 +43,8 @@
   },
   "dependencies": {
     "@google-cloud/translate": "^9.2.0",
-    "@vitalets/google-translate-api": "^9.2.1",
+    "bing-translate-api": "^4.1.0",
     "dotenv": "^17.2.1",
-    "google-translate-api": "^2.3.0",
     "node-fetch": "^3.3.2",
     "openai": "^5.16.0"
   }
