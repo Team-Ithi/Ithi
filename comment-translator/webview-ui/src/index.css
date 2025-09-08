@@ -157,8 +157,23 @@ p.ignore {
   color: var(--vscode-gitDecoration-ignoredResourceForeground);
 }
 
-.commentItem {
+.commentSettings {
+  background-color: var(--vscode-editor-background);
+}
+
+.commentBckgrd {
   background-color: var(--vscode-settings-focusedRowBackground);
+}
+
+.commentInfo {
+  transition: max-height 0.5s ease-in-out, padding-top 0.3s ease-in-out;
+  max-height: fit-content;
+}
+
+.commentCollapse .commentInfo {
+  max-height: 0;
+  overflow: hidden;
+  padding: 0;
 }
 
 .title {
