@@ -4,6 +4,7 @@ import { Symbols } from './controllers/docSymbolsController';
 import { astParseTraverse } from './controllers/astController';
 // import { translateText } from './controllers/gCloudController';
 import { Bing } from './controllers/bingController';
+
 import {
   createHardSet,
   extractCommentObj,
@@ -11,6 +12,7 @@ import {
   unmaskLines,
 } from './controllers/maskController';
 // import { arrOfStr, mockCommentData } from './mockTranslateTest';
+
 
 // This method is called when the extension is activated - the very first time the command is executed
 export async function activate(context: vscode.ExtensionContext) {
@@ -36,7 +38,7 @@ export async function activate(context: vscode.ExtensionContext) {
       const copyOfCommentsObj = [...commentsObj];
       //creating mask keys
       const HARD = createHardSet(symbolInfo);
-      // console.log(HARD);
+      // console.log("Hard",HARD);
       const extractCommentsObj = extractCommentObj(copyOfCommentsObj, HARD);
       //masking comments
       const { lines, map } = await aiMask(extractCommentsObj, HARD);
@@ -53,11 +55,13 @@ export async function activate(context: vscode.ExtensionContext) {
       const sourceLanguage = bing.sourceLang;
       /*
       // gCloud: retrieving source language and translations
+
       const translatedProtectedComments = await translateText(
         lines,
         targetLanguage
       );
       */
+
       //re-adding protected words to final translation
       const unmaskedTranslations = unmaskLines(
         translatedProtectedComments,
@@ -83,6 +87,7 @@ export async function activate(context: vscode.ExtensionContext) {
             null,
           original: String(src.text ?? ''),
           translation: String(unmaskedTranslations[i] ?? ''),
+
         };
       });
       /* ---- END BACK-END LOGIC ---- */
