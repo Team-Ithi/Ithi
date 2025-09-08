@@ -9,7 +9,8 @@ import {
   aiMask,
   unmaskLines,
 } from './controllers/maskController';
-// import { arrOfStr, arrOfObj, mockCommentData } from './mockTranslateTest';
+import { arrOfStr, arrOfObj, mockCommentData } from './mockTranslateTest';
+import { Bing } from './controllers/bingController';
 
 // This method is called when the extension is activated - the very first time the command is executed
 export async function activate(context: vscode.ExtensionContext) {
@@ -33,6 +34,14 @@ export async function activate(context: vscode.ExtensionContext) {
       const commentsObj = astParseTraverse();
       // console.log('commentsObj', commentsObj);
       const copyOfCommentsObj = [...commentsObj];
+
+      /* ------ BEGIN BING TEST -------- */
+      const bing = new Bing();
+      const translationTest = await bing.translateComments('Hello', null, 'fr');
+      console.log(translationTest);
+
+      /* ------ END BING TEST -------- 
+
       //creating mask keys
       const HARD = createHardSet(symbolInfo);
       // console.log(HARD);
