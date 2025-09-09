@@ -29,7 +29,6 @@ export class Bing {
 
       // wait for all promises to resolve
       const result = await Promise.all(translationPromises);
-      console.log('in translation', result);
       return result;
     } catch (err) {
       throw new Error(`Translation Failed: ${err}`);
