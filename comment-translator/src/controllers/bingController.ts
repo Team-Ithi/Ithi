@@ -11,7 +11,7 @@ export class Bing {
     content: string[],
     from: null,
     to: string
-  ): Promise<('string' | undefined)[]> {
+  ): Promise<(string | undefined)[]> {
     try {
       // Use .map() to create an array of promises.
       // Each async callback returns a promise for a single translation.
@@ -21,14 +21,15 @@ export class Bing {
         // only assign a value is the current value is null or undefined
         this.sourceLang ??= translation?.language?.from;
 
-        if (translation?.translation === 'string') {
+        if (translation?.translation) {
           return translation.translation;
         }
+        return 'translation undefined';
       });
 
       // wait for all promises to resolve
       const result = await Promise.all(translationPromises);
-
+      console.log('in translation', result);
       return result;
     } catch (err) {
       throw new Error(`Translation Failed: ${err}`);
