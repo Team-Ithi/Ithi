@@ -36,10 +36,13 @@ TODO: add instructions for gcloud settings
 
 1. Open a (javascript or typescipt) file in VS Code
 1. Run Ithi in the Command Palette `>Ithi Translate`
+   - ![command_palette](./images/command_palette.png)
 1. A notification will communicate that the translation is in progress
+   - ![notification_alert](./images/notification_alert.png)
 1. The Ithi webview panel will populate in the second VS Code column once translation is complete
+   - ![ithi_webview_panel](./images/ithi_webview_panel.png)
 
-TODO: insert tutorial images/video/or gif
+TODO: update images or make a gif
 
 ## Features
 
