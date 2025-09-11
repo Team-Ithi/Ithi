@@ -13,7 +13,6 @@ import {
 } from './controllers/maskController';
 // import { arrOfStr, mockCommentData } from './mockTranslateTest';
 
-
 // This method is called when the extension is activated - the very first time the command is executed
 export async function activate(context: vscode.ExtensionContext) {
   console.log('The "Ithi" extension is now active!');
@@ -85,9 +84,8 @@ export async function activate(context: vscode.ExtensionContext) {
             src.contextNearByLines?.[src.contextNearByLines.length - 1]
               ?.lineIndex ??
             null,
-          original: String(src.text ?? ''),
+          original: String(src.text.trim() ?? ''),
           translation: String(unmaskedTranslations[i] ?? ''),
-
         };
       });
       /* ---- END BACK-END LOGIC ---- */
