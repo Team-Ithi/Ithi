@@ -49,16 +49,6 @@ const CommentList: React.FC<CommentListProps> = ({ commentData }) => {
         expanded ? 'commentCollapse' : 'commentExpand'
       } flex-grow flex flex-col overflow-scroll`}
     >
-      <div className='commentSettings flex justify-between mb-1 sticky top-0'>
-        <p className='self-center !ml-1'>
-          {commentData.length > 1
-            ? `${commentData.length} Comments`
-            : '1 Comment'}
-        </p>
-        <button className='m-2 rounded-sm smallButton' onClick={handleExpand}>
-          {!expanded ? 'Collapse All' : 'Expand All'}
-        </button>
-      </div>
       {commentData.map((commentInfo, index) => (
         //for each card, draw one commentItem
         // <div
@@ -77,6 +67,16 @@ const CommentList: React.FC<CommentListProps> = ({ commentData }) => {
         />
         // </div>
       ))}
+      <div className='commentSettings flex justify-between mb-1 sticky bottom-0'>
+        <p className='self-center !ml-1'>
+          {commentData.length > 1
+            ? `${commentData.length} Comments`
+            : '1 Comment'}
+        </p>
+        <button className='m-2 rounded-sm smallButton' onClick={handleExpand}>
+          {!expanded ? 'Collapse All' : 'Expand All'}
+        </button>
+      </div>
     </div>
   );
 };
