@@ -10,6 +10,10 @@ TODO: add version and extension download images
 
 **Ithi** (Zulu for 'It Says') is an AI-powered VS Code IDE extension designed to translate comments into a target language while preserving code integrity.
 
+## Pre-requisites
+
+- VS Code Engine version of 1.98.0 or higher
+
 ## Installation
 
 1. Open VS Code
