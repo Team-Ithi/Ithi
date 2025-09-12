@@ -11,7 +11,7 @@ coverage/
 .tmp/
 .temp/
 .cache/
-
+out-test
 .vscode-test/
 
 .DS_Store
