@@ -10,7 +10,7 @@ INPUT:
     matchedKeywords: string[]
   }
 
-TASK (line-by-line):
+TASK:
 For EACH comment, operate on its `text` preserving all original newlines. For every line:
 1) Decide whether to replace the WHOLE LINE with a single CODE token.
 2) If not whole-line, replace only protected spans with IDENTIFIER/other tokens as per rules.
@@ -22,6 +22,22 @@ Finally, produce ONE JSON object with EXACT keys:
   ]
 }
 Use ONE global token counter across ALL comments/lines: first token is 0000, then 0001, 0002, …
+
+JSDOC PRESERVATION (critical):
+- commentArray[i].text for block comments may contain lines beginning with a single '*' and optional space (e.g., "*", " * text"). These leading asterisks are decoration but ARE PART OF THE TEXT that must be preserved exactly.
+- NEVER remove a bare "*" line.
+- NEVER remove the opening/closing empty lines that appear due to formatting.
+- Do not count a leading "*" as code punctuation for whole-line classification.
+
+You are given expectedLineCounts[], where expectedLineCounts[i] is EXACTLY the number of lines in commentArray[i].text.
+Requirement: lines[i] MUST contain exactly expectedLineCounts[i] lines (same number of '\n' characters + 1), byte-for-byte outside of replaced spans.
+
+Hard JSDoc example (must keep shape):
+Input commentArray[0].text:
+"*\n * if you see this, the parser should NOT treat it as code.\n * else it means your mask isn't behaving.\n * switch to stricter rules if necessary.\n"
+
+Valid output lines[0] (preserve 5 lines exactly, only replace target spans with tokens if any):
+"*\n * if you see this, the parser should NOT treat it as code.\n * else it means your mask isn't behaving.\n * switch to stricter rules if necessary.\n"
 
 ABSOLUTE INVARIANTS:
 - Do NOT insert, delete, or move any characters other than replacing exact spans with a token.
@@ -36,6 +52,23 @@ TOKEN FORMAT:
 - Tokens must be __ITHI_<KIND>_<NNNN>__, where KIND ∈ CODE|URL|PATH|EMAIL|UUID|PLACEHOLDER|TASK|IDENTIFIER and NNNN is zero-padded (0000, 0001, …).
 - Never translate, reflow, or alter tokens.
 
+SOFT KEYWORD GUARD (critical):
+- Never mask plain-language soft keywords in prose lines: {if, else, switch, case, default, for, while, do, return, break, continue}.
+- Only mask these when:
+  (1) the ENTIRE line is classified as CODE by the whole-line rule, OR
+  (2) they appear inside backticks `likeThis` or fenced code blocks.
+- Otherwise, leave them as normal text.
+
+Hard negative example (must PASS unchanged):
+Original line (prose):
+if this looks strange,
+Masked line:
+if this looks strange,
+
+Hard positive example (should be CODE token):
+switch between modes if latency spikes; else keep default; case "panic": break;
+→ __ITHI_CODE_0000__
+
 WHOLE-LINE CODE RULE (language-agnostic, deterministic):
 Treat a single line as CODE and replace the ENTIRE line with ONE token __ITHI_CODE_<NNNN>__ iff ALL of the following are true:
 A) The line contains ANY word from (protected_identifiers ∪ matchedKeywords) with word boundaries (case-sensitive).
@@ -46,6 +79,39 @@ B) The line is code-like by ANY of these signals:
    - Ends with a semicolon ;   OR contains assignment/operators like  = , => , := 
    - Has ≥2 code punctuation from this set: {}()[];<>:=/*\-+.,|&!?`'"  (count literal characters)
 If (A) AND (B) hold, emit exactly one CODE token for the whole line. Do NOT emit identifier tokens inside that line.
+
+EDGE-SPACING & QUOTES PRESERVATION (critical):
+- Translators collapse alignment spaces and may touch quoted strings. To prevent this,
+  when deciding whole-line CODE, apply the following STRONG-CODE OVERRIDE:
+
+STRONG-CODE OVERRIDE (applies even if condition A fails):
+Emit a single __ITHI_CODE_<NNNN>__ token for the ENTIRE line if ANY of these hold
+(after ignoring JSDoc gutter decoration like leading " * "):
+
+  - The line contains a function/call pattern: [A-Za-z_$][A-Za-z0-9_$]*\s*\(
+    (example: "console.log(" or "login("), OR a dotted call like \w+\.\w+\( .
+  • The line contains BOTH parentheses and a brace or semicolon: 
+      ( and )  AND ( { or } or ; ) anywhere on the line.
+  • The line contains 2 or more consecutive spaces anywhere (/\s{2,}/) 
+    indicating alignment that must not be collapsed.
+  • The line matches a control-flow head with parens:
+      ^\s*(if|else if|while|for)\b.*\(.*\)
+
+JSDOC GUTTER REMINDER:
+- Ignore a leading " * " (^\s*\*\s?) when checking the above patterns.
+- Do NOT count the leading "*" as punctuation for code-ness.
+
+Normative example — Edge spacing must be masked as CODE:
+Original line:
+"   if  (  x  )  {  console.log(\"if inside comment\");  }"
+Masked line:
+"__ITHI_CODE_0005__"
+Map append:
+{ "token": "__ITHI_CODE_0005__", "original": "   if  (  x  )  {  console.log(\"if inside comment\");  }", "kind": "code" }
+
+Whitespace invariants (reiterated):
+- Never insert/remove/collapse spaces outside replaced spans.
+- The original alignment and quotes are restored exactly after unmasking.
 
 SPAN MASKING RULES (when not whole-line CODE):
 - CODE spans:

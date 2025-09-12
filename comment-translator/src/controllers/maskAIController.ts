@@ -1,8 +1,12 @@
 import OpenAI from "openai";
 import 'dotenv/config';
-import hardGlossary from '../../glossaries/javascript.hard.json';
 import { readFileSync } from 'fs';
 import * as path from 'path';
+
+const GLOSSARY_PATH = path.join(
+  __dirname, "..", "..", "src", "glossaries", "javascript.hard.json"
+);
+const hardGlossary: any = JSON.parse(readFileSync(GLOSSARY_PATH, "utf8"));
 
 export function createHardSet(varKeywords: unknown) {
   const base = Array.isArray((hardGlossary as any).javascript) ? (hardGlossary as any).javascript : [];
@@ -82,7 +86,7 @@ function buildMessages(raw: Comment[], hardSet: string[]) {
   ] as OpenAI.ChatCompletionMessageParam[];
 }
 
-export async function aiMask(
+export async function OpenAIMask(
   rawText: any[],
   protectedIdentifiers: string[],
   model: string = "gpt-4o-mini"
@@ -115,18 +119,4 @@ if (lines.length === 0 && typeof json.masked === "string") {
 const map: MaskEntry[] = Array.isArray(json.map) ? json.map : [];
 
 return { lines: json.lines ?? [], map };
-}
-
-export function unmaskOne(text: string, map: MaskEntry[]): string {
-  const sorted = [...map].sort((a, b) => b.token.length - a.token.length);
-  let out = text;
-  for (const e of sorted) {
-    const pattern = new RegExp(e.token.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g");
-    out = out.replace(pattern, e.original);
-  }
-  return out;
-}
-
-export function unmaskLines(lines: string[], map: MaskEntry[]): string[] {
-  return lines.map(line => unmaskOne(line, map));
 }
