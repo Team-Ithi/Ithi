@@ -1,4 +1,4 @@
-<img src="./images/logo128px.png" width="150" alt="ithi_logo">
+<img src="./images/logo256px.png" width="200" alt="ithi_logo">
 
 # Ithi - VS Code Extension
 
@@ -8,11 +8,20 @@ TODO: add version and extension download images
 
 ## Overview
 
+Code comments often contain the most critical contextual information for learning, collaboration, and long-term maintainability, yet they remain locked in a single language.
+
+In enterprise settings, where large engineering teams are distributed across regions, the inability to make technical documentation and comments multilingual slows onboarding, increases miscommunication, and can even create compliance risks.
+
 **Ithi** (Zulu for 'It Says') is an AI-powered VS Code IDE extension designed to translate comments into a target language while preserving code integrity.
 
-## Pre-requisites
+Read more about the launch of Ithi on ![Medium Logo](https://img.shields.io/badge/Medium-12100E?style=for-the-badge&logo=medium&logoColor=white)
 
-- VS Code Engine version of 1.98.0 or higher
+TODO: link medium article
+
+## Prerequisites
+
+The minimum version of the VS Code API that the Ithi extension depends on is `v1.98.0`.
+The setting to check you VS Code version is located at `Code > About Visual Studio Code`
 
 ## Installation
 
@@ -64,14 +73,6 @@ TODO: update images or make a gif
 
 - <img src="./images/ithi_adaptive_theme.gif" width="500" alt="ithi_adaptive_theme">
 
-## Product Description
-
-Code comments often contain the most critical contextual information for learning, collaboration, and long-term maintainability, yet they remain locked in a single language.
-
-In enterprise settings, where large engineering teams are distributed across regions, the inability to make technical documentation and comments multilingual slows onboarding, increases miscommunication, and can even create compliance risks when important clarifications are inaccessible to all contributors.
-
-TODO: link medium article
-
 ## Technologies Used
 
 ### Core Technologies
@@ -96,53 +97,30 @@ TODO - confirm vite is being used
 
 TODO - confirm Mocha is being used
 
-<!-- ## Development Team
+## Development Team
 
-| Name          | GitHub                                             | Email                      |
-| ------------- | -------------------------------------------------- | -------------------------- |
-| Aaron Chen    | [@AaronChen11](https://github.com/AaronChen11)     | chenxiyue7@gmail.com       |
-| Disney Harley | [@harleydi](https://github.com/harleydi)           | disneyharleytech@gmail.com |
-| Lisa Louison  | [@llouison](https://github.com/llouison)           | lloudevs@gmail.com         |
-| Michael Zhao  | [@muqingzhao526](https://github.com/muqingzhao526) | muqingzhao526@gmail.com    |
-| Yuan Liu      | [@yuan-cloud](https://github.com/yuan-cloud)       | Eucapop@gmail.com          | -->
+| Name          | GitHub                                             | Contact                                                             |
+| ------------- | -------------------------------------------------- | ------------------------------------------------------------------- |
+| Aaron Chen    | [@AaronChen11](https://github.com/AaronChen11)     | chenxiyue7@gmail.com                                                |
+| Disney Harley | [@harleydi](https://github.com/harleydi)           | disneyharleytech@gmail.com                                          |
+| Lisa Louison  | [@llouison](https://github.com/llouison)           | [linkedin.com/in/lisa-louison](http://linkedin.com/in/lisa-louison) |
+| Michael Zhao  | [@muqingzhao526](https://github.com/muqingzhao526) | muqingzhao526@gmail.com                                             |
+| Yuan Liu      | [@yuan-cloud](https://github.com/yuan-cloud)       | Eucapop@gmail.com                                                   |
 
-## Contributing to Ithi
+## Releases
 
-Ithi is an open-source project and we welcome contributors of all skill levels.
+To view a chronologically ordered list of notable changes to Ithi, take a look at the [Changelog](./ithi/CHANGELOG.md).
 
-1. To view a chronologically ordered list of notable changes to Ithi, take a look at the [Changelog](./ithi/CHANGELOG.md).
-1. For a list of identified and documented issues _or_ to open a new issue you've encountered, visit the [Issues](https://github.com/Team-Ithi/Ithi/issues) tab.
+## Issues
 
-We ask that contributors:
+For a list of identified and documented issues _or_ to open a new issue you've encountered, visit the [Issues](https://github.com/Team-Ithi/Ithi/issues) tab.
 
-- Fork the repository (https://github.com//Team-Ithi/Ithi/fork)
-- Create your feature branch (git checkout -b feature/fooBar)
-- Follow the [node style guide](https://github.com/felixge/node-style-guide).
-- Write tests for the new feature or bug fix that you are solving
-- [Conventionally Commit](https://www.conventionalcommits.org/en/v1.0.0/) your changes (git commit -am 'feat: add some fooBar')
-- Push to the branch (git push origin feature/fooBar)
-- Ensure all tests pass before send the pull-request (Use: `$ yarn test` or `$ npm run test`)
-- Update the [Changelog](./ithi/CHANGELOG.md)
-- Create a new Pull Request
+## Contributing
 
-TODO: update dev instrutions
+For information about contributing to the Ithi project, check out [Contributing](./CONTRIBUTING.md).
 
-### Dev Installation Instructions
+## License
 
-1. cd into `ithi > webview-ui` directory
-2. run `npm install`
-3. run `npm run build`
-4. cd into `ithi` directory
-5. run `npm install`
-6. Note: ensure `package.json > engines.vscode` is accurate. This specifies the minimum version of VS Code API that the extension depends on.
-7. add env variables `PRIVATE_KEY`, `CLIENT_EMAIL`, and `PROJECT_ID` to .env file for `gCloudController.ts` to work
-8. run `npm run compile`
+This project is licensed under the **MIT license**.
 
-### Debugging Instructions
-
-1. Open the `src > extension.ts` file.
-2. `Run > Start Debugging` or `fn + f5` will open an 'Extension Development Host' VS Code window
-3. Create a new JS file and paste in the contents of the test JS file located at: `TODO:add path`
-4. In the command palette (`command + shift + p`)run the activation command, currently it's `>Ithi Translate`
-   - console logs will be displayed in the original window's DEBUG CONSOLE
-   - <img src="./images/debug_console.png" width="400" alt="debug_console">
+See [LICENSE](LICENSE) for more information.
