@@ -38,13 +38,12 @@ function App() {
         setSource(message.value.source);
         setTarget(message.value.target);
         setCommentData(message.value.commentData);
-        console.log(message.value.commentData);
 
         /* allowing the webview to send data to the extension's core logic */
-        vscode.postMessage({
-          command: 'dataReceived',
-          text: 'data received by frontend',
-        });
+        // vscode.postMessage({
+        //   command: 'dataReceived',
+        //   text: 'data received by frontend',
+        // });
         break;
       }
     }
