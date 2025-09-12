@@ -1,8 +1,12 @@
 import OpenAI from "openai";
 import 'dotenv/config';
-import hardGlossary from '../../glossaries/javascript.hard.json';
 import { readFileSync } from 'fs';
 import * as path from 'path';
+
+const GLOSSARY_PATH = path.join(
+  __dirname, "..", "..", "src", "glossaries", "javascript.hard.json"
+);
+const hardGlossary: any = JSON.parse(readFileSync(GLOSSARY_PATH, "utf8"));
 
 export function createHardSet(varKeywords: unknown) {
   const base = Array.isArray((hardGlossary as any).javascript) ? (hardGlossary as any).javascript : [];
