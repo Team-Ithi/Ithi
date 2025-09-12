@@ -26,7 +26,8 @@
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src",
     "test": "vscode-test",
-    "test:ast": "TS_NODE_PROJECT=tsconfig.mocha.json mocha"
+    "build:test": "tsc -p tsconfig.test-only.json",
+    "test:ast": "npm run build:test && mocha \"out-test/test/astController.test.js\""
   },
   "devDependencies": {
     "@babel/parser": "^7.28.3",
@@ -43,6 +44,7 @@
     "chai": "^6.0.1",
     "eslint": "^9.32.0",
     "mocha": "^11.7.2",
+    "mock-require": "^3.0.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.2"
   },
