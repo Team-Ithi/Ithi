@@ -106,7 +106,7 @@ TODO - confirm Mocha is being used
 
 Ithi is an open-source project and we welcome contributors of all skill levels.
 
-1. To view a chronologically ordered list of notable changes to Ithi, take a look at the [Changelog](./comment-translator/CHANGELOG.md).
+1. To view a chronologically ordered list of notable changes to Ithi, take a look at the [Changelog](./ithi/CHANGELOG.md).
 1. For a list of identified and documented issues _or_ to open a new issue you've encountered, visit the [Issues](https://github.com/Team-Ithi/Ithi/issues) tab.
 
 We ask that contributors:
@@ -118,16 +118,17 @@ We ask that contributors:
 - [Conventionally Commit](https://www.conventionalcommits.org/en/v1.0.0/) your changes (git commit -am 'feat: add some fooBar')
 - Push to the branch (git push origin feature/fooBar)
 - Ensure all tests pass before send the pull-request (Use: `$ yarn test` or `$ npm run test`)
+- Update the [Changelog](./ithi/CHANGELOG.md)
 - Create a new Pull Request
 
 TODO: update dev instrutions
 
 ### Dev Installation Instructions
 
-1. cd into `comment-translator > webview-ui` directory
+1. cd into `ithi > webview-ui` directory
 2. run `npm install`
 3. run `npm run build`
-4. cd into `comment-translator` directory
+4. cd into `ithi` directory
 5. run `npm install`
 6. Note: ensure `package.json > engines.vscode` is accurate. This specifies the minimum version of VS Code API that the extension depends on.
 7. add env variables `PRIVATE_KEY`, `CLIENT_EMAIL`, and `PROJECT_ID` to .env file for `gCloudController.ts` to work
