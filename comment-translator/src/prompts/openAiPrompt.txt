@@ -80,6 +80,39 @@ B) The line is code-like by ANY of these signals:
    - Has ≥2 code punctuation from this set: {}()[];<>:=/*\-+.,|&!?`'"  (count literal characters)
 If (A) AND (B) hold, emit exactly one CODE token for the whole line. Do NOT emit identifier tokens inside that line.
 
+EDGE-SPACING & QUOTES PRESERVATION (critical):
+- Translators collapse alignment spaces and may touch quoted strings. To prevent this,
+  when deciding whole-line CODE, apply the following STRONG-CODE OVERRIDE:
+
+STRONG-CODE OVERRIDE (applies even if condition A fails):
+Emit a single __ITHI_CODE_<NNNN>__ token for the ENTIRE line if ANY of these hold
+(after ignoring JSDoc gutter decoration like leading " * "):
+
+  - The line contains a function/call pattern: [A-Za-z_$][A-Za-z0-9_$]*\s*\(
+    (example: "console.log(" or "login("), OR a dotted call like \w+\.\w+\( .
+  • The line contains BOTH parentheses and a brace or semicolon: 
+      ( and )  AND ( { or } or ; ) anywhere on the line.
+  • The line contains 2 or more consecutive spaces anywhere (/\s{2,}/) 
+    indicating alignment that must not be collapsed.
+  • The line matches a control-flow head with parens:
+      ^\s*(if|else if|while|for)\b.*\(.*\)
+
+JSDOC GUTTER REMINDER:
+- Ignore a leading " * " (^\s*\*\s?) when checking the above patterns.
+- Do NOT count the leading "*" as punctuation for code-ness.
+
+Normative example — Edge spacing must be masked as CODE:
+Original line:
+"   if  (  x  )  {  console.log(\"if inside comment\");  }"
+Masked line:
+"__ITHI_CODE_0005__"
+Map append:
+{ "token": "__ITHI_CODE_0005__", "original": "   if  (  x  )  {  console.log(\"if inside comment\");  }", "kind": "code" }
+
+Whitespace invariants (reiterated):
+- Never insert/remove/collapse spaces outside replaced spans.
+- The original alignment and quotes are restored exactly after unmasking.
+
 SPAN MASKING RULES (when not whole-line CODE):
 - CODE spans:
   - Fenced blocks (```...``` or ~~~...~~~) → replace the entire fenced block with ONE __ITHI_CODE_<NNNN>__ token.
