@@ -9,6 +9,17 @@
   "categories": [
     "Other"
   ],
+  "keywords": [
+    "javascript",
+    "typescript",
+    "comment",
+    "translate",
+    "language",
+    "comment translate",
+    "comment-translate",
+    "google translate",
+    "bing translate"
+  ],
   "activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
