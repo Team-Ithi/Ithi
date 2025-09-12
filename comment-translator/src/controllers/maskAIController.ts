@@ -86,7 +86,7 @@ function buildMessages(raw: Comment[], hardSet: string[]) {
   ] as OpenAI.ChatCompletionMessageParam[];
 }
 
-export async function aiMask(
+export async function OpenAIMask(
   rawText: any[],
   protectedIdentifiers: string[],
   model: string = "gpt-4o-mini"
@@ -119,18 +119,4 @@ if (lines.length === 0 && typeof json.masked === "string") {
 const map: MaskEntry[] = Array.isArray(json.map) ? json.map : [];
 
 return { lines: json.lines ?? [], map };
-}
-
-export function unmaskOne(text: string, map: MaskEntry[]): string {
-  const sorted = [...map].sort((a, b) => b.token.length - a.token.length);
-  let out = text;
-  for (const e of sorted) {
-    const pattern = new RegExp(e.token.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g");
-    out = out.replace(pattern, e.original);
-  }
-  return out;
-}
-
-export function unmaskLines(lines: string[], map: MaskEntry[]): string[] {
-  return lines.map(line => unmaskOne(line, map));
 }

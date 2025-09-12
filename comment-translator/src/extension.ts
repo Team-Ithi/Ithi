@@ -8,9 +8,10 @@ import { Bing } from './controllers/bingController';
 import {
   createHardSet,
   extractCommentObj,
-  aiMask,
-  unmaskLines,
-} from './controllers/maskController';
+  OpenAIMask,
+} from './controllers/maskAIController';
+
+import{unmaskLines} from './controllers/unmaskController';
 // import { arrOfStr, mockCommentData } from './mockTranslateTest';
 
 
@@ -41,7 +42,7 @@ export async function activate(context: vscode.ExtensionContext) {
       // console.log("Hard",HARD);
       const extractCommentsObj = extractCommentObj(copyOfCommentsObj, HARD);
       //masking comments
-      const { lines, map } = await aiMask(extractCommentsObj, HARD);
+      const { lines, map } = await OpenAIMask(extractCommentsObj, HARD);
       console.log('masked comment obj', lines);
       console.log('map object', map);
       // bing: retrieving source language and translations
