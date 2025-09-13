@@ -3,6 +3,8 @@ import 'dotenv/config';
 import hardGlossary from '../../glossaries/javascript.hard.json';
 import { readFileSync } from 'fs';
 import * as path from 'path';
+import * as vscode from 'vscode';
+import { getSecret } from "../secretManager";
 
 export function createHardSet(varKeywords: any){
   const HARD: string[] = [...hardGlossary.javascript, ...varKeywords];
@@ -80,7 +82,10 @@ export async function aiMask(
   protectedIdentifiers: string[],
   model: string = "gpt-4o-mini"
 ): Promise<AIMask> {
-  const client = new OpenAI({ apiKey: process.env.OPENAI_KEY });
+  const config = await vscode.workspace.getConfiguration("ithi") // Accessing the ithi configuration inputs
+  const openAiKey: string | undefined = await config.get("openAiApiKey") // Grabbing the inputted api key
+  if (!openAiKey) throw new Error("No Api Key was found in secrets") // Error handling for the open api key
+  const client = new OpenAI({ apiKey: openAiKey })
   const messages = buildMessages(rawText, protectedIdentifiers);
   console.log('running ai masking');
 

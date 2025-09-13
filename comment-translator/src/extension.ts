@@ -14,14 +14,18 @@ import {
 // This method is called when the extension is activated - the very first time the command is executed
 export async function activate(context: vscode.ExtensionContext) {
   console.log('The "Ithi" extension is now active!');
-
+  
+  initSecrets(context)
   /* registerCommand provides the implementation of the command defined in package.json 
    the commandId parameter must match the command field in package.json */
   const webviewPanel = vscode.commands.registerCommand(
     'ithi.translate',
     async () => {
-      // The code you place here will be executed every time your command is executed
+      
+      const config = await vscode.workspace.getConfiguration("ithi")
+
       vscode.window.showInformationMessage(`Ithi: Translation Loading...`);
+
 
       /* ---- BEGIN BACK-END LOGIC ---- */
       //retrieving file name and symbols
@@ -43,12 +47,25 @@ export async function activate(context: vscode.ExtensionContext) {
       console.log('map object', map);
       // retrieving source language and translations
       const sourceLanguage = 'en'; // TODO: retreive source language from gCloud
-      const targetLanguage = 'fr'; // TODO: retreive target language from user settings
-      const translatedProtectedComments = await translateText(
-        lines,
-        targetLanguage
-      );
-      //console.log('translatedProtectedComments', translatedProtectedComments);
+      // const targetLanguage = 'fr'; // TODO: retreive target language from user settings
+      const targetLanguage = await config.get("targetLanguage")
+      const userTranslatorChoice = await config.get("translator")
+      console.log("translator choice: ", userTranslatorChoice)
+      console.log("target language: ", targetLanguage)
+
+      let translatedProtectedComments: string[] = []
+
+      if (userTranslatorChoice === 'Bing') {
+        // Add Bing functionality when changes are pulled from the main branch
+      } else if (userTranslatorChoice === 'Google Cloud') {
+        translatedProtectedComments = await translateText(
+          lines,
+          targetLanguage
+        );
+      }
+
+      
+      console.log('translatedProtectedComments', translatedProtectedComments);
       //re-adding protected words to final translation
       const unmaskedTranslations = unmaskLines(
         translatedProtectedComments,
