@@ -11,7 +11,7 @@ import {
   OpenAIMask,
 } from './controllers/maskAIController';
 
-import{unmaskLines} from './controllers/unmaskController';
+import { unmaskLines } from './controllers/unmaskController';
 // import { arrOfStr, mockCommentData } from './mockTranslateTest';
 
 // This method is called when the extension is activated - the very first time the command is executed
@@ -91,7 +91,7 @@ export async function activate(context: vscode.ExtensionContext) {
       });
       /* ---- END BACK-END LOGIC ---- */
 
-      vscode.window.showInformationMessage(`Check the DEBUG CONSOLE for logs`);
+      // vscode.window.showInformationMessage(`Check the DEBUG CONSOLE for logs`);
 
       const panel: vscode.WebviewPanel = vscode.window.createWebviewPanel(
         'ithiPanel', //This is the ID of the panel
@@ -127,9 +127,6 @@ export async function activate(context: vscode.ExtensionContext) {
       panel.webview.onDidReceiveMessage((message) => {
         switch (message.command) {
           case 'dataReceived':
-            vscode.window.showInformationMessage(message.text);
-            break;
-          case 'alert':
             vscode.window.showInformationMessage(message.text);
             return;
         }

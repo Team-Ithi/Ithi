@@ -1,10 +1,5 @@
 import { useState } from 'react';
 import CommentItem from './CommentItem';
-// import type { Row } from "./CommentItem";
-
-// type CommentListProps = {
-//   commentData: object[];
-// };
 
 interface commentInfo {
   startLine: string;
@@ -19,12 +14,6 @@ interface CommentListProps {
 
 const CommentList: React.FC<CommentListProps> = ({ commentData }) => {
   const [expanded, setExpanded] = useState<boolean>(false);
-  // const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-
-  // const toggleIndex = (index: number) => {
-  //   //after clicking on a card, if open close it, if close open it
-  //   setSelectedIndex((prev) => (prev === index ? null : index));
-  // };
 
   const handleExpand = () => {
     if (!expanded) {
@@ -50,22 +39,11 @@ const CommentList: React.FC<CommentListProps> = ({ commentData }) => {
       } flex-grow flex flex-col overflow-scroll`}
     >
       {commentData.map((commentInfo, index) => (
-        //for each card, draw one commentItem
-        // <div
-        //   key={`${row.startLine}-${row.endLine}-${index}`}
-        //   onClick={() =>
-        //     setSelectedIndex((prev) => (prev === index ? null : index))
-        //   }
-        // >
         <CommentItem
           key={index}
           commentInfo={commentInfo}
           expanded={expanded}
-          // selected={index === selectedIndex}
-          // onToggle={() => toggleIndex(index)}
-          //we give data to each child card, tell it should look open, give toggle option
         />
-        // </div>
       ))}
       <div className='commentSettings flex justify-between mb-1 sticky bottom-0'>
         <p className='self-center !ml-1'>
