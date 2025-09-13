@@ -2,7 +2,7 @@ import * as vscode from 'vscode'; // The module 'vscode' contains the VS Code ex
 import * as fs from 'fs';
 import { Symbols } from './controllers/docSymbolsController';
 import { astParseTraverse } from './controllers/astController';
-// import { translateText } from './controllers/gCloudController';
+import { translateText } from './controllers/gCloudController';
 import { Bing } from './controllers/bingController';
 
 import {
@@ -44,23 +44,26 @@ export async function activate(context: vscode.ExtensionContext) {
       const { lines, map } = await OpenAIMask(extractCommentsObj, HARD);
       console.log('masked comment obj', lines);
       console.log('map object', map);
-      // bing: retrieving source language and translations
-      const targetLanguage = 'es'; // TODO: retreive target language from user settings
-      const bing = new Bing();
-      const translatedProtectedComments = await bing.translateComments(
-        lines,
-        null,
-        targetLanguage
-      );
-      const sourceLanguage = bing.sourceLang;
-      /*
-      // gCloud: retrieving source language and translations
+      // bing/gCloud: retrieving source language and translations
+      const targetLanguage = 'fr'; // TODO: retreive target language from user settings
+      const userTranslatorChoice: string = 'Bing';
+      let translatedProtectedComments;
+      let sourceLanguage;
 
-      const translatedProtectedComments = await translateText(
-        lines,
-        targetLanguage
-      );
-      */
+      if (userTranslatorChoice === 'Bing') {
+        const bing = new Bing();
+        translatedProtectedComments = await bing.translateComments(
+          lines,
+          null,
+          targetLanguage
+        );
+        sourceLanguage = bing.sourceLang;
+      } else if (userTranslatorChoice === 'Google Cloud') {
+        translatedProtectedComments = await translateText(
+          lines,
+          targetLanguage
+        );
+      }
 
       //re-adding protected words to final translation
       const unmaskedTranslations = unmaskLines(
