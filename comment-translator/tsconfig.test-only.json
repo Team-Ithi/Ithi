@@ -1,0 +1,18 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "out-test",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "sourceMap": true,
+    "declaration": false,
+    "types": ["mocha", "node"],
+    "strict": true,
+    "skipLibCheck": true,
+    "noEmit": false
+  },
+  "files": [
+    "src/controllers/astController.ts",
+    "src/test/astController.test.ts"
+  ]
+}
