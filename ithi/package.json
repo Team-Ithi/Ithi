@@ -1,7 +1,7 @@
 {
   "name": "ithi",
   "displayName": "Ithi",
-  "description": "comment translator",
+  "description": "ai-powered comment translator",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.98.0"
