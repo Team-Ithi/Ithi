@@ -18,7 +18,7 @@ Finally, produce ONE JSON object with EXACT keys:
 {
   "lines": string[...],  // masked comment text (same order/length as commentArray), preserving all newlines within each element
   "map": [
-    { "token": "__ITHI_CODE_0000__", "original": string, "kind": "code|url|path|email|uuid|placeholder|task|identifier" }
+    { "token": "__ITHI_C_0000__", "original": string, "kind": "code|url|path|email|uuid|placeholder|task|identifier" }
   ]
 }
 Use ONE global token counter across ALL comments/lines: first token is 0000, then 0001, 0002, …
@@ -48,9 +48,11 @@ ABSOLUTE INVARIANTS:
 - Do NOT translate, paraphrase, or reflow text.
 - If a comment needs no masking, copy its text unchanged into `lines[i]`.
 
-TOKEN FORMAT:
-- Tokens must be __ITHI_<KIND>_<NNNN>__, where KIND ∈ CODE|URL|PATH|EMAIL|UUID|PLACEHOLDER|TASK|IDENTIFIER and NNNN is zero-padded (0000, 0001, …).
-- Never translate, reflow, or alter tokens.
+TOKEN FORMAT (ASCII-only, no dictionary words):
+- Tokens must be __ITHI_<K>_<NNNN>__, where <K> ∈ C|U|P|E|D|H|T|I and <NNNN> is zero-padded (0000, 0001, …).
+  C=code, U=url, P=path, E=email, D=uuid, H=placeholder, T=task, I=identifier.
+- Examples: __ITHI_C_0000__, __ITHI_I_0007__.
+- Tokens are opaque literals. Never translate, reflow, or alter them (no accents, casing changes, or whitespace changes).
 
 SOFT KEYWORD GUARD (critical):
 - Never mask plain-language soft keywords in prose lines: {if, else, switch, case, default, for, while, do, return, break, continue}.
@@ -67,10 +69,10 @@ if this looks strange,
 
 Hard positive example (should be CODE token):
 switch between modes if latency spikes; else keep default; case "panic": break;
-→ __ITHI_CODE_0000__
+→ __ITHI_C_0000__
 
 WHOLE-LINE CODE RULE (language-agnostic, deterministic):
-Treat a single line as CODE and replace the ENTIRE line with ONE token __ITHI_CODE_<NNNN>__ iff ALL of the following are true:
+Treat a single line as CODE and replace the ENTIRE line with ONE token __ITHI_C_<NNNN>__ iff ALL of the following are true:
 A) The line contains ANY word from (protected_identifiers ∪ matchedKeywords) with word boundaries (case-sensitive).
 B) The line is code-like by ANY of these signals:
    - Starts with a declaration/keyword: ^\s*(import|export|const|let|var|class|function|return|new|await|async|interface|type|enum|yield)\b
@@ -78,24 +80,16 @@ B) The line is code-like by ANY of these signals:
    - Looks like a call/stmt: ^\s*[A-Za-z_$][A-Za-z0-9_$]*\s*\(.*\)
    - Ends with a semicolon ;   OR contains assignment/operators like  = , => , := 
    - Has ≥2 code punctuation from this set: {}()[];<>:=/*\-+.,|&!?`'"  (count literal characters)
-If (A) AND (B) hold, emit exactly one CODE token for the whole line. Do NOT emit identifier tokens inside that line.
+If (A) AND (B) hold, emit exactly one __ITHI_C_<NNNN>__ for the whole line. Do NOT emit identifier tokens inside that line.
 
 EDGE-SPACING & QUOTES PRESERVATION (critical):
-- Translators collapse alignment spaces and may touch quoted strings. To prevent this,
-  when deciding whole-line CODE, apply the following STRONG-CODE OVERRIDE:
+- Translators collapse alignment spaces and may touch quoted strings. To prevent this, apply the following STRONG-CODE OVERRIDE even if condition A fails (ignore a leading JSDoc gutter " * " when matching):
 
-STRONG-CODE OVERRIDE (applies even if condition A fails):
-Emit a single __ITHI_CODE_<NNNN>__ token for the ENTIRE line if ANY of these hold
-(after ignoring JSDoc gutter decoration like leading " * "):
-
-  - The line contains a function/call pattern: [A-Za-z_$][A-Za-z0-9_$]*\s*\(
-    (example: "console.log(" or "login("), OR a dotted call like \w+\.\w+\( .
-  • The line contains BOTH parentheses and a brace or semicolon: 
-      ( and )  AND ( { or } or ; ) anywhere on the line.
-  • The line contains 2 or more consecutive spaces anywhere (/\s{2,}/) 
-    indicating alignment that must not be collapsed.
-  • The line matches a control-flow head with parens:
-      ^\s*(if|else if|while|for)\b.*\(.*\)
+STRONG-CODE OVERRIDE (emit whole-line __ITHI_C_<NNNN>__ if ANY hold):
+  - The line contains a function/call pattern: [A-Za-z_$][A-Za-z0-9_$]*\s*\(  (example, "console.log(" or "login("), including dotted calls like \w+\.\w+\( .
+  - The line contains BOTH parentheses and a brace or semicolon: ( and )  AND ( { or } or ; ).
+  - The line contains 2 or more consecutive spaces anywhere (/\s{2,}/).
+  - The line matches a control-flow head with parens: ^\s*(if|else if|while|for)\b.*\(.*\)
 
 JSDOC GUTTER REMINDER:
 - Ignore a leading " * " (^\s*\*\s?) when checking the above patterns.
@@ -105,27 +99,23 @@ Normative example — Edge spacing must be masked as CODE:
 Original line:
 "   if  (  x  )  {  console.log(\"if inside comment\");  }"
 Masked line:
-"__ITHI_CODE_0005__"
+"__ITHI_C_0005__"
 Map append:
-{ "token": "__ITHI_CODE_0005__", "original": "   if  (  x  )  {  console.log(\"if inside comment\");  }", "kind": "code" }
-
-Whitespace invariants (reiterated):
-- Never insert/remove/collapse spaces outside replaced spans.
-- The original alignment and quotes are restored exactly after unmasking.
+{ "token": "__ITHI_C_0005__", "original": "   if  (  x  )  {  console.log(\"if inside comment\");  }", "kind": "code" }
 
 SPAN MASKING RULES (when not whole-line CODE):
 - CODE spans:
-  - Fenced blocks (```...``` or ~~~...~~~) → replace the entire fenced block with ONE __ITHI_CODE_<NNNN>__ token.
-  - Inline backticks `likeThis` → ONE __ITHI_CODE_<NNNN>__ token.
+  - Fenced blocks (```...``` or ~~~...~~~) → replace the entire fenced block with ONE __ITHI_C_<NNNN>__ token.
+  - Inline backticks `likeThis` → ONE __ITHI_C_<NNNN>__ token.
 - Non-linguistic:
-  - URL (http/https) → kind=url
-  - PATH (./src/a.ts, ../x, C:\Program Files\node.exe) → kind=path
-  - EMAIL → kind=email
-  - UUID → kind=uuid
-  - PLACEHOLDER ({name}, ${count}, %1$d, {0}, ${x.y}) → kind=placeholder
-  - TASK markers (TODO|FIXME|HACK|NOTE) → kind=task for the marker ONLY (do not mask trailing prose)
+  - URL (http/https) → kind=url → __ITHI_U_<NNNN>__
+  - PATH (./src/a.ts, ../x, C:\Program Files\node.exe) → kind=path → __ITHI_P_<NNNN>__
+  - EMAIL → kind=email → __ITHI_E_<NNNN>__
+  - UUID → kind=uuid → __ITHI_D_<NNNN>__
+  - PLACEHOLDER ({name}, ${count}, %1$d, {0}, ${x.y}) → kind=placeholder → __ITHI_H_<NNNN>__
+  - TASK markers (TODO|FIXME|HACK|NOTE) → kind=task for the marker ONLY (do not mask trailing prose) → __ITHI_T_<NNNN>__
 - Identifiers:
-  - Any word in (protected_identifiers ∪ matchedKeywords) at word boundaries → kind=identifier.
+  - Any word in (protected_identifiers ∪ matchedKeywords) at word boundaries → kind=identifier → __ITHI_I_<NNNN>__.
   - Identifier-shaped leftovers (camelCase, PascalCase, SNAKE_CASE, snake_case, dotted.chain, functionCall(...)) → kind=identifier.
   - DO NOT mask plain numbers or common nouns unless explicitly listed in protected_identifiers.
   - DO NOT mask generic language keywords unless explicitly listed (e.g., if they’re not in protected_identifiers).
@@ -145,23 +135,23 @@ Original line:
 import { arrOfStr, arrOfObj, mockCommentData } from './mockTranslateTest';
 Decision: contains protected words (e.g., import/mockCommentData) AND code-like (“from '…'”, braces, semicolon).
 Masked line:
-__ITHI_CODE_0000__
+__ITHI_C_0000__
 Map append:
-{ "token": "__ITHI_CODE_0000__", "original": "import { arrOfStr, arrOfObj, mockCommentData } from './mockTranslateTest';", "kind": "code" }
+{ "token": "__ITHI_C_0000__", "original": "import { arrOfStr, arrOfObj, mockCommentData } from './mockTranslateTest';", "kind": "code" }
 
 Example 2 — Prose with identifiers:
 Original line:
 We pass mockCommentData and then call translateText for each block.
 Masked line:
-We pass __ITHI_IDENTIFIER_0001__ and then call __ITHI_IDENTIFIER_0002__ for each block.
+We pass __ITHI_I_0001__ and then call __ITHI_I_0002__ for each block.
 Map append (order by first appearance):
-{ "token": "__ITHI_IDENTIFIER_0001__", "original": "mockCommentData", "kind": "identifier" },
-{ "token": "__ITHI_IDENTIFIER_0002__", "original": "translateText", "kind": "identifier" }
+{ "token": "__ITHI_I_0001__", "original": "mockCommentData", "kind": "identifier" },
+{ "token": "__ITHI_I_0002__", "original": "translateText", "kind": "identifier" }
 
 Example 3 — Inline backticks:
 Original line:
 Use `vscode.commands.registerCommand` to register the handler.
 Masked line:
-Use __ITHI_CODE_0003__ to register the handler.
+Use __ITHI_C_0003__ to register the handler.
 Map append:
-{ "token": "__ITHI_CODE_0003__", "original": "`vscode.commands.registerCommand`", "kind": "code" }
+{ "token": "__ITHI_C_0003__", "original": "`vscode.commands.registerCommand`", "kind": "code" }
