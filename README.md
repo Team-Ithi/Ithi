@@ -74,7 +74,7 @@ TODO: update images or make a gif
 - **File Association**: Each Ithi panel displays with the name of the associated source file
 - **Adaptive Theme Integration**: The extension seamlessly integrates with the user's preferred VS Code color theme
 
-- <img src="./images/ithi_adaptive_theme.gif" width="500" alt="ithi_adaptive_theme">
+- <img src="./images/adaptive_theme.gif" width="500" alt="ithi_adaptive_theme">
 
 ## Technologies Used
 
