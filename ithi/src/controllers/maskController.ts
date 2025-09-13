@@ -1,8 +1,9 @@
 import OpenAI from 'openai';
 import 'dotenv/config';
-import hardGlossary from '../../glossaries/javascript.hard.json';
+import hardGlossary from '../glossaries/javascript-hard.json';
 import { readFileSync } from 'fs';
 import * as path from 'path';
+import * as vscode from 'vscode';
 
 export function createHardSet(varKeywords: unknown) {
   const base = Array.isArray((hardGlossary as any).javascript)
@@ -102,7 +103,9 @@ export async function aiMask(
   protectedIdentifiers: string[],
   model: string = 'gpt-4o-mini'
 ): Promise<AIMask> {
-  const client = new OpenAI({ apiKey: process.env.OPENAI_KEY });
+  const config = await vscode.workspace.getConfiguration('ithi');
+  const openAiKey: string | undefined = await config.get('openAiApiKey');
+  const client = new OpenAI({ apiKey: openAiKey });
   const messages = buildMessages(rawText, protectedIdentifiers);
   console.log('running ai masking');
 
