@@ -34,6 +34,8 @@ The setting to check you VS Code version is located at `Code > About Visual Stud
 
 Go to `>Preferences: Open User Settings under Extensions > Ithi` and enter the following:
 
+TODO: add images for user settings
+
 1. **Target Language** - choose the language you want the comments translated to
 1. **OpenAI API Key** - You can find your existing key _or_ create a new one in the [API Keys](https://platform.openai.com/api-keys) section on OpenAI's website.
 1. **Translation Engine (Optional)** - By default, Ithi uses the **Bing** Translation engine. For a more thorough and context-informed translation, you can elect to use **Google Cloud** Translation engine by entering your gCloud:
@@ -58,7 +60,7 @@ TODO: add instructions for gcloud settings
 
 1. The Ithi webview panel will populate in the second VS Code column once translation is complete
 
-- <img src="./images/ithi_webview_panel.png" width="500" alt="ithi_webview_panel">
+- <img src="./images/webview_panel.png" width="500" alt="ithi_webview_panel">
 
 TODO: update images or make a gif
 
@@ -69,6 +71,7 @@ TODO: update images or make a gif
 - **Programming Language Support**: Ithi supports JavaScript/TypeScript - the most used programming language globally.
 - **AI Powered Translation**: translate comments from the source language to the target language
 - **Webview Panel UI**: Displays data in a modularized panel webview
+- **File Association**: Each Ithi panel displays with the name of the associated source file
 - **Adaptive Theme Integration**: The extension seamlessly integrates with the user's preferred VS Code color theme
 
 - <img src="./images/ithi_adaptive_theme.gif" width="500" alt="ithi_adaptive_theme">
@@ -109,7 +112,7 @@ TODO - confirm Mocha is being used
 
 ## Releases
 
-To view a chronologically ordered list of notable changes to Ithi, take a look at the [Changelog](./ithi/CHANGELOG.md).
+To view a chronologically ordered list of notable changes to Ithi, take a look at the [Changelog](./comment-translator/CHANGELOG.md).
 
 ## Issues
 
