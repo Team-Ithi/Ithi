@@ -36,7 +36,9 @@
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src",
-    "test": "vscode-test"
+    "test": "vscode-test",
+    "build:test": "tsc -p tsconfig.test-only.json",
+    "test:ast": "npm run build:test && mocha \"out-test/test/astController.test.js\""
   },
   "devDependencies": {
     "@babel/parser": "^7.28.3",
