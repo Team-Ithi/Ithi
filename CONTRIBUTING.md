@@ -7,7 +7,7 @@ We ask that contributors:
 - Adhere to this project's [code of conduct](./CODE_OF_CONDUCT.md)
 - Fork the repository (https://github.com//Team-Ithi/Ithi/fork)
 - Create your feature branch (`git checkout -b feature/fooBar`)
-- Follow the [node style guide](https://github.com/felixge/node-style-guide{target=_blank})
+- Follow the [node style guide](https://github.com/felixge/node-style-guide)
 - Write tests for the new feature or bug fix that you are solving
 - [Conventionally Commit](https://www.conventionalcommits.org/en/v1.0.0/) your changes (`git commit -am 'feat: add some fooBar'`)
 - Push to the branch (`git push origin feature/fooBar`)
