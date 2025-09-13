@@ -7,12 +7,12 @@ We ask that contributors:
 - Adhere to this project's [code of conduct](./CODE_OF_CONDUCT.md)
 - Fork the repository (https://github.com//Team-Ithi/Ithi/fork)
 - Create your feature branch (`git checkout -b feature/fooBar`)
-- Follow the [node style guide](https://github.com/felixge/node-style-guide).
+- Follow the [node style guide](https://github.com/felixge/node-style-guide{target=_blank})
 - Write tests for the new feature or bug fix that you are solving
 - [Conventionally Commit](https://www.conventionalcommits.org/en/v1.0.0/) your changes (`git commit -am 'feat: add some fooBar'`)
 - Push to the branch (`git push origin feature/fooBar`)
 - Ensure all tests pass before send the pull-request (Use: `$ yarn test` or `$ npm run test`)
-- Update the [Changelog](./ithi/CHANGELOG.md)
+- Update the [Changelog](./comment-translator/CHANGELOG.md)
 - Create a new Pull Request
 
 ## Source Code Organization
