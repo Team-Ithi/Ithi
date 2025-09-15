@@ -9,9 +9,6 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [
-    "onConfigurationChanged"
-  ],
   "keywords": [
     "javascript",
     "typescript",
@@ -22,6 +19,23 @@
     "comment-translate",
     "google translate",
     "bing translate"
+  ],
+  "badges": [
+    {
+      "url": "https://img.shields.io/badge/License-MIT-yellow.svg",
+      "href": "https://opensource.org/licenses/MIT",
+      "description": "MIT License"
+    },
+    {
+      "url": "https://img.shields.io/github/stars/Team-Ithi/Ithi.svg?style=social",
+      "href": "https://github.com/Team-Ithi/Ithi",
+      "description": "GitHub Stars"
+    },
+    {
+      "url": "https://img.shields.io/github/contributors/Team-Ithi/Ithi?style=social",
+      "href": "https://github.com/Team-Ithi/Ithi/graphs/contributors",
+      "description": "GitHub Contributors"
+    }
   ],
   "contributors": [
     {
@@ -50,6 +64,9 @@
     }
   ],
   "main": "./out/extension.js",
+  "activationEvents": [
+    "onConfigurationChanged"
+  ],
   "contributes": {
     "commands": [
       {
