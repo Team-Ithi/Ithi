@@ -36,6 +36,8 @@ Go to `>Preferences: Open User Settings under Extensions > Ithi` and enter the f
 
 TODO: add images for user settings
 
+<img src="./images/user_settings.png" width="400" alt="user_settings">
+
 1. **Target Language** - choose the language you want the comments translated to
 1. **OpenAI API Key** - You can find your existing key _or_ create a new one in the [API Keys](https://platform.openai.com/api-keys) section on OpenAI's website.
 1. **Translation Engine (Optional)** - By default, Ithi uses the **Bing** Translation engine. For a more thorough and context-informed translation, you can elect to use **Google Cloud** Translation engine by entering your gCloud:
