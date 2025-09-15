@@ -20,6 +20,32 @@
     "google translate",
     "bing translate"
   ],
+  "contributors": [
+    {
+      "name": "Aaron Chen",
+      "url": "https://github.com/AaronChen11",
+      "email": "chenxiyue7@gmail.com"
+    },
+    {
+      "name": "Disney Harley",
+      "url": "https://github.com/harleydi",
+      "email": "disneyharleytech@gmail.com"
+    },
+    {
+      "name": "Lisa Louison",
+      "url": "https://github.com/llouison"
+    },
+    {
+      "name": "Michael Zhao",
+      "url": "https://github.com/muqingzhao526",
+      "email": "muqingzhao526@gmail.com"
+    },
+    {
+      "name": "Yuan Liu",
+      "url": "https://github.com/yuan-cloud",
+      "email": "Eucapop@gmail.com"
+    }
+  ],
   "activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
@@ -38,7 +64,8 @@
     "lint": "eslint src",
     "test": "vscode-test",
     "build:test": "tsc -p tsconfig.test-only.json",
-    "test:ast": "npm run build:test && mocha \"out-test/test/astController.test.js\""
+    "test:ast": "npm run build:test && mocha \"out-test/test/astController.test.js\"",
+    "lisa": "npm run build:test && mocha \"out-test/test/docSymbolsController.test.js\""
   },
   "devDependencies": {
     "@babel/parser": "^7.28.3",
@@ -59,7 +86,8 @@
     "mock-require": "^3.0.3",
     "sinon": "^21.0.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.2",
+    "vscode": "^1.1.37"
   },
   "dependencies": {
     "@google-cloud/translate": "^9.2.0",
