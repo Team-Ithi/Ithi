@@ -363,7 +363,7 @@
           },
           "ithi.translator": {
             "type": "string",
-            "description": "Please select which translator you prefer to use. Bing translator is the default.",
+            "description": "Select your preferred translation engine (Bing translator is the default)",
             "default": "Bing",
             "enum": [
               "Bing",
