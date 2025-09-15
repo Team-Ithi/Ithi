@@ -1,13 +1,14 @@
-import sinon from 'sinon';
+// import sinon from 'sinon';
+const sinon = require('sinon');
 
 export const mockUri = {
-  fsPath: '/mock/path/to/file.ts',
+  fsPath: '/mock/path/to/file.js',
 };
 
 export const mockTextDocument = {
   uri: mockUri,
-  languageId: 'typescript',
-  fileName: '/mock/path/to/file.ts',
+  languageId: 'javascript',
+  fileName: '/mock/path/to/file.js',
 };
 
 export const mockTextEditor = {

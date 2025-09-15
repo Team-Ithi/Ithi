@@ -65,7 +65,7 @@
     "test": "vscode-test",
     "build:test": "tsc -p tsconfig.test-only.json",
     "test:ast": "npm run build:test && mocha \"out-test/test/astController.test.js\"",
-    "lisa": "npm run build:test && mocha \"out-test/test/docSymbolsController.test.js\""
+    "test:controllers": "npm run build:test && mocha \"out-test/test/*.test.js\""
   },
   "devDependencies": {
     "@babel/parser": "^7.28.3",

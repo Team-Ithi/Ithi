@@ -3,7 +3,6 @@
 const mock = require('mock-require');
 const { expect } = require('chai');
 
-
 // ----- stub VS Code API BEFORE requiring the controller -----
 const codeSample = `
 // calling add later
@@ -34,8 +33,9 @@ describe('astController.astParseTraverse', () => {
     expect(comments).to.be.an('array');
     expect(comments.length).to.be.greaterThan(0);
 
-    const augmented = comments.find((c: any) =>
-      Array.isArray(c.nearByLines) && Array.isArray(c.matchedKeywords)
+    const augmented = comments.find(
+      (c: any) =>
+        Array.isArray(c.nearByLines) && Array.isArray(c.matchedKeywords)
     );
 
     expect(augmented, 'Expected an augmented comment').to.exist;
