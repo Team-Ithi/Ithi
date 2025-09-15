@@ -1,0 +1,22 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "out-test",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "declaration": false,
+    "types": ["mocha", "node"],
+    "strict": true,
+    "skipLibCheck": true,
+    "noEmit": false
+  },
+  "files": [
+    "src/controllers/maskAIController.ts",
+    "src/controllers/unmaskController.ts",
+    "src/test/maskController.test.ts"
+  ]
+}
