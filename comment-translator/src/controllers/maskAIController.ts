@@ -107,7 +107,7 @@ export async function OpenAIMask(
 
   const openAiKey: string | undefined = await config.get('openAiApiKey');
 
-  const client = new OpenAI({ apiKey: "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" });
+  const client = new OpenAI({ apiKey: openAiKey });
   const messages = buildMessages(rawText, protectedIdentifiers);
   console.log('running ai masking');
 
