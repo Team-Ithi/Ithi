@@ -210,5 +210,5 @@ function getNonce(): string {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   return Array.from({ length: 32 }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
 }
-// This method is called when your extension is deactivated
+// This method is called when your extension is deactivated. 
 export function deactivate() {}
