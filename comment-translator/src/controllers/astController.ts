@@ -39,7 +39,7 @@ export const astParseTraverse = () => {
     console.log('parsing failed');
     return error;
   }
-  console.log(ast);
+  //console.log(ast);
 
   //traverse
   const functions: FunctionInfo[] = [];
@@ -92,7 +92,7 @@ export const astParseTraverse = () => {
     //console.log(i.value);
     keywordVal.push(i.name);
   }
-  console.log(keywordVal);
+  //console.log(keywordVal);
   for (const i of (ast.comments! as AugmentedComment[])) {
     const lineLength = i.value.split(/\n/).length;
     const startLine = i.loc!.start.line;
