@@ -45,7 +45,12 @@ ithi/
 1. Add the following keys and their associated values tot he JSON:
 
 ```
-"ithi.openAiApiKey":"<YOUR_VALUE_HERE>" //to be used by maskAIController
+"ithi.targetLanguage":"<YOUR_VALUE_HERE>",
+"ithi.translator":"<YOUR_VALUE_HERE>",
+"ithi.openAiApiKey":"<YOUR_VALUE_HERE>", //to be used by maskAIController
+"ithi.googleCloudConfiguration.clientKey":"<YOUR_VALUE_HERE>",
+"ithi.googleCloudConfiguration.clientEmail":"<YOUR_VALUE_HERE>",
+"ithi.googleCloudConfiguration.projectId":"<YOUR_VALUE_HERE>",
 ```
 
 1. Create a `.env` file in `ithi` with the following variables:
@@ -63,4 +68,13 @@ Visual Studio Code debugging tests for extensions will run inside a special inst
    - console logs will be displayed in the original window's DEBUG CONSOLE
    - <img src="./images/debug_console.png" width="400" alt="debug_console">
 
-TODO: instructions for running tests
+## Testing Instructions
+
+1. cd into the `ithi` directory
+1. Test files are located under `ithi > src > test`
+1. create a test file under convention `filename.test.ts`
+   - mock files follow the convention of `filename.mock.ts`
+1. add your file name to the files array in `ithi > tsconfig.test-only.json`
+1. add your file name to the spec array in `ithi > .mocharc.cjs`
+1. the command `npm run test:controllers` will test all files in the `out-test/test` folder ending in `test.js`
+1. You should see test results logged in the terminal
