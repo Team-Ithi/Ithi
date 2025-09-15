@@ -45,10 +45,10 @@ ithi/
 1. Add the following keys and their associated values tot he JSON:
 
 ```
-"ithi.targetLanguage":"<YOUR_VALUE_HERE>",
-"ithi.translator":"<YOUR_VALUE_HERE>",
+"ithi.targetLanguage":"<YOUR_VALUE_HERE>", //lowercase iso-639-1 string
+"ithi.translator":"<YOUR_VALUE_HERE>", //'Bing' or 'Google Cloud'
 "ithi.openAiApiKey":"<YOUR_VALUE_HERE>", //to be used by maskAIController
-"ithi.googleCloudConfiguration.clientKey":"<YOUR_VALUE_HERE>",
+"ithi.googleCloudConfiguration.privateKey":"<YOUR_VALUE_HERE>",
 "ithi.googleCloudConfiguration.clientEmail":"<YOUR_VALUE_HERE>",
 "ithi.googleCloudConfiguration.projectId":"<YOUR_VALUE_HERE>",
 ```
