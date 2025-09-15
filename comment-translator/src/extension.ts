@@ -57,7 +57,15 @@ export async function activate(context: vscode.ExtensionContext) {
       // bing/gCloud: retrieving source language and translations
       let sourceLanguage;
 
-      if (userTranslatorChoice === 'Bing') {
+      
+      if (userTranslatorChoice === 'Google Cloud') {
+        const results = await translateText(
+          lines,
+          targetLanguage
+        );
+        translatedProtectedComments = results?.map(el => el?.translation)
+        sourceLanguage = results[0]?.sourceLanguage
+      } else {
         const bing = new Bing();
         translatedProtectedComments = await bing.translateComments(
           lines,
@@ -65,14 +73,9 @@ export async function activate(context: vscode.ExtensionContext) {
           targetLanguage
         );
         sourceLanguage = bing.sourceLang;
-      } else if (userTranslatorChoice === 'Google Cloud') {
-        translatedProtectedComments = await translateText(
-          lines,
-          targetLanguage
-        );
       }
 
-
+      console.log('sourceLanguage', sourceLanguage)
       console.log('translatedProtectedComments', translatedProtectedComments);
       //re-adding protected words to final translation
       const unmaskedTranslations = unmaskLines(

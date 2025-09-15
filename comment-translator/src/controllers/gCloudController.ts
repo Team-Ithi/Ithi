@@ -4,7 +4,6 @@ import dotenv from 'dotenv';
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 import 'dotenv/config';
 import * as vscode from 'vscode';
-import { getSecret } from '../secretManager';
 
 
 
@@ -29,10 +28,12 @@ export const translateText = async (text: any, target: string) => {
             text.map(async (str) => {
                 if (typeof str === "string") { // Checking if the array is just an ArrOfStrings
                 const [translation] = await translate.translate(str, target);
-                return translation;
+                const [detection] = await translate.detect(str)
+                return {translation, sourceLanguage: detection.language};
                 } else if (typeof str === "object" && "text" in str) { // Checking if array is an ArrOfObjects
                 const [translation] = await translate.translate(str.text, target);
-                return translation;
+                const [detection] = await translate.detect(str.text)
+                return {translation, sourceLanguage: detection.language};
                 }
             })
             );
