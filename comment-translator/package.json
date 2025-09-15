@@ -21,6 +21,23 @@
     "google translate",
     "bing translate"
   ],
+  "badges": [
+    {
+      "url": "https://img.shields.io/badge/License-MIT-yellow.svg",
+      "href": "https://opensource.org/licenses/MIT",
+      "description": "MIT License"
+    },
+    {
+      "url": "https://img.shields.io/github/stars/Team-Ithi/Ithi.svg?style=social",
+      "href": "https://github.com/Team-Ithi/Ithi",
+      "description": "GitHub Stars"
+    },
+    {
+      "url": "https://img.shields.io/github/contributors/Team-Ithi/Ithi?style=social",
+      "href": "https://github.com/Team-Ithi/Ithi/graphs/contributors",
+      "description": "GitHub Contributors"
+    }
+  ],
   "contributors": [
     {
       "name": "Aaron Chen",
@@ -48,6 +65,9 @@
     }
   ],
   "main": "./out/extension.js",
+  "activationEvents": [
+    "onConfigurationChanged"
+  ],
   "contributes": {
     "commands": [
       {
@@ -61,7 +81,7 @@
         "properties": {
           "ithi.targetLanguage": {
             "type": "string",
-            "description": "Please provide the language you want to translate your comments into",
+            "description": "Required: Choose the language you want to translate your comments to",
             "default": "",
             "enum": [
               "af",
@@ -344,7 +364,7 @@
           },
           "ithi.translator": {
             "type": "string",
-            "description": "Please select which translator you prefer to use. Bing translator is selected by default.",
+            "description": "Select your preferred translation engine (Bing translator is the default)",
             "default": "Bing",
             "enum": [
               "Bing",
@@ -353,19 +373,19 @@
           },
           "ithi.openAiApiKey": {
             "type": "string",
-            "description": "Open AI Key is also needed for the extension to work"
+            "description": "Required: Enter your Open AI Key"
           },
-          "ithi.googleCloudConfiguration.clientKey": {
+          "ithi.googleCloudConfiguration.privateKey": {
             "type": "string",
-            "description": "Client Key is needed if using Google Cloud translator"
+            "description": "Optional: Private Key is needed for Google Cloud translator"
           },
           "ithi.googleCloudConfiguration.clientEmail": {
             "type": "string",
-            "description": "Client Email is needed if using Google Cloud translator"
+            "description": "Optional: Client Email is needed for Google Cloud translator"
           },
           "ithi.googleCloudConfiguration.projectId": {
             "type": "string",
-            "description": "Project ID is needed if using Google Cloud translator"
+            "description": "Optional: Project ID is needed for Google Cloud translator"
           }
         }
       }
@@ -408,7 +428,6 @@
   "dependencies": {
     "@google-cloud/translate": "^9.2.0",
     "bing-translate-api": "^4.1.0",
-    "dotenv": "^17.2.1",
     "node-fetch": "^3.3.2",
     "openai": "^5.16.0"
   }

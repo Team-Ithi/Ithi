@@ -36,6 +36,8 @@ Go to `>Preferences: Open User Settings under Extensions > Ithi` and enter the f
 
 TODO: add images for user settings
 
+<img src="./images/user_settings.png" width="400" alt="user_settings">
+
 1. **Target Language** - choose the language you want the comments translated to
 1. **OpenAI API Key** - You can find your existing key _or_ create a new one in the [API Keys](https://platform.openai.com/api-keys) section on OpenAI's website.
 1. **Translation Engine (Optional)** - By default, Ithi uses the **Bing** Translation engine. For a more thorough and context-informed translation, you can elect to use **Google Cloud** Translation engine by entering your gCloud:
@@ -102,13 +104,13 @@ TODO - confirm Mocha is being used
 
 ## Development Team
 
-| Name          | GitHub                                             | Contact                                                             |
-| ------------- | -------------------------------------------------- | ------------------------------------------------------------------- |
-| Aaron Chen    | [@AaronChen11](https://github.com/AaronChen11)     | chenxiyue7@gmail.com                                                |
-| Disney Harley | [@harleydi](https://github.com/harleydi)           | disneyharleytech@gmail.com                                          |
-| Lisa Louison  | [@llouison](https://github.com/llouison)           | [linkedin.com/in/lisa-louison](http://linkedin.com/in/lisa-louison) |
-| Michael Zhao  | [@muqingzhao526](https://github.com/muqingzhao526) | muqingzhao526@gmail.com                                             |
-| Yuan Liu      | [@yuan-cloud](https://github.com/yuan-cloud)       | Eucapop@gmail.com                                                   |
+| Name          | GitHub                                             | Contact                                                              |
+| ------------- | -------------------------------------------------- | -------------------------------------------------------------------- |
+| Aaron Chen    | [@AaronChen11](https://github.com/AaronChen11)     | chenxiyue7@gmail.com                                                 |
+| Disney Harley | [@harleydi](https://github.com/harleydi)           | disneyharleytech@gmail.com                                           |
+| Lisa Louison  | [@llouison](https://github.com/llouison)           | [linkedin.com/in/lisa-louison](https://linkedin.com/in/lisa-louison) |
+| Michael Zhao  | [@muqingzhao526](https://github.com/muqingzhao526) | muqingzhao526@gmail.com                                              |
+| Yuan Liu      | [@yuan-cloud](https://github.com/yuan-cloud)       | Eucapop@gmail.com                                                    |
 
 ## Releases
 
