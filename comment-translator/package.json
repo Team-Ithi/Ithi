@@ -9,6 +9,7 @@
   "categories": [
     "Other"
   ],
+  "activationEvents": [],
   "keywords": [
     "javascript",
     "typescript",
@@ -399,9 +400,9 @@
     "test": "vscode-test",
     "build:test": "tsc -p tsconfig.test-only.json",
     "build:masktest": "tsc -p tsconfig.mask-test.json",
-    "test:mask": "npm run build:masktest && mocha \"out-test/test/maskController.test.js\""
+    "test:mask": "npm run build:masktest && mocha \"out-test/test/maskController.test.js\"",
     "test:ast": "npm run build:test && mocha \"out-test/test/astController.test.js\"",
-    "test:controllers": "npm run build:test && mocha \"out-test/test/*.test.js\""
+    "test:controllers": "npm run build:test && mocha \"out-test/test/*.test.js\" && npm run test:mask"
   },
   "devDependencies": {
     "@babel/parser": "^7.28.3",
@@ -411,7 +412,7 @@
     "@types/mocha": "^10.0.10",
     "@types/node": "^22.18.1",
     "@types/sinon": "^17.0.4",
-    "@types/vscode": "1.98.0",
+    "@types/vscode": "^1.98.0",
     "@typescript-eslint/eslint-plugin": "^8.39.0",
     "@typescript-eslint/parser": "^8.39.0",
     "@vscode/test-cli": "^0.0.11",
@@ -422,8 +423,7 @@
     "mock-require": "^3.0.3",
     "sinon": "^21.0.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.9.2",
-    "vscode": "^1.1.37"
+    "typescript": "^5.9.2"
   },
   "dependencies": {
     "@google-cloud/translate": "^9.2.0",
