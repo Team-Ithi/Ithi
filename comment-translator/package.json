@@ -24,6 +24,33 @@
     "google translate",
     "bing translate"
   ],
+  "contributors": [
+    {
+      "name": "Aaron Chen",
+      "url": "https://github.com/AaronChen11",
+      "email": "chenxiyue7@gmail.com"
+    },
+    {
+      "name": "Disney Harley",
+      "url": "https://github.com/harleydi",
+      "email": "disneyharleytech@gmail.com"
+    },
+    {
+      "name": "Lisa Louison",
+      "url": "https://github.com/llouison"
+    },
+    {
+      "name": "Michael Zhao",
+      "url": "https://github.com/muqingzhao526",
+      "email": "muqingzhao526@gmail.com"
+    },
+    {
+      "name": "Yuan Liu",
+      "url": "https://github.com/yuan-cloud",
+      "email": "Eucapop@gmail.com"
+    }
+  ],
+  "activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
@@ -86,6 +113,8 @@
     "build:test": "tsc -p tsconfig.test-only.json",
     "build:masktest": "tsc -p tsconfig.mask-test.json",
     "test:mask": "npm run build:masktest && mocha \"out-test/test/maskController.test.js\""
+    "test:ast": "npm run build:test && mocha \"out-test/test/astController.test.js\"",
+    "test:controllers": "npm run build:test && mocha \"out-test/test/*.test.js\""
   },
   "devDependencies": {
     "@babel/parser": "^7.28.3",
@@ -94,6 +123,7 @@
     "@types/chai": "^5.2.2",
     "@types/mocha": "^10.0.10",
     "@types/node": "^22.18.1",
+    "@types/sinon": "^17.0.4",
     "@types/vscode": "1.98.0",
     "@typescript-eslint/eslint-plugin": "^8.39.0",
     "@typescript-eslint/parser": "^8.39.0",
@@ -103,8 +133,10 @@
     "eslint": "^9.32.0",
     "mocha": "^11.7.2",
     "mock-require": "^3.0.3",
+    "sinon": "^21.0.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.2",
+    "vscode": "^1.1.37"
   },
   "dependencies": {
     "@google-cloud/translate": "^9.2.0",

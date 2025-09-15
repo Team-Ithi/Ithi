@@ -50,7 +50,7 @@ export class Symbols {
 
     /* executeCommand is the core function for executing a command in VS Code. 
     See Docs: https://code.visualstudio.com/api/extension-guides/command#programmatically-executing-a-command */
-    const symbols: vscode.DocumentSymbol[] =
+    const symbols: vscode.DocumentSymbol[] | undefined =
       await vscode.commands.executeCommand<vscode.DocumentSymbol[]>(
         'vscode.executeDocumentSymbolProvider',
         uri
