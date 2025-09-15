@@ -17,14 +17,17 @@ import { unmaskLines } from './controllers/unmaskController';
 // This method is called when the extension is activated - the very first time the command is executed
 export async function activate(context: vscode.ExtensionContext) {
   console.log('The "Ithi" extension is now active!');
-
+  
   /* registerCommand provides the implementation of the command defined in package.json 
    the commandId parameter must match the command field in package.json */
   const webviewPanel = vscode.commands.registerCommand(
     'ithi.translate',
     async () => {
-      // The code you place here will be executed every time your command is executed
+      
+      const config = await vscode.workspace.getConfiguration("ithi")
+
       vscode.window.showInformationMessage(`Ithi: Translation Loading...`);
+
 
       /* ---- BEGIN BACK-END LOGIC ---- */
       //retrieving file name and symbols
@@ -44,13 +47,25 @@ export async function activate(context: vscode.ExtensionContext) {
       const { lines, map } = await OpenAIMask(extractCommentsObj, HARD);
       console.log('masked comment obj', lines);
       console.log('map object', map);
+
+      const targetLanguage = await config.get("targetLanguage")
+      const userTranslatorChoice = await config.get("translator")
+      console.log("translator choice: ", userTranslatorChoice)
+      console.log("target language: ", targetLanguage)
+
+      let translatedProtectedComments: string[] = []
       // bing/gCloud: retrieving source language and translations
-      const targetLanguage = 'fr'; // TODO: retreive target language from user settings
-      const userTranslatorChoice: string = 'Bing';
-      let translatedProtectedComments;
       let sourceLanguage;
 
-      if (userTranslatorChoice === 'Bing') {
+      
+      if (userTranslatorChoice === 'Google Cloud') {
+        const results = await translateText(
+          lines,
+          targetLanguage
+        );
+        translatedProtectedComments = results?.map(el => el?.translation)
+        sourceLanguage = results[0]?.sourceLanguage
+      } else {
         const bing = new Bing();
         translatedProtectedComments = await bing.translateComments(
           lines,
@@ -58,13 +73,10 @@ export async function activate(context: vscode.ExtensionContext) {
           targetLanguage
         );
         sourceLanguage = bing.sourceLang;
-      } else if (userTranslatorChoice === 'Google Cloud') {
-        translatedProtectedComments = await translateText(
-          lines,
-          targetLanguage
-        );
       }
 
+      console.log('sourceLanguage', sourceLanguage)
+      console.log('translatedProtectedComments', translatedProtectedComments);
       //re-adding protected words to final translation
       const unmaskedTranslations = unmaskLines(
         translatedProtectedComments,

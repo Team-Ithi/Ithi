@@ -3,27 +3,37 @@ import path from 'path';
 import dotenv from 'dotenv';
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 import 'dotenv/config';
+import * as vscode from 'vscode';
 
-const translate = new Translate({
-  projectId: process.env.PROJECT_ID,
-  credentials: {
-    client_email: process.env.CLIENT_EMAIL,
-    private_key: (process.env.PRIVATE_KEY || '').replace(/\\n/g, '\n'),
-  },
-});
+
 
 export const translateText = async (text: any, target: string) => {
-    console.log('gCloud hitting')
     try {
-        if (Array.isArray(text)) {
-            const result = await Promise.all(
+        // Pulling the users input from the settings to get required information and keys for the api to work
+        const config = await vscode.workspace.getConfiguration("ithi")
+        const projectId: string | undefined = await config.get("googleCloudConfiguration.projectId")
+        const client_email: string | undefined = await config.get("googleCloudConfiguration.clientEmail")
+        const client_key: string | undefined = await config.get("googleCloudConfiguration.clientKey")
+
+        const translate = new Translate({ // Initiating a new translation project
+            projectId,
+            credentials: {
+                client_email: client_email,
+                private_key: (client_key || "").replace(/\\n/g, '\n')
+            }
+        })
+
+        if (Array.isArray(text)) { // Checking if information is in the form of an array
+            const result = await Promise.all( // Iterating over ALL elements in that array and creating a promise 
             text.map(async (str) => {
-                if (typeof str === "string") {
+                if (typeof str === "string") { // Checking if the array is just an ArrOfStrings
                 const [translation] = await translate.translate(str, target);
-                return translation;
-                } else if (typeof str === "object" && "text" in str) {
+                const [detection] = await translate.detect(str)
+                return {translation, sourceLanguage: detection.language};
+                } else if (typeof str === "object" && "text" in str) { // Checking if array is an ArrOfObjects
                 const [translation] = await translate.translate(str.text, target);
-                return translation;
+                const [detection] = await translate.detect(str.text)
+                return {translation, sourceLanguage: detection.language};
                 }
             })
             );
@@ -31,17 +41,6 @@ export const translateText = async (text: any, target: string) => {
             console.log("Original:", text, "Translated:", result);
             return result;
         }
-        // } else {
-        //     const [translation] = await translate.translate(text, target);
-        //     console.log("Original:", text, "Translated:", translation);
-        //     return { original: text, translated: translation };
-        // }
-
-
-        
-        
-        // console.log('Original: ', text, 'Translated: ', translation)
-        // return { original: text, translated: translation }
     } catch (err) {
         throw new Error(
             `Translation Failed: ${err}`

@@ -9,6 +9,10 @@
   "categories": [
     "Other"
   ],
+  "activationEvents": [
+    "onCommand:ithi.translate",
+    "onConfigurationChanged"
+  ],
   "keywords": [
     "javascript",
     "typescript",
@@ -53,6 +57,49 @@
       {
         "command": "ithi.translate",
         "title": "Ithi Translate"
+      }
+    ],
+    "configuration":[
+      {
+        "title": "Ithi",
+        "properties": {
+          "ithi.targetLanguage": {
+            "type": "string",
+            "description": "Please provide the language you want to translate your comments into",
+            "default": "",
+            "enum": [
+              "af","am","ar","as","az","ba","be","bg","bho","bn","bo","brx","bs","ca","cs","cy","da","de","doi","dsb","dv","el","en","es","et","eu","fa","fi","fil","fj","fo","fr","fr-CA","ga","gl","gom","gu","ha","he","hi","hne","hr","hsb","ht","hu","hy","id","ig","ikt","is","it","iu","iu-Latn","ja","ka","kk","km","kmr","kn","ko","ks","ku","ky","lb","ln","lo","lt","lug","lv","lzh","mai","mg","mi","mk","ml","mn-Cyrl","mn-Mong","mni","mr","ms","mt","mww","my","nb","ne","nl","nso","nya","or","otq","pa","pl","prs","ps","pt","pt-PT","ro","ru","run","rw","sd","si","sk","sl","sm","sn","so","sq","sr-Cyrl","sr-Latn","st","sv","sw","ta","te","th","ti","tk","tlh-Latn","tlh-Piqd","tn","to","tr","tt","ty","ug","uk","ur","uz","vi","xh","yo","yua","yue","zh-Hans","zh-Hant","zu"
+            ],
+            "enumDescriptions": [
+              "Afrikaans","Amharic","Arabic","Assamese","Azerbaijani","Bashkir","Belarusian","Bulgarian","Bhojpuri","Bangla","Tibetan","Bodo","Bosnian","Catalan","Czech","Welsh","Danish","German","Dogri","Lower Sorbian","Divehi","Greek","English","Spanish","Estonian","Basque","Persian","Finnish","Filipino","Fijian","Faroese","French","French (Canada)","Irish","Galician","Konkani","Gujarati","Hausa","Hebrew","Hindi","Chhattisgarhi","Croatian","Upper Sorbian","Haitian Creole","Hungarian","Armenian","Indonesian","Igbo","Inuinnaqtun","Icelandic","Italian","Inuktitut","Inuktitut (Latin)","Japanese","Georgian","Kazakh","Khmer","Kurdish (Northern)","Kannada","Korean","Kashmiri","Kurdish (Central)","Kyrgyz","Luxembourgish","Lingala","Lao","Lithuanian","Ganda","Latvian","Chinese (Literary)","Maithili","Malagasy","Māori","Macedonian","Malayalam","Mongolian (Cyrillic)","Mongolian (Traditional)","Manipuri","Marathi","Malay","Maltese","Hmong Daw","Myanmar (Burmese)","Norwegian","Nepali","Dutch","Sesotho sa Leboa","Nyanja","Odia","Querétaro Otomi","Punjabi","Polish","Dari","Pashto","Portuguese (Brazil)","Portuguese (Portugal)","Romanian","Russian","Rundi","Kinyarwanda","Sindhi","Sinhala","Slovak","Slovenian","Samoan","Shona","Somali","Albanian","Serbian (Cyrillic)","Serbian (Latin)","Sesotho","Swedish","Swahili","Tamil","Telugu","Thai","Tigrinya","Turkmen","Klingon (Latin)","Klingon (pIqaD)","Setswana","Tongan","Turkish","Tatar","Tahitian","Uyghur","Ukrainian","Urdu","Uzbek (Latin)","Vietnamese","Xhosa","Yoruba","Yucatec Maya","Cantonese (Traditional)","Chinese Simplified","Chinese Traditional","Zulu"
+            ]
+          },
+          "ithi.translator": {
+            "type": "string",
+            "description": "Please select which translator you prefer to use. Bing translator is selected by default.",
+            "default": "Bing", 
+            "enum": [
+              "Bing",
+              "Google Cloud"
+            ]
+          },
+          "ithi.openAiApiKey": {
+            "type": "string",
+            "description": "Open AI Key is also needed for the extension to work"
+          },
+          "ithi.googleCloudConfiguration.clientKey": {
+            "type": "string",
+            "description": "Client Key is needed if using Google Cloud translator"
+          },
+          "ithi.googleCloudConfiguration.clientEmail": {
+            "type": "string",
+            "description": "Client Email is needed if using Google Cloud translator"
+          },
+          "ithi.googleCloudConfiguration.projectId": {
+            "type": "string",
+            "description": "Project ID is needed if using Google Cloud translator"
+          }
+        }
       }
     ]
   },
