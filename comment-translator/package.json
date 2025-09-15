@@ -111,6 +111,8 @@
     "lint": "eslint src",
     "test": "vscode-test",
     "build:test": "tsc -p tsconfig.test-only.json",
+    "build:masktest": "tsc -p tsconfig.mask-test.json",
+    "test:mask": "npm run build:masktest && mocha \"out-test/test/maskController.test.js\""
     "test:ast": "npm run build:test && mocha \"out-test/test/astController.test.js\"",
     "test:controllers": "npm run build:test && mocha \"out-test/test/*.test.js\""
   },
