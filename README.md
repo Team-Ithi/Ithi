@@ -102,13 +102,13 @@ TODO - confirm Mocha is being used
 
 ## Development Team
 
-| Name          | GitHub                                             | Contact                                                             |
-| ------------- | -------------------------------------------------- | ------------------------------------------------------------------- |
-| Aaron Chen    | [@AaronChen11](https://github.com/AaronChen11)     | chenxiyue7@gmail.com                                                |
-| Disney Harley | [@harleydi](https://github.com/harleydi)           | disneyharleytech@gmail.com                                          |
-| Lisa Louison  | [@llouison](https://github.com/llouison)           | [linkedin.com/in/lisa-louison](http://linkedin.com/in/lisa-louison) |
-| Michael Zhao  | [@muqingzhao526](https://github.com/muqingzhao526) | muqingzhao526@gmail.com                                             |
-| Yuan Liu      | [@yuan-cloud](https://github.com/yuan-cloud)       | Eucapop@gmail.com                                                   |
+| Name          | GitHub                                             | Contact                                                              |
+| ------------- | -------------------------------------------------- | -------------------------------------------------------------------- |
+| Aaron Chen    | [@AaronChen11](https://github.com/AaronChen11)     | chenxiyue7@gmail.com                                                 |
+| Disney Harley | [@harleydi](https://github.com/harleydi)           | disneyharleytech@gmail.com                                           |
+| Lisa Louison  | [@llouison](https://github.com/llouison)           | [linkedin.com/in/lisa-louison](https://linkedin.com/in/lisa-louison) |
+| Michael Zhao  | [@muqingzhao526](https://github.com/muqingzhao526) | muqingzhao526@gmail.com                                              |
+| Yuan Liu      | [@yuan-cloud](https://github.com/yuan-cloud)       | Eucapop@gmail.com                                                    |
 
 ## Releases
 
