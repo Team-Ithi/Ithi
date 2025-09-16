@@ -160,28 +160,39 @@ function getHtmlForWebview(
   const webviewUriDist = vscode.Uri.joinPath(passContext, 'webview-ui', 'dist');
   const indexPath = vscode.Uri.joinPath(webviewUriDist, 'index.html');
 
-  let htmlContent = '';
+  //let htmlContent = '';
 
   try {
-    htmlContent = fs.readFileSync(indexPath.fsPath, 'utf8'); //interpret the file's binary data as a human-readable UTF-8 encoded string
+    let htmlContent = fs.readFileSync(indexPath.fsPath, 'utf8'); //interpret the file's binary data as a human-readable UTF-8 encoded string
+    // If Vite emitted absolute paths like "/assets/...", make them relative: "assets/..."
+    htmlContent = htmlContent.replace(/(src|href)="\//g, '$1="');
     /* Webviews in VS Code are essentially isolated iframes that run inside the editor. 
     For security reasons, webviews cannot directly access local resources on the user's file system 
     using standard file:// URIs. The asWebviewUri method acts as a bridge, transforming the local 
     path into a special URI format that the VS Code renderer understands and can securely resolve.  */
+    // Convert local URIs to webview-safe URIs and prepare a per-panel nonce
     const baseUri = panelWebview.asWebviewUri(webviewUriDist);
-
-    // If Vite emitted absolute paths like "/assets/...", make them relative: "assets/..."
-    htmlContent = htmlContent.replace(/(src|href)="\//g, '$1="');
-
-    //TODO: Inject CSP at the top of <head>
-    // Add baseUri and the VS Code webview API script
+    const nonce = getNonce();
+    // Tight CSP: allow only this webview origin for resources; allow scripts that have our nonce
+    const cspMeta = `
+      <meta http-equiv="Content-Security-Policy" content="
+        default-src 'none';
+        img-src ${panelWebview.cspSource} https:;
+        script-src 'nonce-${nonce}';
+        style-src ${panelWebview.cspSource};
+        font-src ${panelWebview.cspSource};
+        connect-src ${panelWebview.cspSource} https:;
+        frame-src ${panelWebview.cspSource};
+      ">
+    `.replace(/\s{2,}/g, ' ').trim();
+   // Add baseUri and the VS Code webview API script
+   // Inject <base> (so relative asset URLs resolve) and CSP <meta> at the top of <head>
     htmlContent = htmlContent.replace(
       '<head>',
-      `<head><base href="${baseUri}/">`
+      `<head><base href="${baseUri}/">${cspMeta}`
     );
-
-    //TODO: Add nonce to every <script> tag that doesn't already have one
-
+   // Add nonce to every <script> tag that doesn't already have one (covers inline and module scripts)
+    htmlContent = htmlContent.replace(/<script\b(?![^>]*\bnonce=)/g, `<script nonce="${nonce}"`);
     return htmlContent;
   } catch (error) {
     console.error('Error reading index.html:', error);
@@ -190,12 +201,15 @@ function getHtmlForWebview(
           <body>
             <h1>Error Loading Webview</h1>
             <p>Could not load the React app. Make sure to run 'npm run build' in the webview-ui directory.</p>
-            <p>Error: ${error}</p>
+          <pre>${String(error)}</pre>
           </body>
         </html>
       `;
   }
 }
-
-// This method is called when your extension is deactivated
+function getNonce(): string {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  return Array.from({ length: 32 }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+}
+// This method is called when your extension is deactivated. 
 export function deactivate() {}
