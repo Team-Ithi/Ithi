@@ -17,17 +17,15 @@ import { unmaskLines } from './controllers/unmaskController';
 // This method is called when the extension is activated - the very first time the command is executed
 export async function activate(context: vscode.ExtensionContext) {
   console.log('The "Ithi" extension is now active!');
-  
+
   /* registerCommand provides the implementation of the command defined in package.json 
    the commandId parameter must match the command field in package.json */
   const webviewPanel = vscode.commands.registerCommand(
     'ithi.translate',
     async () => {
-      
-      const config = await vscode.workspace.getConfiguration("ithi")
+      const config = await vscode.workspace.getConfiguration('ithi');
 
       vscode.window.showInformationMessage(`Ithi: Translation Loading...`);
-
 
       /* ---- BEGIN BACK-END LOGIC ---- */
       //retrieving file name and symbols
@@ -39,32 +37,27 @@ export async function activate(context: vscode.ExtensionContext) {
       const commentsObj = astParseTraverse() as any[];
       // console.log('commentsObj', commentsObj);
       const copyOfCommentsObj = [...commentsObj];
-  
+
       //creating mask keys
       const HARD = createHardSet(symbolInfo);
-      // console.log("Hard",HARD);
       const extractCommentsObj = extractCommentObj(copyOfCommentsObj, HARD);
       //masking comments
       const { lines, map } = await OpenAIMask(extractCommentsObj, HARD);
-      console.log('masked comment obj', lines);
-      console.log('map object', map);
+      // console.log('masked comment obj', lines);
+      // console.log('map object', map);
 
-      const targetLanguage: string = await config.get("targetLanguage") as string;
-      const userTranslatorChoice = await config.get("translator");
-      console.log("translator choice: ", userTranslatorChoice);
-      console.log("target language: ", targetLanguage);
+      const targetLanguage: string = (await config.get(
+        'targetLanguage'
+      )) as string;
+      const userTranslatorChoice = await config.get('translator');
 
       let translatedProtectedComments: string[] | undefined = [];
       // bing/gCloud: retrieving source language and translations
       let sourceLanguage: string | undefined;
 
-      
       if (userTranslatorChoice === 'Google Cloud') {
-        const results = await translateText(
-          lines,
-          targetLanguage
-        );
-        translatedProtectedComments = results?.map(el => el?.translation);
+        const results = await translateText(lines, targetLanguage);
+        translatedProtectedComments = results?.map((el) => el?.translation);
         sourceLanguage = results[0]?.sourceLanguage;
       } else {
         const bing = new Bing();
@@ -76,8 +69,7 @@ export async function activate(context: vscode.ExtensionContext) {
         sourceLanguage = bing.sourceLang;
       }
 
-      console.log('sourceLanguage', sourceLanguage);
-      console.log('translatedProtectedComments', translatedProtectedComments);
+      // console.log('translatedProtectedComments', translatedProtectedComments);
       //re-adding protected words to final translation
       const unmaskedTranslations = unmaskLines(
         translatedProtectedComments,
@@ -111,7 +103,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
       const panel: vscode.WebviewPanel = vscode.window.createWebviewPanel(
         'ithiPanel', //This is the ID of the panel
-        `Ithi: ${fileName}`, //This is the title of the panel
+        `Ithi: ${fileName} (${targetLanguage})`, //This is the title of the panel
         { viewColumn: vscode.ViewColumn.Two }, //This defines which editor column the new webviewPanel will be shown in
         {
           enableScripts: true,
@@ -184,15 +176,20 @@ function getHtmlForWebview(
         connect-src ${panelWebview.cspSource} https:;
         frame-src ${panelWebview.cspSource};
       ">
-    `.replace(/\s{2,}/g, ' ').trim();
-   // Add baseUri and the VS Code webview API script
-   // Inject <base> (so relative asset URLs resolve) and CSP <meta> at the top of <head>
+    `
+      .replace(/\s{2,}/g, ' ')
+      .trim();
+    // Add baseUri and the VS Code webview API script
+    // Inject <base> (so relative asset URLs resolve) and CSP <meta> at the top of <head>
     htmlContent = htmlContent.replace(
       '<head>',
       `<head><base href="${baseUri}/">${cspMeta}`
     );
-   // Add nonce to every <script> tag that doesn't already have one (covers inline and module scripts)
-    htmlContent = htmlContent.replace(/<script\b(?![^>]*\bnonce=)/g, `<script nonce="${nonce}"`);
+    // Add nonce to every <script> tag that doesn't already have one (covers inline and module scripts)
+    htmlContent = htmlContent.replace(
+      /<script\b(?![^>]*\bnonce=)/g,
+      `<script nonce="${nonce}"`
+    );
     return htmlContent;
   } catch (error) {
     console.error('Error reading index.html:', error);
@@ -208,8 +205,12 @@ function getHtmlForWebview(
   }
 }
 function getNonce(): string {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  return Array.from({ length: 32 }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+  const chars =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  return Array.from(
+    { length: 32 },
+    () => chars[Math.floor(Math.random() * chars.length)]
+  ).join('');
 }
-// This method is called when your extension is deactivated. 
+// This method is called when your extension is deactivated.
 export function deactivate() {}

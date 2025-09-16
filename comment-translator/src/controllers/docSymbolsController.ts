@@ -62,7 +62,7 @@ export class Symbols {
       const uniqueNamesSet: Set<string> = this.getAllNames(symbols);
       const uniqueNamesArray: string[] = [...uniqueNamesSet];
 
-      console.log('Active File Symbols', uniqueNamesArray);
+      // console.log('Active File Symbols', uniqueNamesArray);
       return uniqueNamesArray;
     } else {
       console.error(
