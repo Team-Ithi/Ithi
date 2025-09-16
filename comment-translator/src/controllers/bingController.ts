@@ -11,7 +11,7 @@ export class Bing {
     content: string[],
     from: null,
     to: string
-  ): Promise<(string | undefined)[]> {
+  ): Promise<string[]> {
     try {
       // Use .map() to create an array of promises.
       // Each async callback returns a promise for a single translation.
