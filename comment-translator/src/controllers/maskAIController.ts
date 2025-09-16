@@ -32,7 +32,7 @@ export function extractCommentObj(astCommentArray: any, hardSet: any) {
     };
     result.push(commentObj);
   }
-  console.log(result);
+  //console.log(result);
   return result;
 }
 
@@ -108,7 +108,7 @@ export async function OpenAIMask(
 
   const client = new OpenAI({ apiKey: openAiKey });
   const messages = buildMessages(rawText, protectedIdentifiers);
-  console.log('running ai masking');
+  //console.log('running ai masking');
 
   const resp = await client.chat.completions.create({
     model,
