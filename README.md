@@ -47,6 +47,29 @@ TODO: add images for user settings
 
 TODO: add instructions for gcloud settings
 
+# Instructions to setup Google Cloud Settings
+
+1. Enable the API
+- Go to Google Cloud Console
+- Create a new project (or select an existing one).
+- In the left sidebar, navigate to APIs & Services > Library.
+- Search for Cloud Translation API.
+- Click Enable.
+
+2. Create Credentials
+- In the left sidebar, go to APIs & Services > Credentials.
+- Click + Create Credentials > Service Account.
+- Give your service account a name.
+- Assign a role like Project > Editor (or more restrictive if you prefer).
+- After creating, click the service account → Keys → Add Key → Create new key.
+- Select JSON and download the key file.
+
+3. Place credintials from the downloaded key file into your Ithi extension settings
+- In your VSCode go to the top search bar and type ">"
+- Type in "Open user settings". Be sure not to select the one with (Json)
+- Go to Extensions > Ithi
+
+
 ## Usage
 
 > **_NOTE:_** the Ithi extension will not run unless an active text editor is open
