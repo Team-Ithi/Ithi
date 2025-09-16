@@ -36,9 +36,10 @@ export async function activate(context: vscode.ExtensionContext) {
       const fileName = symbols.fileName;
       const fileType = symbols.fileType;
       //retreiving file comments
-      const commentsObj = astParseTraverse();
+      const commentsObj = astParseTraverse() as any[];
       // console.log('commentsObj', commentsObj);
       const copyOfCommentsObj = [...commentsObj];
+  
       //creating mask keys
       const HARD = createHardSet(symbolInfo);
       // console.log("Hard",HARD);
@@ -48,14 +49,14 @@ export async function activate(context: vscode.ExtensionContext) {
       console.log('masked comment obj', lines);
       console.log('map object', map);
 
-      const targetLanguage = await config.get("targetLanguage")
-      const userTranslatorChoice = await config.get("translator")
-      console.log("translator choice: ", userTranslatorChoice)
-      console.log("target language: ", targetLanguage)
+      const targetLanguage: string = await config.get("targetLanguage") as string;
+      const userTranslatorChoice = await config.get("translator");
+      console.log("translator choice: ", userTranslatorChoice);
+      console.log("target language: ", targetLanguage);
 
-      let translatedProtectedComments: string[] = []
+      let translatedProtectedComments: string[] | undefined = [];
       // bing/gCloud: retrieving source language and translations
-      let sourceLanguage;
+      let sourceLanguage: string | undefined;
 
       
       if (userTranslatorChoice === 'Google Cloud') {
@@ -63,8 +64,8 @@ export async function activate(context: vscode.ExtensionContext) {
           lines,
           targetLanguage
         );
-        translatedProtectedComments = results?.map(el => el?.translation)
-        sourceLanguage = results[0]?.sourceLanguage
+        translatedProtectedComments = results?.map(el => el?.translation);
+        sourceLanguage = results[0]?.sourceLanguage;
       } else {
         const bing = new Bing();
         translatedProtectedComments = await bing.translateComments(
@@ -75,7 +76,7 @@ export async function activate(context: vscode.ExtensionContext) {
         sourceLanguage = bing.sourceLang;
       }
 
-      console.log('sourceLanguage', sourceLanguage)
+      console.log('sourceLanguage', sourceLanguage);
       console.log('translatedProtectedComments', translatedProtectedComments);
       //re-adding protected words to final translation
       const unmaskedTranslations = unmaskLines(
