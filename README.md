@@ -1,4 +1,4 @@
-<img src="./images/logo256px.png" width="200" alt="ithi_logo">
+<img src="./Ithi/images/logo256px.png" width="200" alt="ithi_logo">
 
 # Ithi - VS Code Extension
 
@@ -36,7 +36,7 @@ Go to `>Preferences: Open User Settings under Extensions > Ithi` and enter the f
 
 TODO: add images for user settings
 
-<img src="./images/user_settings.png" width="400" alt="user_settings">
+<img src="./Ithi/images/user_settings.png" width="400" alt="user_settings">
 
 1. **Target Language** - choose the language you want the comments translated to
 1. **OpenAI API Key** - You can find your existing key _or_ create a new one in the [API Keys](https://platform.openai.com/api-keys) section on OpenAI's website.
@@ -54,15 +54,15 @@ TODO: add instructions for gcloud settings
 1. Open a (javascript or typescipt) file in VS Code
 1. Run Ithi in the Command Palette `>Ithi Translate`
 
-- <img src="./images/command_palette.png" width="400" alt="command_palette">
+- <img src="./Ithi/images/command_palette.png" width="400" alt="command_palette">
 
 1. A notification will communicate that the translation is in progress
 
-- <img src="./images/notification_alert.png" width="400" alt="notification_alert">
+- <img src="./Ithi/images/notification_alert.png" width="400" alt="notification_alert">
 
 1. The Ithi webview panel will populate in the second VS Code column once translation is complete
 
-- <img src="./images/webview_panel.png" width="500" alt="ithi_webview_panel">
+- <img src="./Ithi/images/webview_panel.png" width="500" alt="ithi_webview_panel">
 
 TODO: update images or make a gif
 
@@ -76,7 +76,7 @@ TODO: update images or make a gif
 - **File Association**: Each Ithi panel displays with the name of the associated source file
 - **Adaptive Theme Integration**: The extension seamlessly integrates with the user's preferred VS Code color theme
 
-- <img src="./images/adaptive_theme.gif" width="500" alt="ithi_adaptive_theme">
+- <img src="./Ithi/images/adaptive_theme.gif" width="500" alt="ithi_adaptive_theme">
 
 ## Technologies Used
 
@@ -114,7 +114,7 @@ TODO - confirm Mocha is being used
 
 ## Releases
 
-To view a chronologically ordered list of notable changes to Ithi, take a look at the [Changelog](./comment-translator/CHANGELOG.md).
+To view a chronologically ordered list of notable changes to Ithi, take a look at the [Changelog](./Ithi/CHANGELOG.md).
 
 ## Issues
 
