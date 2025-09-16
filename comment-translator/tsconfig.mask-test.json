@@ -4,6 +4,9 @@
     "outDir": "out-test",
     "module": "CommonJS",
     "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "declaration": false,
     "types": ["mocha", "node"],
@@ -12,10 +15,8 @@
     "noEmit": false
   },
   "files": [
-    "src/controllers/astController.ts",
-    "src/test/astController.test.ts",
-    "src/controllers/docSymbolsController.ts",
-    "src/test/docSymbolsController.test.ts",
-    "src/test/vscode.mock.ts"
+    "src/controllers/maskAIController.ts",
+    "src/controllers/unmaskController.ts",
+    "src/test/maskController.test.ts"
   ]
 }

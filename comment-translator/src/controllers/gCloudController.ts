@@ -1,14 +1,11 @@
 import { Translate } from '@google-cloud/translate/build/src/v2';
-import path from 'path';
-import dotenv from 'dotenv';
-dotenv.config({ path: path.resolve(__dirname, '../../.env') });
-import 'dotenv/config';
 import * as vscode from 'vscode';
 import { json } from 'stream/consumers';
 
 
 
-export const translateText = async (text: string[] | { text: string }[], target: string): Promise<{ translation: string, sourceLanguage: string }[]> => {
+
+export const translateText = async (text: string[] | { text: string }[], target: string) => {
     try {
         // Pulling the users input from the settings to get required information and keys for the api to work
         const config = await vscode.workspace.getConfiguration("ithi")
@@ -16,13 +13,16 @@ export const translateText = async (text: string[] | { text: string }[], target:
         const client_email: string | undefined = await config.get("googleCloudConfiguration.clientEmail")
         const client_key: string | undefined = await config.get("googleCloudConfiguration.clientKey")
 
-        const translate = new Translate({ // Initiating a new translation project
-            projectId,
-            credentials: {
-                client_email: client_email,
-                private_key: (client_key || "").replace(/\\n/g, '\n')
-            }
-        })
+
+    const translate = new Translate({
+      // Initiating a new translation project
+      projectId,
+      credentials: {
+        client_email: client_email,
+        private_key: (private_key || '').replace(/\\n/g, '\n'),
+      },
+    });
+
 
         if (Array.isArray(text)) { // Checking if information is in the form of an array
             const result = await Promise.all( // Iterating over ALL elements in that array and creating a promise 
@@ -51,5 +51,7 @@ export const translateText = async (text: string[] | { text: string }[], target:
             `Translation Failed: ${err}`
         )
     }
-}
-
+  } catch (err) {
+    throw new Error(`Translation Failed: ${err}`);
+  }
+};

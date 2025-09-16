@@ -1,5 +1,4 @@
 import OpenAI from 'openai';
-import 'dotenv/config';
 import { readFileSync } from 'fs';
 import * as path from 'path';
 import hardGlossary from '../glossaries/javascript-hard.json';
