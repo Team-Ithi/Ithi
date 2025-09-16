@@ -1,9 +1,10 @@
 /**
- * TODO:
- * Link Open Issue Ticket
+ * This code is not being used in the extension,
+ * it is our beginning attempt at the below issue:
+ * Open Issue: https://github.com/Team-Ithi/Ithi/issues/49
  */
 
-export type CommentType = "CommentLine" | "CommentBlock";
+export type CommentType = 'CommentLine' | 'CommentBlock';
 
 export interface CommentContextLine {
   lineIndex: number;
@@ -12,20 +13,20 @@ export interface CommentContextLine {
 
 export interface Comment {
   type: CommentType;
-  text: string; 
+  text: string;
   contextNearByLines?: CommentContextLine[];
-  matchedKeywords?: string[]; 
+  matchedKeywords?: string[];
 }
 
 export type MaskKind =
-  | "code"
-  | "url"
-  | "path"
-  | "email"
-  | "uuid"
-  | "placeholder"
-  | "task"
-  | "identifier";
+  | 'code'
+  | 'url'
+  | 'path'
+  | 'email'
+  | 'uuid'
+  | 'placeholder'
+  | 'task'
+  | 'identifier';
 
 export interface MaskEntry {
   token: string;
@@ -34,14 +35,14 @@ export interface MaskEntry {
 }
 
 export interface AIMask {
-  lines: string[]; 
-  map: MaskEntry[]; 
+  lines: string[];
+  map: MaskEntry[];
 }
 
 // utilities
 
 function escapeRegExp(s: string) {
-  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
 // reserved token ranges in a line so we don't mask inside tokens
@@ -121,54 +122,54 @@ function collectSpanHits(line: string, protectedHard: Set<string>): Hit[] {
   }
 
   // 1) inline code (fenced blocks are handled at comment level)
-  addRegex(/`[^`]*`/g, "code");
+  addRegex(/`[^`]*`/g, 'code');
 
   // 2) non-linguistic spans
-  addRegex(/\bhttps?:\/\/[^\s)]+/g, "url");
-  addRegex(/(?:\.\.?\/|[A-Za-z]:\\)[^\s)]+/g, "path");
-  addRegex(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g, "email");
+  addRegex(/\bhttps?:\/\/[^\s)]+/g, 'url');
+  addRegex(/(?:\.\.?\/|[A-Za-z]:\\)[^\s)]+/g, 'path');
+  addRegex(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g, 'email');
   addRegex(
     /\b[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}\b/g,
-    "uuid"
+    'uuid'
   );
   addRegex(
     /(\{[^}]+\}|\$\{[^}]+\}|%[0-9]+\$[a-zA-Z]|{[0-9]+})/g,
-    "placeholder"
+    'placeholder'
   );
-  addRegex(/(['"])([A-Za-z0-9_.-]+)\1/g, "identifier");
-  addRegex(/\b(TODO|FIXME|HACK|NOTE)\b:?\s?/g, "task");
+  addRegex(/(['"])([A-Za-z0-9_.-]+)\1/g, 'identifier');
+  addRegex(/\b(TODO|FIXME|HACK|NOTE)\b:?\s?/g, 'task');
 
   // 3) identifiers
   const idRe = /\b[A-Za-z_][A-Za-z0-9_$.]*\b/g;
   const commonKeywords = new Set([
     // treat as "soft": don't mask in prose unless they're in HARD list
-    "if",
-    "else",
-    "switch",
-    "case",
-    "default",
-    "for",
-    "while",
-    "do",
-    "return",
-    "break",
-    "continue",
-    "new",
-    "const",
-    "let",
-    "var",
-    "function",
-    "class",
-    "type",
-    "enum",
-    "interface",
-    "await",
-    "async",
-    "yield",
-    "try",
-    "catch",
-    "finally",
-    "throw",
+    'if',
+    'else',
+    'switch',
+    'case',
+    'default',
+    'for',
+    'while',
+    'do',
+    'return',
+    'break',
+    'continue',
+    'new',
+    'const',
+    'let',
+    'var',
+    'function',
+    'class',
+    'type',
+    'enum',
+    'interface',
+    'await',
+    'async',
+    'yield',
+    'try',
+    'catch',
+    'finally',
+    'throw',
   ]);
 
   let m: RegExpExecArray | null;
@@ -182,7 +183,7 @@ function collectSpanHits(line: string, protectedHard: Set<string>): Hit[] {
       hits.push({
         start: m.index,
         end: m.index + word.length,
-        kind: "identifier",
+        kind: 'identifier',
         text: word,
       });
       continue;
@@ -197,7 +198,7 @@ function collectSpanHits(line: string, protectedHard: Set<string>): Hit[] {
       hits.push({
         start: m.index,
         end: m.index + word.length,
-        kind: "identifier",
+        kind: 'identifier',
         text: word,
       });
     }
@@ -261,17 +262,16 @@ function maskFencedBlocks(
     }
   }
 
-  let out = "";
+  let out = '';
   let cur = 0;
   for (const m of collapsed) {
     out += text.slice(cur, m.start);
-    out += nextToken("code", m.text);
+    out += nextToken('code', m.text);
     cur = m.end;
   }
   out += text.slice(cur);
   return out;
 }
-
 
 function maskOneLine(
   line: string,
@@ -284,14 +284,14 @@ function maskOneLine(
     isCodeLike(line) &&
     (inBlock || containsProtectedWord(line, protectedOrSoft))
   ) {
-    return nextToken("code", line);
+    return nextToken('code', line);
   }
 
   // Otherwise span-level masking
   const hits = collectSpanHits(line, protectedHard);
   if (!hits.length) return line;
 
-  let out = "",
+  let out = '',
     cur = 0;
   for (const h of hits) {
     out += line.slice(cur, h.start) + nextToken(h.kind, h.text);
@@ -301,17 +301,17 @@ function maskOneLine(
 }
 
 const SOFT_KEYWORDS = [
-  "if",
-  "else",
-  "switch",
-  "case",
-  "default",
-  "for",
-  "while",
-  "do",
-  "return",
-  "break",
-  "continue",
+  'if',
+  'else',
+  'switch',
+  'case',
+  'default',
+  'for',
+  'while',
+  'do',
+  'return',
+  'break',
+  'continue',
 ];
 
 function collectSoftKeywordsFrom(text: string): string[] {
@@ -336,7 +336,7 @@ export async function maskLocal(
   const nextToken = (kind: MaskKind, original: string) => {
     const token = `__ITHI_${kind.toUpperCase()}_${String(counter).padStart(
       4,
-      "0"
+      '0'
     )}__`;
     counter++;
     map.push({ token, original, kind });
@@ -347,18 +347,18 @@ export async function maskLocal(
   const lines: string[] = [];
 
   for (const c of raw) {
-    const soft = new Set<string>(collectSoftKeywordsFrom(String(c.text ?? "")));
+    const soft = new Set<string>(collectSoftKeywordsFrom(String(c.text ?? '')));
     const protectedOrSoft = new Set<string>([...protectedHard, ...soft]);
 
-    let masked = maskFencedBlocks(String(c.text ?? ""), nextToken);
+    let masked = maskFencedBlocks(String(c.text ?? ''), nextToken);
 
-    const parts = masked.split("\n");
-    const inBlock = c.type === "CommentBlock"; // NEW
+    const parts = masked.split('\n');
+    const inBlock = c.type === 'CommentBlock'; // NEW
     const maskedParts = parts.map(
       (p) => maskOneLine(p, protectedHard, protectedOrSoft, nextToken, inBlock) // NEW arg
     );
 
-    lines.push(maskedParts.join("\n"));
+    lines.push(maskedParts.join('\n'));
   }
 
   return { lines, map };
