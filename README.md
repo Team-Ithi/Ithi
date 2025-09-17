@@ -14,14 +14,14 @@ In enterprise settings, where large engineering teams are distributed across reg
 
 **Ithi** (Zulu for 'It Says') is an AI-powered VS Code IDE extension designed to translate comments into a target language while preserving code integrity.
 
-Read more about the launch of Ithi on ![Medium Logo](https://img.shields.io/badge/Medium-12100E?style=for-the-badge&logo=medium&logoColor=white)
+Read more about the launch of Ithi on [Medium](https://medium.com/)
 
-TODO: link medium article
+TODO: add medium article link
 
 ## Prerequisites
 
 The minimum version of the VS Code API that the Ithi extension depends on is `v1.98.0`.
-The setting to check you VS Code version is located at `Code > About Visual Studio Code`
+The setting to check your VS Code version is located in the VS Code menu `Code > About Visual Studio Code`
 
 ## Installation
 
@@ -34,41 +34,33 @@ The setting to check you VS Code version is located at `Code > About Visual Stud
 
 Go to `>Preferences: Open User Settings under Extensions > Ithi` and enter the following:
 
-TODO: add images for user settings
+<img src="./Ithi/images/user_settings_img.png" width="400" alt="user_settings">
 
-<img src="./Ithi/images/user_settings.png" width="400" alt="user_settings">
-
-1. **Target Language** - choose the language you want the comments translated to
-1. **OpenAI API Key** - You can find your existing key _or_ create a new one in the [API Keys](https://platform.openai.com/api-keys) section on OpenAI's website.
-1. **Translation Engine (Optional)** - By default, Ithi uses the **Bing** Translation engine. For a more thorough and context-informed translation, you can elect to use **Google Cloud** Translation engine by entering your gCloud:
+1. **Target Language (Required)** - choose the language you want the comments translated to
+1. **OpenAI API Key (Required)** - You can find your existing key _or_ create a new one in the [API Keys](https://platform.openai.com/api-keys) section on OpenAI's website.
+1. **Translation Engine (Optional)** - By default, Ithi uses the free **Bing** Translation engine. For a more thorough and context-informed translation, you can elect to use the paid **Google Cloud** Translation engine by entering your gCloud:
    - `PRIVATE_KEY`
    - `CLIENT_EMAIL`
    - `PROJECT_ID`
 
-TODO: add instructions for gcloud settings
+### Instructions for Google Cloud Credentials Setup
 
-# Instructions to setup Google Cloud Settings
+1. Enable the Cloud Translation API
 
-1. Enable the API
-- Go to Google Cloud Console
-- Create a new project (or select an existing one).
-- In the left sidebar, navigate to APIs & Services > Library.
-- Search for Cloud Translation API.
-- Click Enable.
+- Log into [Google Cloud Console](https://console.cloud.google.com/)
+- Create a [new project](https://console.cloud.google.com/cloud-resource-manager) (or select an existing one).
+- In the left sidebar, navigate to [APIs & Services > Library](https://console.cloud.google.com/apis/library).
+- Search for `Cloud Translation API`.
+- Click **Enable**.
 
-2. Create Credentials
-- In the left sidebar, go to APIs & Services > Credentials.
-- Click + Create Credentials > Service Account.
-- Give your service account a name.
-- Assign a role like Project > Editor (or more restrictive if you prefer).
-- After creating, click the service account → Keys → Add Key → Create new key.
-- Select JSON and download the key file.
+2. Create Service Credentials
 
-3. Place credintials from the downloaded key file into your Ithi extension settings
-- In your VSCode go to the top search bar and type ">"
-- Type in "Open user settings". Be sure not to select the one with (Json)
-- Go to Extensions > Ithi
-
+- In the left sidebar, go to [APIs & Services > Credentials](https://console.cloud.google.com/apis/credentials).
+- Click `+ Create Credentials > Service Account`.
+- Create a service account
+  - Give your service account a name.
+- After creating, click the service account link, navigate to `Keys > Add Key > Create new key`
+- Select JSON. The downloaded the key file contains the necessary gCloud credentials to run Ithi!
 
 ## Usage
 
@@ -85,9 +77,7 @@ TODO: add instructions for gcloud settings
 
 1. The Ithi webview panel will populate in the second VS Code column once translation is complete
 
-- <img src="./Ithi/images/webview_panel.png" width="500" alt="ithi_webview_panel">
-
-TODO: update images or make a gif
+- <img src="./Ithi/images/webview_panel_view.png" width="500" alt="ithi_webview_panel">
 
 ## Features
 
@@ -95,7 +85,7 @@ TODO: update images or make a gif
 - **Target Language Selection**: Allow the user to choose a language (163 options) to translate the comments to.
 - **Programming Language Support**: Ithi supports JavaScript/TypeScript - the most used programming language globally.
 - **AI Powered Translation**: translate comments from the source language to the target language
-- **Webview Panel UI**: Displays data in a modularized panel webview
+- **Webview Panel UI**: Displays data in a modularized webview panel
 - **File Association**: Each Ithi panel displays with the name of the associated source file
 - **Adaptive Theme Integration**: The extension seamlessly integrates with the user's preferred VS Code color theme
 
@@ -109,9 +99,7 @@ TODO: update images or make a gif
 - **React 19** - Frontend framework for the webview interface
 - **TailWind CSS** - CSS framework used to apply utility class styling directly in the components
 - **TypeScript/JavaScript** - Primary development languages
-- **Vite** - Module bundling for both extension and webview
-
-TODO - confirm vite is being used
+- **Visual Studio Code Extension Manager** - Module bundling for both extension and webview
 
 ### Development Tools
 
@@ -122,8 +110,6 @@ TODO - confirm vite is being used
 - **Google Cloud API** - Comment translation
 - **Bing Translate API** - Comment Translation
 - **Mocha** - Testing framework
-
-TODO - confirm Mocha is being used
 
 ## Development Team
 
