@@ -16,15 +16,10 @@ type AugmentedComment = (t.CommentBlock | t.CommentLine) & {
 
 export const astParseTraverse = () => {
   const editor = vscode.window.activeTextEditor;
-  //TODO: resolve typescript errors
-  const fileType = editor!.document.languageId;
-  if (fileType !== 'typescript' && fileType !== 'javascript') {
-    //TODO: update to throw errors
-    console.log(`unsupported file type: ${fileType}`);
-  }
   const code = editor!.document.getText();
   if (!code) {
-    console.log('invalid file');
+    console.error('invalid file');
+    return error;
   }
 
   //parse
@@ -36,7 +31,7 @@ export const astParseTraverse = () => {
     plugins: ['jsx', 'typescript'],
   } as any);
   if (!ast) {
-    console.log('parsing failed');
+    console.error('parsing failed');
     return error;
   }
   //console.log(ast);
