@@ -363,7 +363,7 @@
           },
           "ithi.translator": {
             "type": "string",
-            "description": "Select your preferred translation engine (Bing translator is the default)",
+            "description": "Select your preferred translation engine. Bing translator is free and is the default. For a more context-informed translation, the paid option, Google Cloud will require additional shown above.",
             "default": "Bing",
             "enum": [
               "Bing",
