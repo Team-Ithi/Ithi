@@ -18,6 +18,9 @@ import { unmaskLines } from './controllers/unmaskController';
 export async function activate(context: vscode.ExtensionContext) {
   console.log('The "Ithi" extension is now active!');
 
+  // this will be used to display errors to the user
+  const outputChannel = vscode.window.createOutputChannel('Ithi');
+
   /* registerCommand provides the implementation of the command defined in package.json 
    the commandId parameter must match the command field in package.json */
   const webviewPanel = vscode.commands.registerCommand(
@@ -25,12 +28,20 @@ export async function activate(context: vscode.ExtensionContext) {
     async () => {
       const config = await vscode.workspace.getConfiguration('ithi');
 
-      vscode.window.showInformationMessage(`Ithi: Translation Loading...`);
-
       /* ---- BEGIN BACK-END LOGIC ---- */
       //retrieving file name and symbols
       const symbols = new Symbols();
       const symbolInfo = await symbols.getDocumentSymbols();
+      if (!symbolInfo) {
+        outputChannel.appendLine(
+          '[Ithi - ERROR]: No symbols found in the active document or language server not available.'
+        );
+        outputChannel.show(true);
+        return;
+      }
+      // this message will only show when valid doc symbols are detected
+      vscode.window.showInformationMessage(`Ithi: Translation Loading...`);
+
       const fileName = symbols.fileName;
       const fileType = symbols.fileType;
       //retreiving file comments
