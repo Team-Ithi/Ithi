@@ -34,7 +34,7 @@ export async function activate(context: vscode.ExtensionContext) {
       const symbolInfo = await symbols.getDocumentSymbols();
       if (!symbolInfo) {
         outputChannel.appendLine(
-          '[Ithi - ERROR]: No symbols found in the active document or language server not available.'
+          '[Ithi - ERROR]: No symbols found in the active document or unsupported file type.'
         );
         outputChannel.show(true);
         return;
