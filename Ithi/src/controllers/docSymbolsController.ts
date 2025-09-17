@@ -40,6 +40,7 @@ export class Symbols {
     this.fileType = activeEditor.document.languageId;
     if (this.fileType !== 'typescript' && this.fileType !== 'javascript') {
       console.error(`unsupported file type: ${this.fileType}`);
+      return;
     }
 
     this.fileName = activeEditor.document.fileName.split('/').pop();
