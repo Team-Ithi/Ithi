@@ -66,7 +66,7 @@ Visual Studio Code debugging tests for extensions will run inside a special inst
 1. Create or open a JS file. There must be an active text editor for the extension to run.
 1. In the command palette (`command + shift + p`)run the activation command, `>Ithi Translate`
    - console logs will be displayed in the original window's DEBUG CONSOLE
-   - <img src="./Ithi/images/debug_console.png" width="400" alt="debug_console">
+   - <img src="./images/debug_console.png" width="400" alt="debug_console">
 
 ## Testing Instructions
 

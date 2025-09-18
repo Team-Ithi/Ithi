@@ -1,4 +1,4 @@
-<img src="./Ithi/images/logo256px.png" width="200" alt="ithi_logo">
+<img src="./images/logo256px.png" width="200" alt="ithi_logo">
 
 # Ithi - VS Code Extension
 
@@ -34,7 +34,7 @@ The setting to check your VS Code version is located in the VS Code menu `Code >
 
 Go to `>Preferences: Open User Settings under Extensions > Ithi` and enter the following:
 
-<img src="./Ithi/images/user_settings_img.png" width="400" alt="user_settings">
+<img src="./images/user_settings_img.png" width="400" alt="user_settings">
 
 1. **Target Language (Required)** - choose the language you want the comments translated to
 1. **OpenAI API Key (Required)** - You can find your existing key _or_ create a new one in the [API Keys](https://platform.openai.com/api-keys) section on OpenAI's website.
@@ -69,15 +69,15 @@ Go to `>Preferences: Open User Settings under Extensions > Ithi` and enter the f
 1. Open a (javascript or typescipt) file in VS Code
 1. Run Ithi in the Command Palette `>Ithi Translate`
 
-- <img src="./Ithi/images/command_palette.png" width="400" alt="command_palette">
+- <img src="./images/command_palette.png" width="400" alt="command_palette">
 
 1. A notification will communicate that the translation is in progress
 
-- <img src="./Ithi/images/notification_alert.png" width="400" alt="notification_alert">
+- <img src="./images/notification_alert.png" width="400" alt="notification_alert">
 
 1. The Ithi webview panel will populate in the second VS Code column once translation is complete
 
-- <img src="./Ithi/images/webview_panel_view.png" width="500" alt="ithi_webview_panel">
+- <img src="./images/webview_panel_view.png" width="500" alt="ithi_webview_panel">
 
 ## Features
 
@@ -89,7 +89,7 @@ Go to `>Preferences: Open User Settings under Extensions > Ithi` and enter the f
 - **File Association**: Each Ithi panel displays with the name of the associated source file
 - **Adaptive Theme Integration**: The extension seamlessly integrates with the user's preferred VS Code color theme
 
-- <img src="./Ithi/images/adaptive_theme.gif" width="500" alt="ithi_adaptive_theme">
+- <img src="./images/adaptive_theme.gif" width="500" alt="ithi_adaptive_theme">
 
 ## Technologies Used
 
