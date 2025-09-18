@@ -2,9 +2,7 @@
 
 # Ithi - VS Code Extension
 
-[![Github Contributors](https://img.shields.io/github/contributors/Team-Ithi/Ithi)](https://github.com/Team-Ithi/Ithi/graphs/contributors) ![Github StarGazers](https://img.shields.io/github/stars/Team-Ithi/Ithi) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
-TODO: add version and extension download images
+[![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/IthiTranslator.ithi)](https://marketplace.visualstudio.com/items?itemName=IthiTranslator.ithi) [![Github Contributors](https://img.shields.io/github/contributors/Team-Ithi/Ithi)](https://github.com/Team-Ithi/Ithi/graphs/contributors) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) ![Github StarGazers](https://img.shields.io/github/stars/Team-Ithi/Ithi)
 
 ## Overview
 
@@ -14,9 +12,7 @@ In enterprise settings, where large engineering teams are distributed across reg
 
 **Ithi** (Zulu for 'It Says') is an AI-powered VS Code IDE extension designed to translate comments into a target language while preserving code integrity.
 
-Read more about the launch of Ithi on [Medium](https://medium.com/)
-
-TODO: add medium article link
+Read more about the launch of Ithi on [Medium](https://medium.com/@lloudevs/coding-is-universal-now-comments-are-too-96af4fb0492e)
 
 ## Prerequisites
 
