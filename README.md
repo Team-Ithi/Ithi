@@ -80,6 +80,7 @@ Go to `>Preferences: Open User Settings under Extensions > Ithi` and enter the f
 - **Source Language Auto-Detection**: detect the language of the comments in the source file.
 - **Target Language Selection**: Allow the user to choose a language (163 options) to translate the comments to.
 - **Programming Language Support**: Ithi supports JavaScript/TypeScript - the most used programming language globally.
+- **Identifier & Placeholder Shielding**: Ithi utilizes OpenAI to mask code identifiers for a code-safe translation.
 - **AI Powered Translation**: translate comments from the source language to the target language
 - **Webview Panel UI**: Displays data in a modularized webview panel
 - **File Association**: Each Ithi panel displays with the name of the associated source file
