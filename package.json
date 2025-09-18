@@ -3,7 +3,7 @@
   "displayName": "Ithi",
   "description": "AI-powered VS Code extension designed to translate comments into a target language while preserving code integrity.",
   "publisher": "ithiTranslator",
-  "icon": "./images/logo_icon.png",
+  "icon": "./images/ithiLogo.png",
   "repository": {
     "type": "git",
     "url": "https://github.com/Team-Ithi/Ithi.git"
