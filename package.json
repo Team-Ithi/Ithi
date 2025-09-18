@@ -1,9 +1,14 @@
 {
   "name": "ithi",
   "displayName": "Ithi",
-  "description": "ai-powered comment translator",
+  "description": "AI-powered VS Code extension designed to translate comments into a target language while preserving code integrity.",
   "publisher": "ithiTranslator",
-  "version": "0.0.1",
+  "icon": "./images/logo_icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Team-Ithi/Ithi.git"
+  },
+  "version": "1.0.1",
   "engines": {
     "vscode": "^1.98.0"
   },
@@ -66,7 +71,8 @@
   ],
   "main": "./out/extension.js",
   "activationEvents": [
-    "onConfigurationChanged"
+    "onCommand:ithi.translate",
+    "onStartupFinished"
   ],
   "contributes": {
     "commands": [
@@ -392,7 +398,8 @@
     ]
   },
   "scripts": {
-    "vscode:prepublish": "npm run compile",
+    "build:webview": "cd webview-ui && npm ci && npm run build",
+    "vscode:prepublish": "npm run build:webview && npm run compile",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile && npm run lint",
@@ -404,8 +411,6 @@
     "test:controllers": "npm run build:test && mocha \"out-test/test/*.test.js\" && npm run test:mask"
   },
   "devDependencies": {
-    "@babel/parser": "^7.28.3",
-    "@babel/traverse": "^7.28.3",
     "@types/babel__traverse": "^7.28.0",
     "@types/chai": "^5.2.2",
     "@types/mocha": "^10.0.10",
@@ -425,6 +430,8 @@
     "typescript": "^5.9.2"
   },
   "dependencies": {
+    "@babel/parser": "^7.28.3",
+    "@babel/traverse": "^7.28.3",
     "@google-cloud/translate": "^9.2.0",
     "bing-translate-api": "^4.1.0",
     "node-fetch": "^3.3.2",

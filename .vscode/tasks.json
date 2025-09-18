@@ -9,7 +9,10 @@
       "script": "compile",
       "path": "Ithi",
       "group": { "kind": "build", "isDefault": true },
-      "problemMatcher": "$tsc"
+      "problemMatcher": "$tsc",
+      "options": {
+              "cwd": "${workspaceFolder}"
+            }
     }
 	]
 }
