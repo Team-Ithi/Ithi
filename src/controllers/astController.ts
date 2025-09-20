@@ -4,17 +4,20 @@ import * as vscode from 'vscode';
 import { error } from 'node:console';
 import type * as t from '@babel/types';
 
-
+//Parses the active VS Code editor text with Babel and traverses the AST to collect high-level symbols (functions, variables, classes).
 type FunctionInfo = { name: string; params: any; loc?: t.SourceLocation | null };
 type VariableInfo = { name: string; type?: any; loc?: t.SourceLocation | null };
 type ClassInfo = { name: string; superClass?: string; loc?: t.SourceLocation | null };
+//nearByLines: small window of source lines around the comment
 type NearByLine = { lineIndex: number; text: string };
+//matchedKeywords: any collected identifiers mentioned in the comment
 type AugmentedComment = (t.CommentBlock | t.CommentLine) & {
   nearByLines?: NearByLine[];
   matchedKeywords?: string[];
 };
 
 export const astParseTraverse = () => {
+  //Read current editor text. Bail early if empty.
   const editor = vscode.window.activeTextEditor;
   const code = editor!.document.getText();
   if (!code) {
@@ -22,7 +25,7 @@ export const astParseTraverse = () => {
     return error;
   }
 
-  //parse
+  //Parse source with Babel
   const ast = parse(code, {
     sourceType: 'unambiguous',
     comments: true,
@@ -36,7 +39,7 @@ export const astParseTraverse = () => {
   }
   //console.log(ast);
 
-  //traverse
+  //Traverse AST and collect FunctionDeclaration, VariableDeclarator, ClassDeclaration
   const functions: FunctionInfo[] = [];
   const variables: VariableInfo[] = [];
   const classes: ClassInfo[] = [];
@@ -70,25 +73,22 @@ export const astParseTraverse = () => {
     },
   });
 
-  //split file by lines and store each line in an array
+  //Split the file into lines for later context windows.
   const lines = code.split(/\n/);
-  //console.log(lines);
-
+  //Build a flat list of identifier keywords from the collected symbols.
   let keywordVal: string[] = [];
   for (let i of functions) {
-    //console.log(i.value);
     keywordVal.push(i.name);
   }
   for (let i of variables) {
-    //console.log(i.value);
     keywordVal.push(i.name);
   }
   for (let i of classes) {
-    //console.log(i.value);
     keywordVal.push(i.name);
   }
-  //console.log(keywordVal);
+  //For each AST comment, take a small window of surrounding lines and store as nearByLines, Set matchedKeywords to any keywords that appear in the comment text.
   for (const i of (ast.comments! as AugmentedComment[])) {
+    //Compute [startLine, endLine] using i.loc
     const lineLength = i.value.split(/\n/).length;
     const startLine = i.loc!.start.line;
     let endLine = i.loc!.end.line;
@@ -102,8 +102,10 @@ export const astParseTraverse = () => {
     for (let j = lineBeforeIndex; j <= lineAfterIndex; j++) {
       nearByLines.push({ lineIndex: j, text: lines[j - 1] });
     }
+    //`matchedKeywords` = keywords that appear in comment text
     (i as AugmentedComment).nearByLines = nearByLines;
     (i as AugmentedComment).matchedKeywords = keywordVal.filter((k) => i.value.includes(k));
   }
+  //Return ast.comments (now augmented with nearByLines and matchedKeywords).
   return ast.comments;
 };
