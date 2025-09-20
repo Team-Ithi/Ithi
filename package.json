@@ -408,7 +408,8 @@
     "build:test": "tsc -p tsconfig.test-only.json",
     "build:masktest": "tsc -p tsconfig.mask-test.json",
     "test:mask": "npm run build:masktest && mocha \"out-test/test/maskController.test.js\"",
-    "test:controllers": "npm run build:test && mocha \"out-test/test/*.test.js\" && npm run test:mask"
+    "test:controllers": "npm run build:test && mocha \"out-test/test/*.test.js\" && npm run test:mask",
+    "coverage": "nyc mocha"
   },
   "devDependencies": {
     "@types/babel__traverse": "^7.28.0",
@@ -425,6 +426,7 @@
     "eslint": "^9.32.0",
     "mocha": "^11.7.2",
     "mock-require": "^3.0.3",
+    "nyc": "^17.1.0",
     "sinon": "^21.0.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.2"
