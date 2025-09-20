@@ -19,7 +19,11 @@ mock('vscode', {
         getText: () => currentText,
       },
       edit: async (cb: (eb: any) => void) => {
-        const eb = { replace: (_: any, t: string) => { currentText = t; } };
+        const eb = {
+          replace: (_: any, t: string) => {
+            currentText = t;
+          },
+        };
         cb(eb);
         return true;
       },
@@ -39,7 +43,9 @@ mock('vscode', {
 });
 
 /** --- Glossary stub so createHardSet has deterministic base terms --- */
-const fakeGlossary = { javascript: [' for ', 'const', '  function  ', 'function'] };
+const fakeGlossary = {
+  javascript: [' for ', 'const', '  function  ', 'function'],
+};
 mock('../glossaries/javascript-hard.json', fakeGlossary);
 mock('../../glossaries/javascript-hard.json', fakeGlossary);
 
@@ -55,9 +61,13 @@ async function runController(fn: Function, input: string): Promise<string> {
   let out: any;
 
   // If the function is declared with 2+ parameters, give it keywords explicitly.
-  if (fn.length >= 2) out = fn(input, DEFAULT_KW);
-  else if (fn.length >= 1) out = fn(input);
-  else out = fn();
+  if (fn.length >= 2) {
+    out = fn(input, DEFAULT_KW);
+  } else if (fn.length >= 1) {
+    out = fn(input);
+  } else {
+    out = fn();
+  }
 
   out = await Promise.resolve(out);
 
@@ -68,8 +78,13 @@ async function runController(fn: Function, input: string): Promise<string> {
 
 describe('maskAIController (3 exports) + unmaskController', () => {
   it('maskAIController exposes exactly three functions', () => {
-    const fns = Object.entries(maskMod).filter(([, v]) => typeof v === 'function');
-    expect(fns.length).to.equal(3, `Expected 3 exported functions, saw: ${fns.map(([k])=>k).join(', ')}`);
+    const fns = Object.entries(maskMod).filter(
+      ([, v]) => typeof v === 'function'
+    );
+    expect(fns.length).to.equal(
+      3,
+      `Expected 3 exported functions, saw: ${fns.map(([k]) => k).join(', ')}`
+    );
   });
 
   it('createHardSet merges base glossary + extras, trims & dedupes', () => {
@@ -80,10 +95,10 @@ describe('maskAIController (3 exports) + unmaskController', () => {
     const out = createHardSet(extra as any);
 
     expect(out).to.be.an('array');
-    expect(out).to.include('for');       // from ' for ' (trim)
-    expect(out).to.include('const');     // base glossary
-    expect(out).to.include('function');  // base glossary
-    expect(out).to.include('let');       // from extras
+    expect(out).to.include('for'); // from ' for ' (trim)
+    expect(out).to.include('const'); // base glossary
+    expect(out).to.include('function'); // base glossary
+    expect(out).to.include('let'); // from extras
     expect(out).to.not.include('');
     expect(out.filter((x: string) => x === 'function').length).to.equal(1); // deduped
   });
@@ -95,7 +110,10 @@ describe('maskAIController (3 exports) + unmaskController', () => {
       { token: '__A__', original: 'world', kind: 'id' },
       { token: '__B__', original: '/usr', kind: 'path' },
     ];
-    expect(unmaskLines(lines, map)).to.deep.equal(['Hello world', 'Path: /usr/x']);
+    expect(unmaskLines(lines, map)).to.deep.equal([
+      'Hello world',
+      'Path: /usr/x',
+    ]);
 
     // overlap: longer token first
     const lines2 = ['X=__MASK_123__ Y=__MASK_12__'];
