@@ -77,4 +77,5 @@ Visual Studio Code debugging tests for extensions will run inside a special inst
 1. add your file name to the files array in `ithi > tsconfig.test-only.json`
 1. add your file name to the spec array in `ithi > .mocharc.cjs`
 1. the command `npm run test:controllers` will test all files in the `out-test/test` folder ending in `test.js`
-1. You should see test results logged in the terminal
+1. the command `npm run coverage` will create a test coverage report
+1. You should see test results and coverage reports logged in the terminal
